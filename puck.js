@@ -25,11 +25,12 @@ Scene.prototype.draw = function(ctx) {
     this.puck.draw(ctx, "rgb(255,255,255)");
 };
 
-function Stick()
+function Stick(player)
 {
+    this.player = player;
     this.radius = 32;
-    this.position = new Coordinates((width/2)-(this.width/2),
-            height-(2 * this.height));
+    this.position = new Coordinates(player.position.x + (player.width/2),
+            player.position.y + (player.height/2));
 }
 Stick.prototype = new Circle;
 
@@ -43,7 +44,7 @@ function Player(playerIdx)
             playerIdx == 0 ? padding : (width/2) + (padding),
             padding);
     this.color = this.idx == 0 ? "rgb(255,255,0)" : "rgb(255,0,255)";
-    this.stick = new Stick;
+    this.stick = new Stick(this);
 }
 Player.prototype.draw = function(ctx) {
     context.strokeStyle = this.color;
@@ -98,10 +99,33 @@ function init()
 
 function handleMouseMove(evt)
 {
-    // Set horizontal position of stick to be centered on the mouse
-    var stick = scene.players[0].stick;
-    stick.position.x = evt.clientX;
-    stick.position.y = evt.clientY;
+    // Set position of stick to be centered on the mouse
+    var player = scene.players[0];
+    var stick = player.stick;
+
+    // Limit coordinates of stick to within the player's boundaries
+    var x = evt.clientX;
+    var y = evt.clientY;
+
+    if (x > (player.position.x + player.width))
+    {
+        x = player.position.x + player.width;
+    }
+    else if (x < (player.position.x))
+    {
+        x = player.position.x;
+    }
+    if (y > player.position.y + player.height)
+    {
+        y = player.position.y + player.height;
+    }
+    else if (y < player.position.y)
+    {
+        y = player.position.y;
+    }
+
+    stick.position.x = x;
+    stick.position.y = y;
 }
 
 function draw()
