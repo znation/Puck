@@ -6,23 +6,54 @@ var context,
 
 // Types
 function Circle() {}
-Circle.prototype.draw = function(ctx, color) {
-    ctx.fillStyle = color;
+Circle.prototype.draw = function(ctx) {
+    assert(this.position != null);
+    assert(this.color != null);
+    assert(this.radius != null);
+
+    ctx.fillStyle = this.color;
     ctx.beginPath();
     ctx.arc(this.position.x, this.position.y, this.radius, 0, Math.PI*2, true); 
     ctx.closePath();
     ctx.fill();
 };
 
+function StrokeRectangle() {}
+StrokeRectangle.prototype.draw = function(ctx) {
+    assert(this.color != null);
+    assert(this.position != null);
+    assert(this.width != null);
+    assert(this.height != null);
+
+    ctx.strokeStyle = this.color;
+    ctx.strokeRect(this.position.x,
+            this.position.y,
+            this.width,
+            this.height);
+};
+
 function Scene()
 {
-    this.players = [new Player(0), new Player(1)];
+    this.color = "rgb(0,255,255)";
+    this.padding = 16;
+    this.width = width - (2 * this.padding);
+    this.height = height - (2 * this.padding);
+    this.position = new Coordinates(this.padding, this.padding);
     this.puck = new Puck;
+    this.players = [new Player(0, this), new Player(1, this)];
 }
+Scene.prototype = new StrokeRectangle;
+Scene.prototype.detectCollisions = function() {
+    this.puck.detectCollisions();
+};
 Scene.prototype.draw = function(ctx) {
+    this.constructor.prototype.draw.call(this, ctx);
     this.players[0].draw(ctx);
     this.players[1].draw(ctx);
-    this.puck.draw(ctx, "rgb(255,255,255)");
+    this.puck.draw(ctx);
+};
+Scene.prototype.move = function() {
+    this.puck.move();
 };
 
 function Stick(player)
@@ -31,28 +62,25 @@ function Stick(player)
     this.radius = 32;
     this.position = new Coordinates(player.position.x + (player.width/2),
             player.position.y + (player.height/2));
+    this.color = player.color;
 }
 Stick.prototype = new Circle;
 
-function Player(playerIdx)
+function Player(playerIdx, scene)
 {
     var padding = 16;
     this.idx = playerIdx;
-    this.width = (width/2) - (padding * 2);
-    this.height = height - (padding * 2);
+    this.width = (scene.width/2) - (padding * 2);
+    this.height = scene.height - (padding * 2);
     this.position = new Coordinates(
-            playerIdx == 0 ? padding : (width/2) + (padding),
-            padding);
+            playerIdx == 0 ? scene.padding + padding : (scene.width/2) + scene.padding + padding,
+            scene.padding + padding);
     this.color = this.idx == 0 ? "rgb(255,255,0)" : "rgb(255,0,255)";
     this.stick = new Stick(this);
 }
+Player.prototype = new StrokeRectangle;
 Player.prototype.draw = function(ctx) {
-    context.strokeStyle = this.color;
-    context.strokeRect(this.position.x,
-            this.position.y,
-            this.width,
-            this.height);
-
+    this.constructor.prototype.draw.call(this, ctx);
     this.stick.draw(ctx, this.color);
 };
 
@@ -62,8 +90,19 @@ function Puck()
     this.position = new Coordinates(
             (width/2),
             (height/2));
+    this.angle = 0;
+    this.speed = 1;
+    this.color = "rgb(0,255,255)";
 }
 Puck.prototype = new Circle;
+Puck.prototype.detectCollisions = function() {
+    // Check for scene boundary
+
+};
+Puck.prototype.move = function() {
+    this.position.x += this.speed * Math.cos(this.angle);
+    this.position.y += this.speed * Math.sin(this.angle);    
+};
 
 function Coordinates(x, y) {this.x = x; this.y = y;}
 
@@ -135,6 +174,12 @@ function draw()
     // Fill with black
     context.fillStyle = "rgb(0,0,0)";
     context.fillRect(0, 0, width, height);
+
+    // Detect collisions
+    scene.detectCollisions();
+
+    // Update positions
+    scene.move();
 
     // Draw scene
     scene.draw(context);
