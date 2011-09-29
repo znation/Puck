@@ -38,7 +38,7 @@ function Scene()
     this.padding = 16;
     this.width = width - (2 * this.padding);
     this.height = height - (2 * this.padding);
-    this.position = new Coordinates(this.padding, this.padding);
+    this.position = new Vector(this.padding, this.padding);
     this.puck = new Puck;
     this.players = [new Player(0, this), new Player(1, this)];
 }
@@ -53,6 +53,10 @@ Scene.prototype.draw = function(ctx) {
     this.puck.draw(ctx);
 };
 Scene.prototype.move = function() {
+    for (var i=0; i<2 /*players.length*/; i++)
+    {
+        this.players[i].stick.move();
+    }
     this.puck.move();
 };
 
@@ -60,11 +64,19 @@ function Stick(player)
 {
     this.player = player;
     this.radius = 32;
-    this.position = new Coordinates(player.position.x + (player.width/2),
+    this.position = new Vector(player.position.x + (player.width/2),
             player.position.y + (player.height/2));
+    this.nextPosition = this.position;
     this.color = player.color;
+    this.angle = 0;
 }
 Stick.prototype = new Circle;
+Stick.prototype.updatePosition = function(x, y) {
+    this.nextPosition = new Vector(x, y);
+};
+Stick.prototype.move = function() {
+    this.position = this.nextPosition;
+};
 
 function Player(playerIdx, scene)
 {
@@ -72,7 +84,7 @@ function Player(playerIdx, scene)
     this.idx = playerIdx;
     this.width = (scene.width/2) - (padding * 2);
     this.height = scene.height - (padding * 2);
-    this.position = new Coordinates(
+    this.position = new Vector(
             playerIdx == 0 ? scene.padding + padding : (scene.width/2) + scene.padding + padding,
             scene.padding + padding);
     this.color = this.idx == 0 ? "rgb(255,255,0)" : "rgb(255,0,255)";
@@ -87,7 +99,7 @@ Player.prototype.draw = function(ctx) {
 function Puck()
 {
     this.radius = 20;
-    this.position = new Coordinates(
+    this.position = new Vector(
             (width/2),
             (height/2));
     this.angle = Math.random() * Math.PI * 2;
@@ -104,10 +116,10 @@ Puck.prototype.detectCollisions = function() {
         next.position.x > (scene.position.x + scene.width))
     {
         console.log("Collision with X wall");
-        var normalVector = new Coordinates(Math.sin(this.angle),
+        var normalVector = new Vector(Math.sin(this.angle),
                 Math.cos(this.angle));
-        var magnitude = Math.sqrt((normalVector.x ^ 2) + (normalVector.y ^ 2));
-        var unitNormalVector = new Coordinates(normalVector.x / magnitude, normalVector.y / magnitude);
+        var magnitude = normalVector.distance(new Vector(0, 0));//Math.sqrt((normalVector.x ^ 2) + (normalVector.y ^ 2));
+        var unitNormalVector = new Vector(normalVector.x / magnitude, normalVector.y / magnitude);
         this.angle = Math.atan2(unitNormalVector.x, -unitNormalVector.y);
         this.angle = normalizeAngle(this.angle);
     }
@@ -115,11 +127,10 @@ Puck.prototype.detectCollisions = function() {
         next.position.y > (scene.position.y + scene.height))
     {
         console.log("Collision with Y wall");
-        var normalVector = new Coordinates(Math.sin(this.angle),
+        var normalVector = new Vector(Math.sin(this.angle),
                 Math.cos(this.angle));
-        var magnitude = Math.sqrt((normalVector.x ^ 2) + (normalVector.y ^ 2));
-        var unitNormalVector = new Coordinates(normalVector.x / magnitude, normalVector.y / magnitude);
-        assert(Math.asin(normalVector.x) + Math.acos(normalVector.y) == this.angle);
+        var magnitude = normalVector.distance(new Vector(0, 0));//Math.sqrt((normalVector.x ^ 2) + (normalVector.y ^ 2));
+        var unitNormalVector = new Vector(normalVector.x / magnitude, normalVector.y / magnitude);
         this.angle = Math.atan2(-unitNormalVector.x, unitNormalVector.y);
         this.angle = normalizeAngle(this.angle);
     }
@@ -129,11 +140,16 @@ Puck.prototype.detectCollisions = function() {
     {
         var player = scene.players[i];
         var stick = player.stick;
-        var distance = Math.sqrt(((this.position.x - stick.position.x) ^ 2) + ((this.position.y - stick.position.y) ^ 2));
-        if (distance <= this.radius + stick.radius)
+        var d = this.position.distance(stick.position);//Math.sqrt(((this.position.x - stick.position.x) ^ 2) + ((this.position.y - stick.position.y) ^ 2));
+        if (d <= this.radius + stick.radius)
         {
-            // Collision!
-            //
+            // Collision detected
+            
+            
+            var v = this.position.subtract(stick.position);
+            var va = normalizeAngle(v.toAngle());
+            var vb = va; // turn by 90 degrees
+            this.angle = normalizeAngle(vb);
         }
     }
 };
@@ -143,12 +159,34 @@ Puck.prototype.move = function() {
 };
 Puck.prototype.peekNextMove = function() {
     var ret = {};
-    ret.position = new Coordinates(this.position.x + (this.speed * Math.cos(this.angle)),
+    ret.position = new Vector(this.position.x + (this.speed * Math.cos(this.angle)),
             this.position.y + (this.speed * Math.sin(this.angle)));
     return ret;
 };
 
-function Coordinates(x, y) {this.x = x; this.y = y;}
+function Vector(x, y) {this.x = x; this.y = y;}
+Vector.prototype.multiply = function(d) {
+    return new Vector(this.x * d, this.y * d);
+};
+Vector.prototype.add = function(v) {
+    return new Vector(this.x + v.x, this.y + v.y);
+};
+Vector.prototype.subtract = function(v) {
+    return new Vector(this.x - v.x, this.y - v.y);
+};
+Vector.prototype.dot = function(v) {
+    return (this.x * v.x) + (this.y * v.y);
+};
+Vector.prototype.normalize = function() {
+    var magnitude = this.distance(new Vector(0,0));
+    return new Vector(this.x / magnitude, this.y / magnitude);
+};
+Vector.prototype.distance = function(v) {
+    return Math.sqrt(square(v.x-this.x) + square(v.y-this.y));
+};
+Vector.prototype.toAngle = function() {
+    return Math.atan2(this.x, this.y);
+}
 
 // Functions
 function assert(cond)
@@ -207,8 +245,7 @@ function handleMouseMove(evt)
         y = player.position.y;
     }
 
-    stick.position.x = x;
-    stick.position.y = y;
+    stick.updatePosition(x, y);
 }
 
 function draw()
@@ -241,6 +278,11 @@ function normalizeAngle(angle)
         ret += (Math.PI * 2);
     }
     return ret;
+}
+
+function square(x)
+{
+    return x * x;
 }
 
 window.addEventListener("load", init);
