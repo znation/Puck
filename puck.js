@@ -90,18 +90,62 @@ function Puck()
     this.position = new Coordinates(
             (width/2),
             (height/2));
-    this.angle = 0;
-    this.speed = 1;
+    this.angle = Math.random() * Math.PI * 2;
+    this.speed = 5;
     this.color = "rgb(0,255,255)";
 }
 Puck.prototype = new Circle;
 Puck.prototype.detectCollisions = function() {
-    // Check for scene boundary
+    // Puck is moving fast, so check for collisions with puckNext.
+    var next = this.peekNextMove();
 
+    // Check for scene boundary
+    if (next.position.x < scene.position.x ||
+        next.position.x > (scene.position.x + scene.width))
+    {
+        console.log("Collision with X wall");
+        var normalVector = new Coordinates(Math.sin(this.angle),
+                Math.cos(this.angle));
+        var magnitude = Math.sqrt((normalVector.x ^ 2) + (normalVector.y ^ 2));
+        var unitNormalVector = new Coordinates(normalVector.x / magnitude, normalVector.y / magnitude);
+        this.angle = Math.atan2(unitNormalVector.x, -unitNormalVector.y);
+        this.angle = normalizeAngle(this.angle);
+    }
+    else if (next.position.y < scene.position.y ||
+        next.position.y > (scene.position.y + scene.height))
+    {
+        console.log("Collision with Y wall");
+        var normalVector = new Coordinates(Math.sin(this.angle),
+                Math.cos(this.angle));
+        var magnitude = Math.sqrt((normalVector.x ^ 2) + (normalVector.y ^ 2));
+        var unitNormalVector = new Coordinates(normalVector.x / magnitude, normalVector.y / magnitude);
+        assert(Math.asin(normalVector.x) + Math.acos(normalVector.y) == this.angle);
+        this.angle = Math.atan2(-unitNormalVector.x, unitNormalVector.y);
+        this.angle = normalizeAngle(this.angle);
+    }
+
+    // Check for stick boundary
+    for (var i=0; i<2 /*players.length*/; i++)
+    {
+        var player = scene.players[i];
+        var stick = player.stick;
+        var distance = Math.sqrt(((this.position.x - stick.position.x) ^ 2) + ((this.position.y - stick.position.y) ^ 2));
+        if (distance <= this.radius + stick.radius)
+        {
+            // Collision!
+            //
+        }
+    }
 };
 Puck.prototype.move = function() {
     this.position.x += this.speed * Math.cos(this.angle);
     this.position.y += this.speed * Math.sin(this.angle);    
+};
+Puck.prototype.peekNextMove = function() {
+    var ret = {};
+    ret.position = new Coordinates(this.position.x + (this.speed * Math.cos(this.angle)),
+            this.position.y + (this.speed * Math.sin(this.angle)));
+    return ret;
 };
 
 function Coordinates(x, y) {this.x = x; this.y = y;}
@@ -183,6 +227,20 @@ function draw()
 
     // Draw scene
     scene.draw(context);
+}
+
+function normalizeAngle(angle)
+{
+    var ret = angle;
+    while (ret > (Math.PI * 2))
+    {
+        ret -= (Math.PI * 2);
+    }
+    while (ret < 0)
+    {
+        ret += (Math.PI * 2);
+    }
+    return ret;
 }
 
 window.addEventListener("load", init);
