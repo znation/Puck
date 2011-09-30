@@ -18,22 +18,12 @@ function Scene()
     this.players = [new Player(0, this), new Player(1, this)];
 
     // Construct a rectangle in the world for each border
-    var sd = new b2BoxDef;
-    var bd = new b2BodyDef;
-    bd.AddShape(sd);
-    sd.density = 1.0;
-    sd.friction = 0.0;
-    sd.extents.Set(this.width, 1);
-    bd.position.Set(this.padding, this.padding);
-    world.CreateBody(bd);
-    bd.position.Set(this.padding, this.padding + this.height);
-    world.CreateBody(bd);
-
-    sd.extents.Set(1, this.height);
-    bd.position.Set(this.padding, this.paddding);
-    world.CreateBody(bd);
-    bd.position.Set(this.padding + this.width, this.padding);
-    world.CreateBody(bd);
+	var boxSd = new b2BoxDef();
+	boxSd.extents.Set(this.width / 200.0, this.height / 200.0);
+	var boxBd = new b2BodyDef();
+	boxBd.AddShape(boxSd);
+	boxBd.position.Set(this.padding / 100.0, this.padding / 100.0);
+	world.CreateBody(boxBd);
 }
 Scene.prototype = new StrokeRectangle;
 Scene.prototype.detectCollisions = function() {
@@ -44,13 +34,6 @@ Scene.prototype.draw = function(ctx) {
     this.players[0].draw(ctx);
     this.players[1].draw(ctx);
     this.puck.draw(ctx);
-};
-Scene.prototype.move = function() {
-    for (var i=0; i<2 /*players.length*/; i++)
-    {
-        this.players[i].stick.move();
-    }
-    this.puck.move();
 };
 
 function Player(playerIdx, scene)
@@ -94,8 +77,8 @@ function init()
     // Initialize Box2D world
     var worldAABB = new b2AABB;
     worldAABB.minVertex.Set(0, 0);
-    worldAABB.maxVertex.Set(width, height);
-    var gravity = new b2Vec2(0, 20);
+    worldAABB.maxVertex.Set(width / 100.0, height / 100.0);
+    var gravity = new b2Vec2(0, 0);
     var doSleep = false;
     world = new b2World(worldAABB, gravity, doSleep);
 
@@ -126,12 +109,12 @@ function populateWorld()
         var circle = gameCircles[i];
         var circleSd = new b2CircleDef;
         circleSd.density = 1.0;
-        circleSd.radius = circle.radius;
+        circleSd.radius = circle.radius / 100.0;
         circleSd.restitution = 1.0;
         circleSd.friction = 0;
         var circleBd = new b2BodyDef;
         circleBd.AddShape(circleSd);
-        circleBd.position.Set(circle.position.x, circle.position.y);
+        circleBd.position.Set(circle.position.x / 100.0, circle.position.y / 100.0);
         var circleBody = world.CreateBody(circleBd);
         boxCircles.push(circleBody);
     }
@@ -181,13 +164,12 @@ function draw()
     //scene.detectCollisions();
 
     // Update positions
-    //scene.move();
     for (var i=0; i<gameCircles.length; i++)
     {
         var circle = gameCircles[i];
         var circleBody = boxCircles[i];
-        circle.position.x = circleBody.m_position.x;
-        circle.position.y = circleBody.m_position.y;
+        circle.position.x = circleBody.m_position.x * 100.0;
+        circle.position.y = circleBody.m_position.y * 100.0;
     }
 
     // Draw scene

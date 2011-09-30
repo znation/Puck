@@ -42,11 +42,6 @@ Stick.prototype = new Circle;
 Stick.prototype.updatePosition = function(x, y) {
     this.nextPosition = new Vector(x, y);
 };
-Stick.prototype.move = function() {
-    this.speed = this.nextPosition.distance(this.position);
-    this.angle = this.position.subtract(this.nextPosition).toAngle();
-    this.position = this.nextPosition;
-};
 
 function Puck()
 {
@@ -129,15 +124,5 @@ Puck.prototype.detectCollisions = function() {
             this.angle = Math.atan2(VP1.x, VP1.y);
         }
     }
-};
-Puck.prototype.move = function() {
-    this.position.x += this.speed * Math.cos(this.angle);
-    this.position.y += this.speed * Math.sin(this.angle);    
-};
-Puck.prototype.peekNextMove = function() {
-    var ret = {};
-    ret.position = new Vector(this.position.x + (this.speed * Math.cos(this.angle)),
-            this.position.y + (this.speed * Math.sin(this.angle)));
-    return ret;
 };
 
