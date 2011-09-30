@@ -2,7 +2,9 @@
 var context,
     height,
     width,
-    scene;
+    scene, // Game model scene
+    world, // Box2D model world
+    gameCircles, boxCircles;
 
 // Types
 function Scene()
@@ -14,6 +16,24 @@ function Scene()
     this.position = new Vector(this.padding, this.padding);
     this.puck = new Puck;
     this.players = [new Player(0, this), new Player(1, this)];
+
+    // Construct a rectangle in the world for each border
+    var sd = new b2BoxDef;
+    var bd = new b2BodyDef;
+    bd.AddShape(sd);
+    sd.density = 1.0;
+    sd.friction = 0.0;
+    sd.extents.Set(this.width, 1);
+    bd.position.Set(this.padding, this.padding);
+    world.CreateBody(bd);
+    bd.position.Set(this.padding, this.padding + this.height);
+    world.CreateBody(bd);
+
+    sd.extents.Set(1, this.height);
+    bd.position.Set(this.padding, this.paddding);
+    world.CreateBody(bd);
+    bd.position.Set(this.padding + this.width, this.padding);
+    world.CreateBody(bd);
 }
 Scene.prototype = new StrokeRectangle;
 Scene.prototype.detectCollisions = function() {
@@ -71,14 +91,50 @@ function init()
     mainCanvas.width = width;
     mainCanvas.height = height;
 
+    // Initialize Box2D world
+    var worldAABB = new b2AABB;
+    worldAABB.minVertex.Set(0, 0);
+    worldAABB.maxVertex.Set(width, height);
+    var gravity = new b2Vec2(0, 20);
+    var doSleep = false;
+    world = new b2World(worldAABB, gravity, doSleep);
+
     // Initialize scene
     scene = new Scene;
+
+    // Populate Box2D world
+    populateWorld();
 
     // Set draw loop timer
     setInterval(draw, 1000 / 60);
 
     // Set up event handlers
     document.body.addEventListener("mousemove", handleMouseMove);
+}
+
+function populateWorld()
+{
+    gameCircles = [
+        scene.puck,
+        scene.players[0].stick,
+        scene.players[1].stick
+    ];
+    boxCircles = [];
+
+    for (var i=0; i<gameCircles.length; i++)
+    {
+        var circle = gameCircles[i];
+        var circleSd = new b2CircleDef;
+        circleSd.density = 1.0;
+        circleSd.radius = circle.radius;
+        circleSd.restitution = 1.0;
+        circleSd.friction = 0;
+        var circleBd = new b2BodyDef;
+        circleBd.AddShape(circleSd);
+        circleBd.position.Set(circle.position.x, circle.position.y);
+        var circleBody = world.CreateBody(circleBd);
+        boxCircles.push(circleBody);
+    }
 }
 
 function handleMouseMove(evt)
@@ -113,17 +169,26 @@ function handleMouseMove(evt)
 
 function draw()
 {
-    //context.clearRect(0, 0, width, height);
+    world.Step(1.0/60, 1);
+
+    context.clearRect(0, 0, width, height);
 
     // Fill with black
     context.fillStyle = "rgb(0,0,0)";
     context.fillRect(0, 0, width, height);
 
     // Detect collisions
-    scene.detectCollisions();
+    //scene.detectCollisions();
 
     // Update positions
-    scene.move();
+    //scene.move();
+    for (var i=0; i<gameCircles.length; i++)
+    {
+        var circle = gameCircles[i];
+        var circleBody = boxCircles[i];
+        circle.position.x = circleBody.m_position.x;
+        circle.position.y = circleBody.m_position.y;
+    }
 
     // Draw scene
     scene.draw(context);
