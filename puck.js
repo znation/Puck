@@ -59,12 +59,16 @@ function Scene()
         boxSd.density = 0;
         boxSd.restitution = 1.0;
         boxSd.friction = 0;
+
         var boxBd = new b2BodyDef();
         boxBd.AddShape(boxSd);
         boxBd.position.Set(edge.x, edge.y);
+        
         var body = world.CreateBody(boxBd);
-        body.m_angularDamping = 0;
-        body.m_linearDamping = 0;
+        body.m_userData = {
+            type: "wall",
+            dir: (i < 2 ? "x" : "y") 
+        };
     }
 }
 Scene.prototype = new StrokeRectangle;
@@ -150,7 +154,7 @@ function populateWorld()
     {
         var circle = gameCircles[i];
         var circleSd = new b2CircleDef;
-        circleSd.density = 1.0;
+        circleSd.density = circle == scene.puck ? 1 : 0.1;
         circleSd.radius = pixelToBoxCoords(circle.radius);
         circleSd.restitution = 1.0;
         circleSd.friction = 0;
@@ -161,6 +165,7 @@ function populateWorld()
 
         var circleBody = world.CreateBody(circleBd);
         boxCircles.push(circleBody);
+        circle.boxCircle = circleBody;
 
         if (circle != scene.puck)
         {
@@ -169,7 +174,7 @@ function populateWorld()
             mousedef.body2 = circleBody;
             mousedef.target.Set(circleBd.position.x, circleBd.position.y);
             mousedef.collideConnected = true;
-            mousedef.maxForce = 30000 * circleBody.GetMass();
+            mousedef.maxForce = 300 * circleBody.GetMass();
             mousejoint = world.CreateJoint(mousedef) /*as b2MouseJoint*/;
             circle.boxMouseJoint = mousejoint;
         }
@@ -213,6 +218,9 @@ function draw()
 
     // Update physics (step world)
     world.Step(1.0/60, 1);
+
+    // Check contact list for ball-wall collisions
+    scene.puck.detectCollisions();
 
     // Fill with black
     context.fillStyle = "rgb(0,0,0)";
