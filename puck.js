@@ -7,7 +7,6 @@ var scalingFactor = 100.0,
     world, // Box2D model world
     gameCircles, boxCircles;
 
-
 // Types
 function Scene()
 {
@@ -193,20 +192,6 @@ function draw()
 
     // Draw scene
     scene.draw(context);
-}
-
-function normalizeAngle(angle)
-{
-    var ret = angle;
-    while (ret > (Math.PI * 2))
-    {
-        ret -= (Math.PI * 2);
-    }
-    while (ret < 0)
-    {
-        ret += (Math.PI * 2);
-    }
-    return ret;
 }
 
 window.addEventListener("load", init);
