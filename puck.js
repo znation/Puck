@@ -56,13 +56,15 @@ function Scene()
 
         var boxSd = new b2BoxDef();
         boxSd.extents.Set(edge.width, edge.height);
+        boxSd.density = 0;
         boxSd.restitution = 1.0;
-        boxSd.density = 0.0;
-        boxSd.friction = 0.0;
+        boxSd.friction = 0;
         var boxBd = new b2BodyDef();
         boxBd.AddShape(boxSd);
         boxBd.position.Set(edge.x, edge.y);
-        world.CreateBody(boxBd);
+        var body = world.CreateBody(boxBd);
+        body.m_angularDamping = 0;
+        body.m_linearDamping = 0;
     }
 }
 Scene.prototype = new StrokeRectangle;
