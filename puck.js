@@ -20,22 +20,24 @@ function Scene()
     this.players = [new Player(0, this), new Player(1, this)];
 
     // Construct a rectangle in the world for each border
+    /*
 	var boxSd = new b2BoxDef();
 	boxSd.extents.Set(this.width / (scalingFactor * 2.0), this.height / (scalingFactor * 2.0));
 	var boxBd = new b2BodyDef();
 	boxBd.AddShape(boxSd);
 	boxBd.position.Set(this.padding / scalingFactor, this.padding / scalingFactor);
 	world.CreateBody(boxBd);
+    */
 }
 Scene.prototype = new StrokeRectangle;
-Scene.prototype.detectCollisions = function() {
-    this.puck.detectCollisions();
-};
 Scene.prototype.draw = function(ctx) {
     this.constructor.prototype.draw.call(this, ctx);
     this.players[0].draw(ctx);
     this.players[1].draw(ctx);
     this.puck.draw(ctx);
+};
+Scene.prototype.move = function() {
+    this.players[0].stick.move();
 };
 
 function Player(playerIdx, scene)
@@ -167,18 +169,20 @@ function handleMouseMove(evt)
 
 function draw()
 {
+    // Update mouse-controlled positions
+    scene.move();
+
+    // Update physics (step world)
     world.Step(1.0/60, 1);
 
+    // Clear the screen
     context.clearRect(0, 0, width, height);
 
     // Fill with black
     context.fillStyle = "rgb(0,0,0)";
     context.fillRect(0, 0, width, height);
 
-    // Detect collisions
-    //scene.detectCollisions();
-
-    // Update positions
+    // Update game positions based on physics
     for (var i=0; i<gameCircles.length; i++)
     {
         var circle = gameCircles[i];
