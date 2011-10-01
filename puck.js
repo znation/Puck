@@ -43,10 +43,10 @@ function Player(playerIdx, scene)
 {
     var padding = 16;
     this.idx = playerIdx;
-    this.width = (scene.width/2) - (padding * 2);
+    this.width = (scene.width/2) - (padding * 1.5);
     this.height = scene.height - (padding * 2);
     this.position = new b2Vec2(
-            playerIdx == 0 ? scene.padding + padding : (scene.width/2) + scene.padding + padding,
+            playerIdx == 0 ? scene.padding + padding : (scene.width/2) + scene.padding + (0.5 * padding),
             scene.padding + padding);
     this.color = this.idx == 0 ? "rgb(255,255,0)" : "rgb(255,0,255)";
     this.stick = new Stick(this);
@@ -123,16 +123,17 @@ function populateWorld()
         var circleBody = world.CreateBody(circleBd);
         boxCircles.push(circleBody);
 
-        var mousedef/*:b2MouseJointDef*/ = new b2MouseJointDef();
-        mousedef.body1 = world.GetGroundBody();
-        mousedef.body2 = circleBody;
-        mousedef.target.Set(circleBd.position.x, circleBd.position.y);
-        mousedef.collideConnected = true;
-        mousedef.maxForce = 300 * circleBody.GetMass();
-        mousejoint = world.CreateJoint(mousedef) /*as b2MouseJoint*/;
-        
-
-        circle.boxMouseJoint = mousejoint;
+        if (circle == scene.players[0].stick)
+        {
+            var mousedef/*:b2MouseJointDef*/ = new b2MouseJointDef();
+            mousedef.body1 = world.GetGroundBody();
+            mousedef.body2 = circleBody;
+            mousedef.target.Set(circleBd.position.x, circleBd.position.y);
+            mousedef.collideConnected = true;
+            mousedef.maxForce = 300 * circleBody.GetMass();
+            mousejoint = world.CreateJoint(mousedef) /*as b2MouseJoint*/;
+            circle.boxMouseJoint = mousejoint;
+        }
     }
 }
 
