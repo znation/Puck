@@ -15,7 +15,7 @@ function Scene()
     this.padding = 16;
     this.width = width - (2 * this.padding);
     this.height = height - (2 * this.padding);
-    this.position = new Vector(this.padding, this.padding);
+    this.position = new b2Vec2(this.padding, this.padding);
     this.puck = new Puck;
     this.players = [new Player(0, this), new Player(1, this)];
 
@@ -46,7 +46,7 @@ function Player(playerIdx, scene)
     this.idx = playerIdx;
     this.width = (scene.width/2) - (padding * 2);
     this.height = scene.height - (padding * 2);
-    this.position = new Vector(
+    this.position = new b2Vec2(
             playerIdx == 0 ? scene.padding + padding : (scene.width/2) + scene.padding + padding,
             scene.padding + padding);
     this.color = this.idx == 0 ? "rgb(255,255,0)" : "rgb(255,0,255)";

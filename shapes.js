@@ -30,7 +30,7 @@ function Stick(player)
 {
     this.player = player;
     this.radius = 32;
-    this.position = new Vector(player.position.x + (player.width/2),
+    this.position = new b2Vec2(player.position.x + (player.width/2),
             player.position.y + (player.height/2));
     this.nextPosition = this.position;
     this.color = player.color;
@@ -39,7 +39,7 @@ function Stick(player)
 }
 Stick.prototype = new Circle;
 Stick.prototype.updatePosition = function(x, y) {
-    this.nextPosition = new Vector(x, y);
+    this.nextPosition = new b2Vec2(x, y);
 };
 Stick.prototype.move = function() {
     this.position = this.nextPosition;
@@ -49,7 +49,7 @@ Stick.prototype.move = function() {
 function Puck()
 {
     this.radius = 20;
-    this.position = new Vector(
+    this.position = new b2Vec2(
             (width/2),
             (height/2));
     this.angle = Math.random() * Math.PI * 2;
