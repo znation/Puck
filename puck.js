@@ -57,8 +57,6 @@ function Scene()
         var boxSd = new b2BoxDef();
         boxSd.extents.Set(edge.width, edge.height);
         boxSd.density = 0;
-        boxSd.restitution = 1.0;
-        boxSd.friction = 0;
 
         var boxBd = new b2BodyDef();
         boxBd.AddShape(boxSd);
@@ -213,6 +211,9 @@ function handleMouseMove(evt)
 
 function draw()
 {
+    // Apply constraints
+    scene.puck.applyConstraints();
+    
     // Update mouse-controlled positions
     scene.move();
 

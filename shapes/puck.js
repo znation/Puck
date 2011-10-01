@@ -4,11 +4,19 @@ function Puck()
     this.position = new b2Vec2(
             (width/2),
             (height/2));
-    this.angle = Math.random() * Math.PI * 2;
-    this.speed = 5;
     this.color = "rgb(0,255,255)";
+    this.maxSpeed = 3;
 }
 Puck.prototype = new Circle;
+Puck.prototype.applyConstraints = function() {
+    var body = this.boxCircle;
+    var velocity = body.GetLinearVelocity();
+    var speed = velocity.Length();
+    if (speed > this.maxSpeed)
+    {
+        velocity.Multiply(this.maxSpeed / speed);
+    }
+};
 Puck.prototype.detectCollisions = function() {
     var contactNode = this.boxCircle.GetContactList();
     while (contactNode != null)
