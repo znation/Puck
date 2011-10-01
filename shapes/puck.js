@@ -8,6 +8,11 @@ function Puck()
     this.maxSpeed = 3;
 }
 Puck.prototype = new Circle;
+Puck.prototype.adjustSpeed = function(factor) {
+    var body = this.boxCircle;
+    var velocity = body.GetLinearVelocity();
+    velocity.Multiply(factor);
+};
 Puck.prototype.applyConstraints = function() {
     var body = this.boxCircle;
     var velocity = body.GetLinearVelocity();
@@ -32,7 +37,9 @@ Puck.prototype.detectCollisions = function() {
         if (otherBody.m_userData != null &&
                 otherBody.m_userData.type == "wall")
         {
-            var rotation = this.boxCircle.GetRotation();
+            //var rotation = this.boxCircle.GetRotation();
+
+            this.adjustSpeed(0.9);
 
             if (otherBody.m_userData.dir == "x")
             {
