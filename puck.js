@@ -71,7 +71,7 @@ function Scene()
         };
     }
 }
-Scene.prototype = new StrokeRectangle;
+Scene.prototype = new Rectangle;
 Scene.prototype.draw = function(ctx) {
     this.constructor.prototype.draw.call(this, ctx);
     this.players[0].draw(ctx);
@@ -94,7 +94,7 @@ function Player(playerIdx, scene)
     this.color = this.idx == 0 ? "rgb(255,255,0)" : "rgb(255,0,255)";
     this.stick = new Stick(this);
 }
-Player.prototype = new StrokeRectangle;
+Player.prototype = new Rectangle;
 Player.prototype.draw = function(ctx) {
     this.constructor.prototype.draw.call(this, ctx);
     this.stick.draw(ctx, this.color);

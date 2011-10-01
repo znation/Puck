@@ -14,8 +14,8 @@ Circle.prototype.draw = function(ctx) {
     ctx.fill();
 };
 
-function StrokeRectangle() {}
-StrokeRectangle.prototype.draw = function(ctx) {
+function Rectangle() {}
+Rectangle.prototype.draw = function(ctx) {
     /*
     assert(this.color != null);
     assert(this.position != null);
