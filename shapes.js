@@ -1,9 +1,11 @@
 // Types
 function Circle() {}
 Circle.prototype.draw = function(ctx) {
+    /*
     assert(this.position != null);
     assert(this.color != null);
     assert(this.radius != null);
+    */
 
     ctx.fillStyle = this.color;
     ctx.beginPath();
@@ -14,10 +16,12 @@ Circle.prototype.draw = function(ctx) {
 
 function StrokeRectangle() {}
 StrokeRectangle.prototype.draw = function(ctx) {
+    /*
     assert(this.color != null);
     assert(this.position != null);
     assert(this.width != null);
     assert(this.height != null);
+    */
 
     ctx.strokeStyle = this.color;
     ctx.strokeRect(this.position.x,

@@ -18,15 +18,50 @@ function Scene()
     this.puck = new Puck;
     this.players = [new Player(0, this), new Player(1, this)];
 
-    // Construct a rectangle in the world for each border
-    /*
-	var boxSd = new b2BoxDef();
-	boxSd.extents.Set(this.width / (scalingFactor * 2.0), this.height / (scalingFactor * 2.0));
-	var boxBd = new b2BodyDef();
-	boxBd.AddShape(boxSd);
-	boxBd.position.Set(this.padding / scalingFactor, this.padding / scalingFactor);
-	world.CreateBody(boxBd);
-    */
+    // Construct a border box to keep everything inside
+    var edges = [
+        { // bottom
+            width: this.width,
+            height: 1.0,
+            x: 0,
+            y: this.height
+        },
+        { // top
+            width: this.width,
+            height: 1.0,
+            x: 0,
+            y: 0
+        },
+        { // left
+            width: 1.0,
+            height: this.height,
+            x: 0,
+            y: 0
+        },
+        { // right
+            width: 1.0,
+            height: this.height,
+            x: this.width,
+            y: 0
+        }
+    ];
+
+    for (var i=0; i<edges.length; i++)
+    {
+        var edge = edges[i];
+        edge.width /= scalingFactor;
+        edge.height /= scalingFactor;
+        edge.x /= scalingFactor;
+        edge.y /= scalingFactor;
+
+        var boxSd = new b2BoxDef();
+        boxSd.extents.Set(edge.width, edge.height);
+        boxSd.restitution = 1.0;
+        var boxBd = new b2BodyDef();
+        boxBd.AddShape(boxSd);
+        boxBd.position.Set(edge.x, edge.y);
+        world.CreateBody(boxBd);
+    }
 }
 Scene.prototype = new StrokeRectangle;
 Scene.prototype.draw = function(ctx) {
@@ -81,8 +116,8 @@ function init()
     var worldAABB = new b2AABB;
     worldAABB.minVertex.Set(0, 0);
     worldAABB.maxVertex.Set(width / scalingFactor, height / scalingFactor);
-    var gravity = new b2Vec2(0, 0);
-    var doSleep = false;
+    var gravity = new b2Vec2(0, 1);
+    var doSleep = true;
     world = new b2World(worldAABB, gravity, doSleep);
 
     // Initialize scene
@@ -123,14 +158,14 @@ function populateWorld()
         var circleBody = world.CreateBody(circleBd);
         boxCircles.push(circleBody);
 
-        if (circle == scene.players[0].stick)
+        if (circle != scene.puck)
         {
             var mousedef/*:b2MouseJointDef*/ = new b2MouseJointDef();
             mousedef.body1 = world.GetGroundBody();
             mousedef.body2 = circleBody;
             mousedef.target.Set(circleBd.position.x, circleBd.position.y);
             mousedef.collideConnected = true;
-            mousedef.maxForce = 300 * circleBody.GetMass();
+            mousedef.maxForce = 30000 * circleBody.GetMass();
             mousejoint = world.CreateJoint(mousedef) /*as b2MouseJoint*/;
             circle.boxMouseJoint = mousejoint;
         }
@@ -174,9 +209,6 @@ function draw()
 
     // Update physics (step world)
     world.Step(1.0/60, 1);
-
-    // Clear the screen
-    context.clearRect(0, 0, width, height);
 
     // Fill with black
     context.fillStyle = "rgb(0,0,0)";
