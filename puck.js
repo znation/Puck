@@ -1,5 +1,5 @@
 // Globals
-var scalingFactor = 100.0,
+var scalingFactor = 200.0,
     context,
     height,
     width,
@@ -22,24 +22,24 @@ function Scene()
     var edges = [
         { // bottom
             width: this.width,
-            height: 1.0,
+            height: 20.0,
             x: 0,
             y: this.height
         },
         { // top
             width: this.width,
-            height: 1.0,
+            height: 20.0,
             x: 0,
             y: 0
         },
         { // left
-            width: 1.0,
+            width: 20.0,
             height: this.height,
             x: 0,
             y: 0
         },
         { // right
-            width: 1.0,
+            width: 20.0,
             height: this.height,
             x: this.width,
             y: 0
@@ -49,14 +49,16 @@ function Scene()
     for (var i=0; i<edges.length; i++)
     {
         var edge = edges[i];
-        edge.width /= scalingFactor;
-        edge.height /= scalingFactor;
-        edge.x /= scalingFactor;
-        edge.y /= scalingFactor;
+        edge.width = pixelToBoxCoords(edge.width);
+        edge.height = pixelToBoxCoords(edge.height);
+        edge.x = pixelToBoxCoords(edge.x);
+        edge.y = pixelToBoxCoords(edge.y);
 
         var boxSd = new b2BoxDef();
         boxSd.extents.Set(edge.width, edge.height);
         boxSd.restitution = 1.0;
+        boxSd.density = 0.0;
+        boxSd.friction = 0.0;
         var boxBd = new b2BodyDef();
         boxBd.AddShape(boxSd);
         boxBd.position.Set(edge.x, edge.y);
@@ -97,7 +99,7 @@ function assert(cond)
 {
     if (!cond)
     {
-        console.log("assertion failed");
+        //console.log("assertion failed");
         debugger;
     }
 }
@@ -115,8 +117,8 @@ function init()
     // Initialize Box2D world
     var worldAABB = new b2AABB;
     worldAABB.minVertex.Set(0, 0);
-    worldAABB.maxVertex.Set(width / scalingFactor, height / scalingFactor);
-    var gravity = new b2Vec2(0, 1);
+    worldAABB.maxVertex.Set(pixelToBoxCoords(width), pixelToBoxCoords(height));
+    var gravity = new b2Vec2(0, 0);
     var doSleep = true;
     world = new b2World(worldAABB, gravity, doSleep);
 
@@ -147,12 +149,12 @@ function populateWorld()
         var circle = gameCircles[i];
         var circleSd = new b2CircleDef;
         circleSd.density = 1.0;
-        circleSd.radius = circle.radius / scalingFactor;
+        circleSd.radius = pixelToBoxCoords(circle.radius);
         circleSd.restitution = 1.0;
         circleSd.friction = 0;
         var circleBd = new b2BodyDef;
         circleBd.AddShape(circleSd);
-        circleBd.position.Set(circle.position.x / scalingFactor, circle.position.y / scalingFactor);
+        circleBd.position.Set(pixelToBoxCoords(circle.position.x), pixelToBoxCoords(circle.position.y));
         
 
         var circleBody = world.CreateBody(circleBd);
@@ -219,12 +221,28 @@ function draw()
     {
         var circle = gameCircles[i];
         var circleBody = boxCircles[i];
-        circle.position.x = circleBody.m_position.x * scalingFactor;
-        circle.position.y = circleBody.m_position.y * scalingFactor;
+        circle.position.x = boxToPixelCoords(circleBody.m_position.x);
+        circle.position.y = boxToPixelCoords(circleBody.m_position.y);
     }
 
     // Draw scene
     scene.draw(context);
+}
+
+function boxToPixelCoords(x)
+{
+    assert(x >= 0.1);
+    assert(x <= 10.0);
+    var ret = x * scalingFactor;
+    return ret;
+}
+
+function pixelToBoxCoords(x)
+{
+    var ret = x / scalingFactor;
+    assert(ret >= 0.1);
+    assert(ret <= 10.0);
+    return ret;
 }
 
 window.addEventListener("load", init);

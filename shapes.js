@@ -47,7 +47,7 @@ Stick.prototype.updatePosition = function(x, y) {
 };
 Stick.prototype.move = function() {
     this.position = this.nextPosition;
-    this.boxMouseJoint.SetTarget(new b2Vec2(this.position.x / scalingFactor, this.position.y / scalingFactor));
+    this.boxMouseJoint.SetTarget(new b2Vec2(pixelToBoxCoords(this.position.x), pixelToBoxCoords(this.position.y)));
 };
 
 function Puck()
