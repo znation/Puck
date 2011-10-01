@@ -1,10 +1,12 @@
 // Globals
-var context,
+var scalingFactor = 100.0,
+    context,
     height,
     width,
     scene, // Game model scene
     world, // Box2D model world
     gameCircles, boxCircles;
+
 
 // Types
 function Scene()
@@ -19,10 +21,10 @@ function Scene()
 
     // Construct a rectangle in the world for each border
 	var boxSd = new b2BoxDef();
-	boxSd.extents.Set(this.width / 200.0, this.height / 200.0);
+	boxSd.extents.Set(this.width / (scalingFactor * 2.0), this.height / (scalingFactor * 2.0));
 	var boxBd = new b2BodyDef();
 	boxBd.AddShape(boxSd);
-	boxBd.position.Set(this.padding / 100.0, this.padding / 100.0);
+	boxBd.position.Set(this.padding / scalingFactor, this.padding / scalingFactor);
 	world.CreateBody(boxBd);
 }
 Scene.prototype = new StrokeRectangle;
@@ -77,7 +79,7 @@ function init()
     // Initialize Box2D world
     var worldAABB = new b2AABB;
     worldAABB.minVertex.Set(0, 0);
-    worldAABB.maxVertex.Set(width / 100.0, height / 100.0);
+    worldAABB.maxVertex.Set(width / scalingFactor, height / scalingFactor);
     var gravity = new b2Vec2(0, 0);
     var doSleep = false;
     world = new b2World(worldAABB, gravity, doSleep);
@@ -109,14 +111,27 @@ function populateWorld()
         var circle = gameCircles[i];
         var circleSd = new b2CircleDef;
         circleSd.density = 1.0;
-        circleSd.radius = circle.radius / 100.0;
+        circleSd.radius = circle.radius / scalingFactor;
         circleSd.restitution = 1.0;
         circleSd.friction = 0;
         var circleBd = new b2BodyDef;
         circleBd.AddShape(circleSd);
-        circleBd.position.Set(circle.position.x / 100.0, circle.position.y / 100.0);
+        circleBd.position.Set(circle.position.x / scalingFactor, circle.position.y / scalingFactor);
+        
+
         var circleBody = world.CreateBody(circleBd);
         boxCircles.push(circleBody);
+
+        var mousedef/*:b2MouseJointDef*/ = new b2MouseJointDef();
+        mousedef.body1 = world.GetGroundBody();
+        mousedef.body2 = circleBody;
+        mousedef.target.Set(circleBd.position.x, circleBd.position.y);
+        mousedef.collideConnected = true;
+        mousedef.maxForce = 300 * circleBody.GetMass();
+        mousejoint = world.CreateJoint(mousedef) /*as b2MouseJoint*/;
+        
+
+        circle.boxMouseJoint = mousejoint;
     }
 }
 
@@ -168,8 +183,8 @@ function draw()
     {
         var circle = gameCircles[i];
         var circleBody = boxCircles[i];
-        circle.position.x = circleBody.m_position.x * 100.0;
-        circle.position.y = circleBody.m_position.y * 100.0;
+        circle.position.x = circleBody.m_position.x * scalingFactor;
+        circle.position.y = circleBody.m_position.y * scalingFactor;
     }
 
     // Draw scene

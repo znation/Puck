@@ -32,7 +32,6 @@ function Stick(player)
     this.radius = 32;
     this.position = new Vector(player.position.x + (player.width/2),
             player.position.y + (player.height/2));
-    this.nextPosition = this.position;
     this.color = player.color;
     this.angle = 0;
     this.speed = 0;
@@ -40,7 +39,8 @@ function Stick(player)
 }
 Stick.prototype = new Circle;
 Stick.prototype.updatePosition = function(x, y) {
-    this.nextPosition = new Vector(x, y);
+    this.position = new Vector(x, y);
+    this.boxMouseJoint.SetTarget(new b2Vec2(x / scalingFactor, y / scalingFactor));
 };
 
 function Puck()
