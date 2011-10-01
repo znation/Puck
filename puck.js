@@ -21,27 +21,27 @@ function Scene()
     // Construct a border box to keep everything inside
     var edges = [
         { // bottom
-            width: this.width,
-            height: 20.0,
+            width: width,
+            height: this.padding,
             x: 0,
-            y: this.height
+            y: height
         },
         { // top
-            width: this.width,
-            height: 20.0,
+            width: width,
+            height: this.padding,
             x: 0,
             y: 0
         },
         { // left
-            width: 20.0,
-            height: this.height,
+            width: this.padding,
+            height: height,
             x: 0,
             y: 0
         },
         { // right
-            width: 20.0,
-            height: this.height,
-            x: this.width,
+            width: this.padding,
+            height: height,
+            x: width,
             y: 0
         }
     ];
@@ -231,8 +231,10 @@ function draw()
 
 function boxToPixelCoords(x)
 {
+    /*
     assert(x >= 0.1);
     assert(x <= 10.0);
+    */
     var ret = x * scalingFactor;
     return ret;
 }
@@ -240,8 +242,10 @@ function boxToPixelCoords(x)
 function pixelToBoxCoords(x)
 {
     var ret = x / scalingFactor;
+    /*
     assert(ret >= 0.1);
     assert(ret <= 10.0);
+    */
     return ret;
 }
 
