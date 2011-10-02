@@ -62,9 +62,35 @@ function Scene()
 Scene.prototype = new Rectangle;
 Scene.prototype.draw = function(ctx) {
     this.constructor.prototype.draw.call(this, ctx);
+    this.drawGrid(ctx);
     this.players[0].draw(ctx);
     this.players[1].draw(ctx);
     this.puck.draw(ctx);
+};
+Scene.prototype.drawGrid = function(ctx) {
+    var verticalSquareCount = 25;
+    var sideLength = this.height / verticalSquareCount;
+
+    // draw vertical lines
+    
+    var x = sideLength + this.position.x;
+    while (x < this.width)
+    {
+        ctx.moveTo(x, this.position.y);
+        ctx.lineTo(x, this.height);
+        x += sideLength;
+    }
+    x = sideLength + this.position.y;
+    while (x < this.height)
+    {
+        ctx.moveTo(this.position.x, x);
+        ctx.lineTo(this.width, x);
+        x += sideLength;
+    }
+
+    ctx.lineWidth = 1;
+    ctx.strokeStyle = "#141414";
+    ctx.stroke();
 };
 Scene.prototype.move = function() {
     this.players[0].stick.move();
