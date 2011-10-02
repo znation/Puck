@@ -1,12 +1,27 @@
 // Globals
 var scalingFactor = 200.0,
-    frameRate = 30.0,
+    frameRate = 60.0,
     context,
     height,
     width,
     scene, // Game model scene
     world, // Box2D model world
     gameCircles, boxCircles;
+
+// Init
+(function () {
+    'use strict';
+    // Uncomment the following line to enable first chance exceptions.
+    Debug.enableFirstChanceException(true);
+
+    WinJS.Application.onmainwindowactivated = function (e) {
+        if (e.detail.kind === Windows.ApplicationModel.Activation.ActivationKind.launch) {
+            init();
+        }
+    }
+
+    WinJS.Application.start();
+})();
 
 // Functions
 function assert(cond)
@@ -169,6 +184,4 @@ function pixelToBoxCoords(x)
     */
     return ret;
 }
-
-window.addEventListener("load", init);
 
