@@ -81,7 +81,7 @@ function populateWorld()
             mousedef.body2 = circleBody;
             mousedef.target.Set(circleBd.position.x, circleBd.position.y);
             mousedef.collideConnected = true;
-            mousedef.maxForce = 300 * circleBody.GetMass();
+            mousedef.maxForce = 30000 * circleBody.GetMass();
             mousejoint = world.CreateJoint(mousedef) /*as b2MouseJoint*/;
             circle.boxMouseJoint = mousejoint;
         }
