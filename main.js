@@ -1,5 +1,6 @@
 // Globals
 var scalingFactor = 200.0,
+    frameRate = 30.0,
     context,
     height,
     width,
@@ -42,7 +43,7 @@ function init()
     populateWorld();
 
     // Set draw loop timer
-    setInterval(draw, 1000 / 60);
+    setInterval(draw, 1000 / frameRate);
 
     // Set up event handlers
     document.body.addEventListener("mousemove", handleMouseMove);
@@ -127,7 +128,7 @@ function draw()
     scene.move();
 
     // Update physics (step world)
-    world.Step(1.0/60, 1);
+    world.Step(1.0/frameRate, 1);
 
     // Check contact list for ball-wall collisions
     scene.puck.detectCollisions();
