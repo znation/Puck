@@ -1,49 +1,42 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/2010/manifest">
-
-  <Identity
-    Name="8f029c18-0cb9-4166-a49c-544bb97f8834"
-    Version="1.0.0.0"
-    Publisher="CN=zanation" />
-
+  
+  <Identity Name="15180b81-251e-4d88-bd67-1e6d12b6a7e9"
+            Publisher="CN=zanation"
+            Version="1.0.0.0" />
+  
   <Properties>
     <DisplayName>Puck</DisplayName>
-    <Description>Puck</Description>
     <PublisherDisplayName>zanation</PublisherDisplayName>
-    <Logo>images\storelogo.png</Logo>
+    <Logo>StoreLogo.png</Logo>
+    <Description>Puck</Description>
   </Properties>
-
+  
   <Prerequisites>
     <OSMinVersion>6.2</OSMinVersion>
     <OSMaxVersionTested>6.2</OSMaxVersionTested>
   </Prerequisites>
-
+  
   <Resources>
-    <Resource Language="en-US" />
+    <Resource Language="en-us"/>
   </Resources>
-
+  
   <Applications>
-    <Application 
-      Id="App"
-      StartPage="puck.html">
-
-      <VisualElements
-        DisplayName="Puck"
-        Logo="images\logo.png"
-        SmallLogo="images\smalllogo.png"
-        Description="Puck"
-        ForegroundText="light"
-        BackgroundColor="#0084FF">
-
-        <DefaultTile ShowName="true" />
-        <SplashScreen Image="images\splashscreen.png" />
-
-      </VisualElements>
+    <Application Id="App" 
+        Executable="puck.exe" 
+        EntryPoint="Puck.App">
+        <VisualElements 
+            DisplayName="Puck"
+            Logo="Logo.png"
+            SmallLogo="SmallLogo.png"
+            Description="Puck"
+            ForegroundText="light"
+            BackgroundColor="#222222">
+            <SplashScreen Image="SplashScreen.png" />
+        </VisualElements>
     </Application>
   </Applications>
-
   <Capabilities>
     <Capability Name="internetClient" />
   </Capabilities>
-
 </Package>

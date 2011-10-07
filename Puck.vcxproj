@@ -1,0 +1,409 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{5EDCAC69-47F1-405A-AA8A-DE6210A9A99E}</ProjectGuid>
+    <RootNamespace>Puck</RootNamespace>
+    <VCTargetsPath Condition="'$(VCTargetsPath11)' != '' and '$(VSVersion)' == '' and '$(VisualStudioVersion)' == ''">$(VCTargetsPath11)</VCTargetsPath>
+    <MinimumVisualStudioVersion>11.0</MinimumVisualStudioVersion>
+    <DefaultLanguage>en-US</DefaultLanguage>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <Immersive>true</Immersive>
+    <PlatformToolset>v110</PlatformToolset>
+    <UseDebugLibraries>true</UseDebugLibraries>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <Immersive>true</Immersive>
+    <PlatformToolset>v110</PlatformToolset>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Link>
+      <AdditionalDependencies>d3d11.lib;d2d1.lib;dwrite.lib;runtimeobject.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+    <ClCompile>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+    </ClCompile>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Link>
+      <AdditionalDependencies>d3d11.lib;runtimeobject.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <Reference Include="Windows.Applicationmodel.Activation.winmd">
+      <IsWinMDFile>true</IsWinMDFile>
+    </Reference>
+    <Reference Include="Windows.Applicationmodel.Background.winmd">
+      <IsWinMDFile>true</IsWinMDFile>
+    </Reference>
+    <Reference Include="Windows.Applicationmodel.Contacts.provider.winmd">
+      <IsWinMDFile>true</IsWinMDFile>
+    </Reference>
+    <Reference Include="Windows.Applicationmodel.Contacts.winmd">
+      <IsWinMDFile>true</IsWinMDFile>
+    </Reference>
+    <Reference Include="Windows.Applicationmodel.Core.winmd">
+      <IsWinMDFile>true</IsWinMDFile>
+    </Reference>
+    <Reference Include="Windows.Applicationmodel.Datatransfer.sharetarget.winmd">
+      <IsWinMDFile>true</IsWinMDFile>
+    </Reference>
+    <Reference Include="Windows.Applicationmodel.Datatransfer.winmd">
+      <IsWinMDFile>true</IsWinMDFile>
+    </Reference>
+    <Reference Include="Windows.Applicationmodel.Infrastructure.winmd">
+      <IsWinMDFile>true</IsWinMDFile>
+    </Reference>
+    <Reference Include="windows.applicationmodel.resources.core.winmd">
+      <IsWinMDFile>true</IsWinMDFile>
+    </Reference>
+    <Reference Include="windows.applicationmodel.resources.winmd">
+      <IsWinMDFile>true</IsWinMDFile>
+    </Reference>
+    <Reference Include="windows.applicationmodel.search.winmd">
+      <IsWinMDFile>true</IsWinMDFile>
+    </Reference>
+    <Reference Include="windows.applicationmodel.store.winmd">
+      <IsWinMDFile>true</IsWinMDFile>
+    </Reference>
+    <Reference Include="windows.applicationmodel.winmd">
+      <IsWinMDFile>true</IsWinMDFile>
+    </Reference>
+    <Reference Include="windows.devices.enumeration.pnp.winmd">
+      <IsWinMDFile>true</IsWinMDFile>
+    </Reference>
+    <Reference Include="windows.devices.enumeration.winmd">
+      <IsWinMDFile>true</IsWinMDFile>
+    </Reference>
+    <Reference Include="windows.devices.geolocation.winmd">
+      <IsWinMDFile>true</IsWinMDFile>
+    </Reference>
+    <Reference Include="windows.devices.input.winmd">
+      <IsWinMDFile>true</IsWinMDFile>
+    </Reference>
+    <Reference Include="windows.devices.portable.winmd">
+      <IsWinMDFile>true</IsWinMDFile>
+    </Reference>
+    <Reference Include="windows.devices.sensors.winmd">
+      <IsWinMDFile>true</IsWinMDFile>
+    </Reference>
+    <Reference Include="windows.devices.sms.winmd">
+      <IsWinMDFile>true</IsWinMDFile>
+    </Reference>
+    <Reference Include="windows.foundation.winmd">
+      <IsWinMDFile>true</IsWinMDFile>
+    </Reference>
+    <Reference Include="windows.globalization.collation.winmd">
+      <IsWinMDFile>true</IsWinMDFile>
+    </Reference>
+    <Reference Include="windows.globalization.datetimeformatting.winmd">
+      <IsWinMDFile>true</IsWinMDFile>
+    </Reference>
+    <Reference Include="windows.globalization.fonts.winmd">
+      <IsWinMDFile>true</IsWinMDFile>
+    </Reference>
+    <Reference Include="windows.globalization.numberformatting.winmd">
+      <IsWinMDFile>true</IsWinMDFile>
+    </Reference>
+    <Reference Include="windows.globalization.winmd">
+      <IsWinMDFile>true</IsWinMDFile>
+    </Reference>
+    <Reference Include="windows.graphics.display.winmd">
+      <IsWinMDFile>true</IsWinMDFile>
+    </Reference>
+    <Reference Include="windows.graphics.imaging.winmd">
+      <IsWinMDFile>true</IsWinMDFile>
+    </Reference>
+    <Reference Include="windows.graphics.winmd">
+      <IsWinMDFile>true</IsWinMDFile>
+    </Reference>
+    <Reference Include="windows.internal.security.authentication.winmd">
+      <IsWinMDFile>true</IsWinMDFile>
+    </Reference>
+    <Reference Include="windows.management.core.winmd">
+      <IsWinMDFile>true</IsWinMDFile>
+    </Reference>
+    <Reference Include="windows.management.deployment.winmd">
+      <IsWinMDFile>true</IsWinMDFile>
+    </Reference>
+    <Reference Include="windows.media.capture.winmd">
+      <IsWinMDFile>true</IsWinMDFile>
+    </Reference>
+    <Reference Include="windows.media.devices.winmd">
+      <IsWinMDFile>true</IsWinMDFile>
+    </Reference>
+    <Reference Include="windows.media.playlists.winmd">
+      <IsWinMDFile>true</IsWinMDFile>
+    </Reference>
+    <Reference Include="windows.media.playto.winmd">
+      <IsWinMDFile>true</IsWinMDFile>
+    </Reference>
+    <Reference Include="windows.media.protection.winmd">
+      <IsWinMDFile>true</IsWinMDFile>
+    </Reference>
+    <Reference Include="windows.media.transcoding.winmd">
+      <IsWinMDFile>true</IsWinMDFile>
+    </Reference>
+    <Reference Include="windows.media.videoeffects.winmd">
+      <IsWinMDFile>true</IsWinMDFile>
+    </Reference>
+    <Reference Include="windows.media.winmd">
+      <IsWinMDFile>true</IsWinMDFile>
+    </Reference>
+    <Reference Include="windows.networking.backgroundtransfer.winmd">
+      <IsWinMDFile>true</IsWinMDFile>
+    </Reference>
+    <Reference Include="windows.networking.connectivity.winmd">
+      <IsWinMDFile>true</IsWinMDFile>
+    </Reference>
+    <Reference Include="windows.networking.networkoperators.winmd">
+      <IsWinMDFile>true</IsWinMDFile>
+    </Reference>
+    <Reference Include="windows.networking.proximity.winmd">
+      <IsWinMDFile>true</IsWinMDFile>
+    </Reference>
+    <Reference Include="windows.networking.pushnotifications.winmd">
+      <IsWinMDFile>true</IsWinMDFile>
+    </Reference>
+    <Reference Include="windows.networking.sockets.winmd">
+      <IsWinMDFile>true</IsWinMDFile>
+    </Reference>
+    <Reference Include="windows.networking.winmd">
+      <IsWinMDFile>true</IsWinMDFile>
+    </Reference>
+    <Reference Include="windows.security.authentication.live.winmd">
+      <IsWinMDFile>true</IsWinMDFile>
+    </Reference>
+    <Reference Include="windows.security.authentication.web.winmd">
+      <IsWinMDFile>true</IsWinMDFile>
+    </Reference>
+    <Reference Include="windows.security.credentials.winmd">
+      <IsWinMDFile>true</IsWinMDFile>
+    </Reference>
+    <Reference Include="windows.security.cryptography.certificates.winmd">
+      <IsWinMDFile>true</IsWinMDFile>
+    </Reference>
+    <Reference Include="windows.security.cryptography.core.winmd">
+      <IsWinMDFile>true</IsWinMDFile>
+    </Reference>
+    <Reference Include="windows.security.cryptography.dataprotection.winmd">
+      <IsWinMDFile>true</IsWinMDFile>
+    </Reference>
+    <Reference Include="windows.security.cryptography.winmd">
+      <IsWinMDFile>true</IsWinMDFile>
+    </Reference>
+    <Reference Include="windows.storage.accesscache.winmd">
+      <IsWinMDFile>true</IsWinMDFile>
+    </Reference>
+    <Reference Include="windows.storage.bulkaccess.winmd">
+      <IsWinMDFile>true</IsWinMDFile>
+    </Reference>
+    <Reference Include="windows.storage.compression.winmd">
+      <IsWinMDFile>true</IsWinMDFile>
+    </Reference>
+    <Reference Include="windows.storage.fileproperties.winmd">
+      <IsWinMDFile>true</IsWinMDFile>
+    </Reference>
+    <Reference Include="windows.storage.pickers.provider.winmd">
+      <IsWinMDFile>true</IsWinMDFile>
+    </Reference>
+    <Reference Include="windows.storage.pickers.winmd">
+      <IsWinMDFile>true</IsWinMDFile>
+    </Reference>
+    <Reference Include="windows.storage.search.winmd">
+      <IsWinMDFile>true</IsWinMDFile>
+    </Reference>
+    <Reference Include="windows.storage.streams.winmd">
+      <IsWinMDFile>true</IsWinMDFile>
+    </Reference>
+    <Reference Include="windows.storage.winmd">
+      <IsWinMDFile>true</IsWinMDFile>
+    </Reference>
+    <Reference Include="windows.system.display.winmd">
+      <IsWinMDFile>true</IsWinMDFile>
+    </Reference>
+    <Reference Include="windows.system.userprofile.winmd">
+      <IsWinMDFile>true</IsWinMDFile>
+    </Reference>
+    <Reference Include="windows.system.winmd">
+      <IsWinMDFile>true</IsWinMDFile>
+    </Reference>
+    <Reference Include="windows.ui.applicationsettings.winmd">
+      <IsWinMDFile>true</IsWinMDFile>
+    </Reference>
+    <Reference Include="windows.ui.core.animationmetrics.winmd">
+      <IsWinMDFile>true</IsWinMDFile>
+    </Reference>
+    <Reference Include="windows.ui.core.winmd">
+      <IsWinMDFile>true</IsWinMDFile>
+    </Reference>
+    <Reference Include="windows.ui.input.inking.winmd">
+      <IsWinMDFile>true</IsWinMDFile>
+    </Reference>
+    <Reference Include="windows.ui.input.winmd">
+      <IsWinMDFile>true</IsWinMDFile>
+    </Reference>
+    <Reference Include="windows.ui.notifications.winmd">
+      <IsWinMDFile>true</IsWinMDFile>
+    </Reference>
+    <Reference Include="windows.ui.popups.winmd">
+      <IsWinMDFile>true</IsWinMDFile>
+    </Reference>
+    <Reference Include="windows.ui.startscreen.winmd">
+      <IsWinMDFile>true</IsWinMDFile>
+    </Reference>
+    <Reference Include="windows.ui.viewmanagement.winmd">
+      <IsWinMDFile>true</IsWinMDFile>
+    </Reference>
+    <Reference Include="windows.ui.webui.winmd">
+      <IsWinMDFile>true</IsWinMDFile>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <AppxManifest Include="Package.appxmanifest" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Box2D\Collision\b2BroadPhase.cpp" />
+    <ClCompile Include="Box2D\Collision\b2CollideCircle.cpp" />
+    <ClCompile Include="Box2D\Collision\b2CollideEdge.cpp" />
+    <ClCompile Include="Box2D\Collision\b2CollidePolygon.cpp" />
+    <ClCompile Include="Box2D\Collision\b2Collision.cpp" />
+    <ClCompile Include="Box2D\Collision\b2Distance.cpp" />
+    <ClCompile Include="Box2D\Collision\b2DynamicTree.cpp" />
+    <ClCompile Include="Box2D\Collision\b2TimeOfImpact.cpp" />
+    <ClCompile Include="Box2D\Collision\Shapes\b2ChainShape.cpp" />
+    <ClCompile Include="Box2D\Collision\Shapes\b2CircleShape.cpp" />
+    <ClCompile Include="Box2D\Collision\Shapes\b2EdgeShape.cpp" />
+    <ClCompile Include="Box2D\Collision\Shapes\b2PolygonShape.cpp" />
+    <ClCompile Include="Box2D\Common\b2BlockAllocator.cpp" />
+    <ClCompile Include="Box2D\Common\b2Draw.cpp" />
+    <ClCompile Include="Box2D\Common\b2Math.cpp" />
+    <ClCompile Include="Box2D\Common\b2Settings.cpp" />
+    <ClCompile Include="Box2D\Common\b2StackAllocator.cpp" />
+    <ClCompile Include="Box2D\Common\b2Timer.cpp" />
+    <ClCompile Include="Box2D\Dynamics\b2Body.cpp" />
+    <ClCompile Include="Box2D\Dynamics\b2ContactManager.cpp" />
+    <ClCompile Include="Box2D\Dynamics\b2Fixture.cpp" />
+    <ClCompile Include="Box2D\Dynamics\b2Island.cpp" />
+    <ClCompile Include="Box2D\Dynamics\b2World.cpp" />
+    <ClCompile Include="Box2D\Dynamics\b2WorldCallbacks.cpp" />
+    <ClCompile Include="Box2D\Dynamics\Contacts\b2ChainAndCircleContact.cpp" />
+    <ClCompile Include="Box2D\Dynamics\Contacts\b2ChainAndPolygonContact.cpp" />
+    <ClCompile Include="Box2D\Dynamics\Contacts\b2CircleContact.cpp" />
+    <ClCompile Include="Box2D\Dynamics\Contacts\b2Contact.cpp" />
+    <ClCompile Include="Box2D\Dynamics\Contacts\b2ContactSolver.cpp" />
+    <ClCompile Include="Box2D\Dynamics\Contacts\b2EdgeAndCircleContact.cpp" />
+    <ClCompile Include="Box2D\Dynamics\Contacts\b2EdgeAndPolygonContact.cpp" />
+    <ClCompile Include="Box2D\Dynamics\Contacts\b2PolygonAndCircleContact.cpp" />
+    <ClCompile Include="Box2D\Dynamics\Contacts\b2PolygonContact.cpp" />
+    <ClCompile Include="Box2D\Dynamics\Joints\b2DistanceJoint.cpp" />
+    <ClCompile Include="Box2D\Dynamics\Joints\b2FrictionJoint.cpp" />
+    <ClCompile Include="Box2D\Dynamics\Joints\b2GearJoint.cpp" />
+    <ClCompile Include="Box2D\Dynamics\Joints\b2Joint.cpp" />
+    <ClCompile Include="Box2D\Dynamics\Joints\b2MouseJoint.cpp" />
+    <ClCompile Include="Box2D\Dynamics\Joints\b2PrismaticJoint.cpp" />
+    <ClCompile Include="Box2D\Dynamics\Joints\b2PulleyJoint.cpp" />
+    <ClCompile Include="Box2D\Dynamics\Joints\b2RevoluteJoint.cpp" />
+    <ClCompile Include="Box2D\Dynamics\Joints\b2RopeJoint.cpp" />
+    <ClCompile Include="Box2D\Dynamics\Joints\b2WeldJoint.cpp" />
+    <ClCompile Include="Box2D\Dynamics\Joints\b2WheelJoint.cpp" />
+    <ClCompile Include="Box2D\Rope\b2Rope.cpp" />
+    <ClCompile Include="D2DRenderer.cpp" />
+    <ClCompile Include="DirectXBase.cpp" />
+    <ClCompile Include="DirectXViewProvider.cpp" />
+    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Objects\b2UserData.cpp" />
+    <ClCompile Include="Objects\Player.cpp" />
+    <ClCompile Include="Objects\Puck.cpp" />
+    <ClCompile Include="Objects\Scene.cpp" />
+    <ClCompile Include="Objects\Stick.cpp" />
+    <ClCompile Include="View.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Box2D\Box2D.h" />
+    <ClInclude Include="Box2D\Collision\b2BroadPhase.h" />
+    <ClInclude Include="Box2D\Collision\b2Collision.h" />
+    <ClInclude Include="Box2D\Collision\b2Distance.h" />
+    <ClInclude Include="Box2D\Collision\b2DynamicTree.h" />
+    <ClInclude Include="Box2D\Collision\b2TimeOfImpact.h" />
+    <ClInclude Include="Box2D\Collision\Shapes\b2ChainShape.h" />
+    <ClInclude Include="Box2D\Collision\Shapes\b2CircleShape.h" />
+    <ClInclude Include="Box2D\Collision\Shapes\b2EdgeShape.h" />
+    <ClInclude Include="Box2D\Collision\Shapes\b2PolygonShape.h" />
+    <ClInclude Include="Box2D\Collision\Shapes\b2Shape.h" />
+    <ClInclude Include="Box2D\Common\b2BlockAllocator.h" />
+    <ClInclude Include="Box2D\Common\b2Draw.h" />
+    <ClInclude Include="Box2D\Common\b2GrowableStack.h" />
+    <ClInclude Include="Box2D\Common\b2Math.h" />
+    <ClInclude Include="Box2D\Common\b2Settings.h" />
+    <ClInclude Include="Box2D\Common\b2StackAllocator.h" />
+    <ClInclude Include="Box2D\Common\b2Timer.h" />
+    <ClInclude Include="Box2D\Dynamics\b2Body.h" />
+    <ClInclude Include="Box2D\Dynamics\b2ContactManager.h" />
+    <ClInclude Include="Box2D\Dynamics\b2Fixture.h" />
+    <ClInclude Include="Box2D\Dynamics\b2Island.h" />
+    <ClInclude Include="Box2D\Dynamics\b2TimeStep.h" />
+    <ClInclude Include="Box2D\Dynamics\b2World.h" />
+    <ClInclude Include="Box2D\Dynamics\b2WorldCallbacks.h" />
+    <ClInclude Include="Box2D\Dynamics\Contacts\b2ChainAndCircleContact.h" />
+    <ClInclude Include="Box2D\Dynamics\Contacts\b2ChainAndPolygonContact.h" />
+    <ClInclude Include="Box2D\Dynamics\Contacts\b2CircleContact.h" />
+    <ClInclude Include="Box2D\Dynamics\Contacts\b2Contact.h" />
+    <ClInclude Include="Box2D\Dynamics\Contacts\b2ContactSolver.h" />
+    <ClInclude Include="Box2D\Dynamics\Contacts\b2EdgeAndCircleContact.h" />
+    <ClInclude Include="Box2D\Dynamics\Contacts\b2EdgeAndPolygonContact.h" />
+    <ClInclude Include="Box2D\Dynamics\Contacts\b2PolygonAndCircleContact.h" />
+    <ClInclude Include="Box2D\Dynamics\Contacts\b2PolygonContact.h" />
+    <ClInclude Include="Box2D\Dynamics\Joints\b2DistanceJoint.h" />
+    <ClInclude Include="Box2D\Dynamics\Joints\b2FrictionJoint.h" />
+    <ClInclude Include="Box2D\Dynamics\Joints\b2GearJoint.h" />
+    <ClInclude Include="Box2D\Dynamics\Joints\b2Joint.h" />
+    <ClInclude Include="Box2D\Dynamics\Joints\b2MouseJoint.h" />
+    <ClInclude Include="Box2D\Dynamics\Joints\b2PrismaticJoint.h" />
+    <ClInclude Include="Box2D\Dynamics\Joints\b2PulleyJoint.h" />
+    <ClInclude Include="Box2D\Dynamics\Joints\b2RevoluteJoint.h" />
+    <ClInclude Include="Box2D\Dynamics\Joints\b2RopeJoint.h" />
+    <ClInclude Include="Box2D\Dynamics\Joints\b2WeldJoint.h" />
+    <ClInclude Include="Box2D\Dynamics\Joints\b2WheelJoint.h" />
+    <ClInclude Include="Box2D\Rope\b2Rope.h" />
+    <ClInclude Include="D2DRenderer.h" />
+    <ClInclude Include="DirectXBase.h" />
+    <ClInclude Include="DirectXSample.h" />
+    <ClInclude Include="DirectXViewProvider.h" />
+    <ClInclude Include="Objects\b2UserData.h" />
+    <ClInclude Include="Objects\Player.h" />
+    <ClInclude Include="Objects\Puck.h" />
+    <ClInclude Include="Objects\Scene.h" />
+    <ClInclude Include="Objects\Stick.h" />
+    <ClInclude Include="View.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
