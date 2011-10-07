@@ -1,5 +1,6 @@
 #include "Stick.h"
 #include "D2DRenderer.h"
+#include "b2UserData.h"
 
 Stick::Stick(b2Vec2 playerSize, b2Vec2 playerPosition, b2World *world, b2Body *groundBody)
 {
@@ -19,6 +20,7 @@ Stick::Stick(b2Vec2 playerSize, b2Vec2 playerPosition, b2World *world, b2Body *g
 	circleBd.fixedRotation = true;
 	circleBd.bullet = true;
 	m_circleBody = world->CreateBody(&circleBd);
+	m_circleBody->SetUserData(new b2UserData(b2UserData_Stick, nullptr));
 
 	b2CircleShape circleSd;
 	circleSd.m_type = b2Shape::Type::e_circle;

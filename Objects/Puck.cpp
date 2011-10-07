@@ -24,6 +24,7 @@ Puck::Puck(b2Vec2 viewportSize, ComPtr<ID2D1DeviceContext> ctx, b2World *world)
 	circleBd.fixedRotation = true; // TODO -- try setting this to false
 	circleBd.bullet = true;
 	m_circleBody = world->CreateBody(&circleBd);
+	m_circleBody->SetUserData(new b2UserData(b2UserData_Puck, nullptr));
 	b2CircleShape circleSd;
 	circleSd.m_type = b2Shape::Type::e_circle;
 	circleSd.m_radius = pixelToBox(m_radius);
@@ -75,8 +76,8 @@ void Puck::detectCollisions()
 		b2Contact *contact = contactNode->contact;
 
 		b2Fixture *otherShape = (contact->GetFixtureA()->GetBody() == m_circleBody) ? 
-			contact->GetFixtureA() :
-		contact->GetFixtureB();
+			contact->GetFixtureB() :
+			contact->GetFixtureA();
 
 		b2Body *otherBody = otherShape->GetBody();
 

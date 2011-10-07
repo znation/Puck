@@ -30,3 +30,11 @@ void Player::draw(ComPtr<ID2D1DeviceContext> ctx)
 
 	m_stick->draw(ctx, m_brush);
 }
+
+bool Player::containsPoint(b2Vec2 p)
+{
+	return (p.x >= m_rect.rect.left &&
+		p.x <= m_rect.rect.right &&
+		p.y >= m_rect.rect.top &&
+		p.y <= m_rect.rect.bottom);
+}

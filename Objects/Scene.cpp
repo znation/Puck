@@ -143,8 +143,13 @@ void Scene::detectCollisions()
 
 void Scene::onMouseMoved(b2Vec2 p)
 {
-	if (m_players[0] == nullptr)
-		return;
-
-	m_players[0]->m_stick->updatePosition(p.x, p.y);
+	for (int i=0; i<2; i++)
+	{
+		if (m_players[i] != nullptr &&
+			m_players[i]->containsPoint(p))
+		{
+			m_players[i]->m_stick->updatePosition(p.x, p.y);
+			return;
+		}
+	}
 }

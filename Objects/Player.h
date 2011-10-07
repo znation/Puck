@@ -13,6 +13,7 @@ public:
 	Player(b2Vec2 sceneSize, b2Vec2 scenePosition, ComPtr<ID2D1DeviceContext> ctx, int playerIdx, b2World *world, b2Body *groundBody);
 	void draw(ComPtr<ID2D1DeviceContext> ctx);
 	Stick *m_stick;
+	bool containsPoint(b2Vec2 p);
 
 private:
 	int m_playerIdx;
