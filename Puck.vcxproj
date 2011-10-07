@@ -286,7 +286,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <AppxManifest Include="Package.appxmanifest" />
+    <AppxManifest Include="Package.appxmanifest">
+      <SubType>Designer</SubType>
+    </AppxManifest>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Box2D\Collision\b2BroadPhase.cpp" />
@@ -402,6 +404,12 @@
     <ClInclude Include="Objects\Scene.h" />
     <ClInclude Include="Objects\Stick.h" />
     <ClInclude Include="View.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="logo.png" />
+    <Image Include="smalllogo.png" />
+    <Image Include="splashscreen.png" />
+    <Image Include="storelogo.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

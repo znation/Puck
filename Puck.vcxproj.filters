@@ -124,4 +124,18 @@
     <ClInclude Include="Objects\Scene.h" />
     <ClInclude Include="Objects\b2UserData.h" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="logo.png">
+      <Filter>Resources</Filter>
+    </Image>
+    <Image Include="smalllogo.png">
+      <Filter>Resources</Filter>
+    </Image>
+    <Image Include="splashscreen.png">
+      <Filter>Resources</Filter>
+    </Image>
+    <Image Include="storelogo.png">
+      <Filter>Resources</Filter>
+    </Image>
+  </ItemGroup>
 </Project>
