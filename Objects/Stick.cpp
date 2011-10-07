@@ -17,6 +17,7 @@ Stick::Stick(b2Vec2 playerSize, b2Vec2 playerPosition, b2World *world, b2Body *g
 	circleBd.position.Set(pixelToBox(m_position.x), pixelToBox(m_position.y));
 	circleBd.type = b2_dynamicBody;
 	circleBd.fixedRotation = true;
+	circleBd.bullet = true;
 	m_circleBody = world->CreateBody(&circleBd);
 
 	b2CircleShape circleSd;

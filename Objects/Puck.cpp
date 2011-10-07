@@ -22,6 +22,7 @@ Puck::Puck(b2Vec2 viewportSize, ComPtr<ID2D1DeviceContext> ctx, b2World *world)
 	circleBd.position.Set(pixelToBox(m_position.x), pixelToBox(m_position.y));
 	circleBd.type = b2_dynamicBody;
 	circleBd.fixedRotation = true; // TODO -- try setting this to false
+	circleBd.bullet = true;
 	m_circleBody = world->CreateBody(&circleBd);
 	b2CircleShape circleSd;
 	circleSd.m_type = b2Shape::Type::e_circle;
