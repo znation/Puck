@@ -129,7 +129,7 @@ void Scene::beginRound()
 
 void Scene::drawRoundTimer()
 {
-	if (m_frozen)
+	if (m_frozen && !m_gameOver)
 	{
 		ULONGLONG currentTime = GetTickCount64();
 		ULONGLONG diffSeconds = (currentTime - m_beginTime) / 1000;
