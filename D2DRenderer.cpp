@@ -67,7 +67,7 @@ void D2DRenderer::RecreateTarget()
 	CreateWindowSizeDependentResources();
 }
 
-void D2DRenderer::RenderFPS()
+void D2DRenderer::RenderFPS(D2D1_SIZE_F)
 {
 	SYSTEMTIME time;
 	GetSystemTime(&time);
@@ -123,7 +123,7 @@ void D2DRenderer::Render()
 		world = new b2World(b2Vec2(0,0));
 
 		// Initialize scene
-		scene = new Scene(b2Vec2(renderTargetSize.width, renderTargetSize.height), m_d2dContext, world);
+		scene = new Scene(b2Vec2(renderTargetSize.width, renderTargetSize.height), m_d2dContext, world, m_dwriteFactory);
 	}
 
 	m_d2dContext->BeginDraw();
@@ -136,7 +136,7 @@ void D2DRenderer::Render()
 	scene->move();
 	scene->draw(m_d2dContext);
 
-	RenderFPS();
+	RenderFPS(renderTargetSize);
 
 	hr = m_d2dContext->EndDraw();
 

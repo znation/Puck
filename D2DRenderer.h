@@ -30,7 +30,7 @@ public:
 
 private:
 	void RecreateTarget();
-	void RenderFPS();
+	void RenderFPS(D2D1_SIZE_F);
 	Scene *scene;
 	b2World *world;
 	int m_frameCounter;

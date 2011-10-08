@@ -12,7 +12,7 @@ Scene::Edge::Edge(b2Vec2 center_, b2Vec2 extents_, const char *e)
 	extraInfo = e;
 }
 
-Scene::Scene(b2Vec2 viewportSize, ComPtr<ID2D1DeviceContext> ctx, b2World *world)
+Scene::Scene(b2Vec2 viewportSize, ComPtr<ID2D1DeviceContext> ctx, b2World *world, ComPtr<IDWriteFactory1> dwriteFactory)
 {
 	int padding = 16;
 	m_size = b2Vec2(viewportSize.x - (2 * padding),
@@ -62,8 +62,8 @@ Scene::Scene(b2Vec2 viewportSize, ComPtr<ID2D1DeviceContext> ctx, b2World *world
 		m_groundBoxBody->SetUserData(new b2UserData(b2UserData_Edge, (void*)edge.extraInfo));
 	}
 
-	m_players[0] = new Player(m_size, m_position, ctx, 0, world, m_groundBoxBody);
-	m_players[1] = new Player(m_size, m_position, ctx, 1, world, m_groundBoxBody);
+	m_players[0] = new Player(m_size, m_position, ctx, 0, world, m_groundBoxBody, dwriteFactory);
+	m_players[1] = new Player(m_size, m_position, ctx, 1, world, m_groundBoxBody, dwriteFactory);
 	m_puck = new Puck(viewportSize, ctx, world);
 }
 

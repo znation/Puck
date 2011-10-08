@@ -1,7 +1,13 @@
 #include "Player.h"
 #include "DirectXSample.h"
 
-Player::Player(b2Vec2 sceneSize, b2Vec2 scenePosition, ComPtr<ID2D1DeviceContext> ctx, int playerIdx, b2World *world, b2Body *groundBody)
+Player::Player(b2Vec2 sceneSize,
+		b2Vec2 scenePosition,
+		ComPtr<ID2D1DeviceContext> ctx,
+		int playerIdx,
+		b2World *world,
+		b2Body *groundBody,
+		ComPtr<IDWriteFactory1> dwriteFactory)
 {
 	int padding = 16;
 	m_playerIdx = playerIdx;
@@ -10,6 +16,7 @@ Player::Player(b2Vec2 sceneSize, b2Vec2 scenePosition, ComPtr<ID2D1DeviceContext
             scenePosition.y + padding);
 	m_stick = new Stick(m_size, m_position, world, groundBody);
 	m_goal = new Goal(sceneSize, scenePosition, m_playerIdx, ctx, world);
+	m_score = new Score(m_size, m_position, m_playerIdx, ctx, dwriteFactory);
 	
 	DX::ThrowIfFailed(ctx->CreateSolidColorBrush(
 		D2D1::ColorF(m_playerIdx == 0 ? D2D1::ColorF::Yellow : D2D1::ColorF::Magenta),
@@ -32,6 +39,8 @@ void Player::draw(ComPtr<ID2D1DeviceContext> ctx)
 	m_goal->draw(ctx);
 
 	m_stick->draw(ctx, m_brush);
+
+	m_score->draw();
 }
 
 bool Player::containsPoint(b2Vec2 p)

@@ -11,7 +11,7 @@ using namespace Microsoft::WRL;
 class Scene
 {
 public:
-	Scene(b2Vec2 viewportSize, ComPtr<ID2D1DeviceContext> ctx, b2World *world);
+	Scene(b2Vec2 viewportSize, ComPtr<ID2D1DeviceContext> ctx, b2World *world, ComPtr<IDWriteFactory1> dwriteFactory);
 	void move();
 	void draw(ComPtr<ID2D1DeviceContext> ctx);
 	void applyConstraints();

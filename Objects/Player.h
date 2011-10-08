@@ -3,6 +3,7 @@
 #include "Box2D\Box2D.h"
 #include "Stick.h"
 #include "Goal.h"
+#include "Score.h"
 
 #pragma once
 
@@ -11,7 +12,13 @@ using namespace Microsoft::WRL;
 class Player
 {
 public:
-	Player(b2Vec2 sceneSize, b2Vec2 scenePosition, ComPtr<ID2D1DeviceContext> ctx, int playerIdx, b2World *world, b2Body *groundBody);
+	Player(b2Vec2 sceneSize,
+		b2Vec2 scenePosition,
+		ComPtr<ID2D1DeviceContext> ctx,
+		int playerIdx,
+		b2World *world,
+		b2Body *groundBody,
+		ComPtr<IDWriteFactory1> dwriteFactory);
 	void draw(ComPtr<ID2D1DeviceContext> ctx);
 	Stick *m_stick;
 	bool containsPoint(b2Vec2 p);
@@ -24,4 +31,5 @@ private:
 	ComPtr<ID2D1SolidColorBrush> m_brush;
 	D2D1_ROUNDED_RECT m_rect;
 	Goal *m_goal;
+	Score *m_score;
 };

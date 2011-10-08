@@ -345,6 +345,7 @@
     <ClCompile Include="Objects\Player.cpp" />
     <ClCompile Include="Objects\Puck.cpp" />
     <ClCompile Include="Objects\Scene.cpp" />
+    <ClCompile Include="Objects\Score.cpp" />
     <ClCompile Include="Objects\Stick.cpp" />
     <ClCompile Include="View.cpp" />
   </ItemGroup>
@@ -404,6 +405,7 @@
     <ClInclude Include="Objects\Player.h" />
     <ClInclude Include="Objects\Puck.h" />
     <ClInclude Include="Objects\Scene.h" />
+    <ClInclude Include="Objects\Score.h" />
     <ClInclude Include="Objects\Stick.h" />
     <ClInclude Include="View.h" />
   </ItemGroup>
