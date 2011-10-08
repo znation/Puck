@@ -1,0 +1,67 @@
+#include "Game.h"
+
+Game::Game(b2Vec2 viewportSize, ComPtr<ID2D1DeviceContext> ctx, ComPtr<IDWriteFactory1> dwriteFactory)
+{	
+	m_size = viewportSize;
+	m_ctx = ctx;
+	m_dwriteFactory = dwriteFactory;
+	m_menu = new GameMenu(viewportSize, this, ctx, dwriteFactory);
+	m_scene = nullptr;
+}
+
+void Game::Begin()
+{
+	m_showMenu = false;
+
+	// Tear down existing game
+	if (m_world != nullptr || m_scene != nullptr)
+	{
+		assert(m_world != nullptr);
+		assert(m_scene != nullptr);
+		delete m_world;
+		delete m_scene;
+	}
+
+	// Initialize Box2D world
+	m_world = new b2World(b2Vec2(0,0));
+
+	m_scene = new Scene(m_size,
+		m_ctx,
+		m_world,
+		m_dwriteFactory);
+}
+
+void Game::Draw()
+{
+	if (!m_showMenu)
+	{
+		m_scene->applyConstraints();
+		m_world->Step(1.0 / 60.0, 8, 3);
+		m_scene->detectCollisions();
+		m_scene->move();
+	}
+	if (m_scene != nullptr)
+	{
+		m_scene->draw();
+	}
+	if (m_showMenu)
+	{
+		m_menu->Draw();
+	}
+}
+
+void Game::OnMouseMove(b2Vec2 p)
+{
+	if (!m_showMenu)
+	{
+		m_scene->onMouseMoved(p);
+	}
+}
+
+void Game::OnMouseDown(Windows::UI::Core::PointerEventArgs^ args)
+{
+	if (m_showMenu)
+	{
+		m_menu->OnMouseDown(args);
+	}
+}

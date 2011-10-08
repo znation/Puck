@@ -11,7 +11,7 @@
 
 #include "DirectXBase.h"
 #include "Box2D\Box2D.h"
-#include "Objects\Scene.h"
+#include "Objects\Game.h"
 
 using namespace Microsoft::WRL;
 
@@ -27,13 +27,13 @@ public:
 	virtual void CreateDeviceIndependentResources() override;
 	virtual void CreateDeviceResources() override;
 	virtual void Render() override;
-	void OnMouseMoved(Windows::UI::Core::PointerEventArgs^ args);
+	void OnMouseMove(Windows::UI::Core::PointerEventArgs^ args);
+	void OnMouseDown(Windows::UI::Core::PointerEventArgs^ args);
 
 private:
 	void RecreateTarget();
 	void RenderFPS(D2D1_SIZE_F);
-	Scene *scene;
-	b2World *world;
+	Game *m_game;
 	int m_frameCounter;
 	int m_fps;
 	WORD m_lastFrameSecond;

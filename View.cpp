@@ -31,7 +31,9 @@ void View::Initialize(
 
     m_window->PointerCursor = ref new CoreCursor(CoreCursorType::Arrow, 0);
 
-	m_window->PointerMoved += ref new TypedEventHandler<CoreWindow^, PointerEventArgs^>(this, &View::OnMouseMoved);
+	m_window->PointerMoved += ref new TypedEventHandler<CoreWindow^, PointerEventArgs^>(this, &View::OnMouseMove);
+
+	m_window->PointerPressed += ref new TypedEventHandler<CoreWindow^, PointerEventArgs^>(this, &View::OnMouseDown);
 
     m_window->SizeChanged += 
         ref new TypedEventHandler<CoreWindow^, WindowSizeChangedEventArgs^>(this, &View::OnWindowSizeChanged);
@@ -62,12 +64,20 @@ void View::OnWindowSizeChanged(
     m_renderer->UpdateForWindowSizeChange();
 }
 
-void View::OnMouseMoved(
+void View::OnMouseMove(
 		_In_ Windows::UI::Core::CoreWindow^ sender,
 		_In_ Windows::UI::Core::PointerEventArgs^ args
         )
 {
-	m_renderer->OnMouseMoved(args);
+	m_renderer->OnMouseMove(args);
+}
+
+void View::OnMouseDown(
+		_In_ Windows::UI::Core::CoreWindow^ sender,
+		_In_ Windows::UI::Core::PointerEventArgs^ args
+        )
+{
+	m_renderer->OnMouseDown(args);
 }
 
 void View::OnLogicalDpiChanged(__in Platform::Object^ sender)

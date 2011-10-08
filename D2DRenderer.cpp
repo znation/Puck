@@ -104,10 +104,15 @@ void D2DRenderer::RenderFPS(D2D1_SIZE_F)
 		m_whiteBrush.Get());
 }
 
-void D2DRenderer::OnMouseMoved(Windows::UI::Core::PointerEventArgs^ args)
+void D2DRenderer::OnMouseMove(Windows::UI::Core::PointerEventArgs^ args)
 {
 	Point p = args->CurrentPoint->Position;
-	scene->onMouseMoved(b2Vec2(p.X, p.Y));
+	m_game->OnMouseMove(b2Vec2(p.X, p.Y));
+}
+
+void D2DRenderer::OnMouseDown(Windows::UI::Core::PointerEventArgs^ args)
+{
+	m_game->OnMouseDown(args);
 }
 
 void D2DRenderer::Render()
@@ -117,24 +122,17 @@ void D2DRenderer::Render()
 	// Retrieve the size of the render target.
 	D2D1_SIZE_F renderTargetSize = m_d2dContext->GetSize();
 
-	if (scene == nullptr)
+	if (m_game == nullptr)
 	{
-		// Initialize Box2D world
-		world = new b2World(b2Vec2(0,0));
-
-		// Initialize scene
-		scene = new Scene(b2Vec2(renderTargetSize.width, renderTargetSize.height), m_d2dContext, world, m_dwriteFactory);
+		// Initialize Game
+		m_game = new Game(b2Vec2(renderTargetSize.width, renderTargetSize.height), m_d2dContext, m_dwriteFactory);
 	}
 
 	m_d2dContext->BeginDraw();
 	m_d2dContext->Clear(D2D1::ColorF(D2D1::ColorF::Black));
 	m_d2dContext->SetTransform(D2D1::Matrix3x2F::Identity());
 
-	scene->applyConstraints();
-	world->Step(1.0 / 60.0, 8, 3);
-	scene->detectCollisions();
-	scene->move();
-	scene->draw();
+	m_game->Draw();
 
 	RenderFPS(renderTargetSize);
 

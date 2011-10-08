@@ -26,7 +26,12 @@ public:
         _In_ Windows::UI::Core::WindowSizeChangedEventArgs^ args
         );
 
-	void OnMouseMoved(
+	void OnMouseMove(
+		_In_ Windows::UI::Core::CoreWindow^ sender,
+		_In_ Windows::UI::Core::PointerEventArgs^ args
+        );
+
+	void OnMouseDown(
 		_In_ Windows::UI::Core::CoreWindow^ sender,
 		_In_ Windows::UI::Core::PointerEventArgs^ args
         );
