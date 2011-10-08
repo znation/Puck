@@ -105,6 +105,11 @@ void Scene::win(int playerIdx)
 	m_players[playerIdx]->showWinnerText();
 }
 
+void Scene::scoreGoal(int playerIdx)
+{
+	m_players[playerIdx]->scoreGoal();
+}
+
 void Scene::reset()
 {
 	for (int i=0; i<2; i++)

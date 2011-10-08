@@ -1,5 +1,6 @@
 #include "Player.h"
 #include "DirectXSample.h"
+#include "D2DRenderer.h"
 
 Player::Player(b2Vec2 sceneSize,
 		b2Vec2 scenePosition,
@@ -10,6 +11,7 @@ Player::Player(b2Vec2 sceneSize,
 		ComPtr<IDWriteFactory1> dwriteFactory,
 		Scene *scene)
 {
+	m_scene = scene;
 	m_ctx = ctx;
 	m_winner = false;
 	int padding = 16;
@@ -19,7 +21,7 @@ Player::Player(b2Vec2 sceneSize,
             scenePosition.y + padding);
 	m_stick = new Stick(m_size, m_position, world, groundBody);
 	m_score = new Score(m_size, m_position, m_playerIdx, ctx, dwriteFactory);
-	m_goal = new Goal(sceneSize, scenePosition, m_playerIdx, ctx, world, scene, m_score);
+	m_goal = new Goal(sceneSize, scenePosition, m_playerIdx, ctx, world, scene);
 	
 	DX::ThrowIfFailed(ctx->CreateSolidColorBrush(
 		D2D1::ColorF(m_playerIdx == 0 ? D2D1::ColorF::Yellow : D2D1::ColorF::Magenta),
@@ -54,6 +56,20 @@ Player::Player(b2Vec2 sceneSize,
 void Player::reset()
 {
 	m_stick->reset();
+}
+
+void Player::scoreGoal()
+{
+	m_score->increment();
+	int score = m_score->getScore();
+	if (score == MAX_SCORE)
+	{
+		m_scene->win(m_playerIdx);
+	}
+	else
+	{
+		m_scene->reset();
+	}
 }
 
 void Player::draw()

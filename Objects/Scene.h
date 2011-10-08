@@ -19,6 +19,7 @@ public:
 	void onMouseMoved(b2Vec2 p);
 	void win(int playerIdx);
 	void reset();
+	void scoreGoal(int playerIdx);
 
 private:
 	void drawGrid();
