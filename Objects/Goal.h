@@ -9,7 +9,7 @@ using namespace Microsoft::WRL;
 class Goal
 {
 public:
-	Goal(b2Vec2 playerSize, b2Vec2 playerPosition, int playerIdx, ComPtr<ID2D1DeviceContext> ctx, b2World *world);
+	Goal(b2Vec2 sceneSize, b2Vec2 scenePosition, int playerIdx, ComPtr<ID2D1DeviceContext> ctx, b2World *world);
 	void draw(ComPtr<ID2D1DeviceContext> ctx);
 	void detectCollisions();
 

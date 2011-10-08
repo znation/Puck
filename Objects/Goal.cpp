@@ -3,12 +3,15 @@
 #include "b2UserData.h"
 #include "D2DRenderer.h"
 
-Goal::Goal(b2Vec2 playerSize, b2Vec2 playerPosition, int playerIdx, ComPtr<ID2D1DeviceContext> ctx, b2World *world)
+Goal::Goal(b2Vec2 sceneSize,
+		   b2Vec2 scenePosition,
+		   int playerIdx,
+		   ComPtr<ID2D1DeviceContext> ctx, b2World *world)
 {
-	m_size = b2Vec2(16.0, playerSize.y / 8);
-	m_position = b2Vec2(playerIdx == 0 ? playerPosition.x - (m_size.x / 2.0) : 
-		playerPosition.x + playerSize.x - (m_size.x / 2.0),
-		playerPosition.y + ((playerSize.y / 2) - (m_size.y / 2.0)));
+	m_size = b2Vec2(16.0, sceneSize.y / 8);
+	m_position = b2Vec2(playerIdx == 0 ? scenePosition.x - (m_size.x / 2.0) : 
+		scenePosition.x + sceneSize.x - (m_size.x / 2.0),
+		scenePosition.y + ((sceneSize.y / 2) - (m_size.y / 2.0)));
 	DX::ThrowIfFailed(ctx->CreateSolidColorBrush(
 		D2D1::ColorF(D2D1::ColorF::WhiteSmoke),
 		&m_brush));
