@@ -11,7 +11,6 @@ class Puck
 public:
 	Puck(b2Vec2 viewportSize, ComPtr<ID2D1DeviceContext> ctx, b2World *world);
 	void applyConstraints();
-	void detectCollisions();
 	void draw(ComPtr<ID2D1DeviceContext> ctx);
 	void move();
 private:

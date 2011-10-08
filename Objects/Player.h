@@ -2,6 +2,7 @@
 #include <d2d1_1.h>
 #include "Box2D\Box2D.h"
 #include "Stick.h"
+#include "Goal.h"
 
 #pragma once
 
@@ -14,6 +15,7 @@ public:
 	void draw(ComPtr<ID2D1DeviceContext> ctx);
 	Stick *m_stick;
 	bool containsPoint(b2Vec2 p);
+	void detectCollisions();
 
 private:
 	int m_playerIdx;
@@ -21,4 +23,5 @@ private:
 	b2Vec2 m_position;
 	ComPtr<ID2D1SolidColorBrush> m_brush;
 	D2D1_ROUNDED_RECT m_rect;
+	Goal *m_goal;
 };

@@ -65,6 +65,7 @@
     <ClCompile Include="Objects\Player.cpp" />
     <ClCompile Include="Objects\Scene.cpp" />
     <ClCompile Include="Objects\b2UserData.cpp" />
+    <ClCompile Include="Objects\Goal.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="View.h" />
@@ -123,6 +124,7 @@
     <ClInclude Include="Objects\Player.h" />
     <ClInclude Include="Objects\Scene.h" />
     <ClInclude Include="Objects\b2UserData.h" />
+    <ClInclude Include="Objects\Goal.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="logo.png">

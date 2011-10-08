@@ -341,6 +341,7 @@
     <ClCompile Include="DirectXViewProvider.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Objects\b2UserData.cpp" />
+    <ClCompile Include="Objects\Goal.cpp" />
     <ClCompile Include="Objects\Player.cpp" />
     <ClCompile Include="Objects\Puck.cpp" />
     <ClCompile Include="Objects\Scene.cpp" />
@@ -399,6 +400,7 @@
     <ClInclude Include="DirectXSample.h" />
     <ClInclude Include="DirectXViewProvider.h" />
     <ClInclude Include="Objects\b2UserData.h" />
+    <ClInclude Include="Objects\Goal.h" />
     <ClInclude Include="Objects\Player.h" />
     <ClInclude Include="Objects\Puck.h" />
     <ClInclude Include="Objects\Scene.h" />

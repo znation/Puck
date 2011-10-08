@@ -50,13 +50,6 @@ void Puck::move()
 	m_ellipse.point.y = m_position.y;
 }
 
-void Puck::adjustSpeed(double factor)
-{
-	b2Vec2 velocity = m_circleBody->GetLinearVelocity();
-	velocity *= factor;
-	m_circleBody->SetLinearVelocity(velocity);
-}
-
 void Puck::applyConstraints()
 {
 	b2Vec2 velocity = m_circleBody->GetLinearVelocity();
@@ -68,25 +61,3 @@ void Puck::applyConstraints()
 	}
 }
 
-void Puck::detectCollisions()
-{
-	b2ContactEdge *contactNode = m_circleBody->GetContactList();
-	while (contactNode != nullptr)
-	{
-		b2Contact *contact = contactNode->contact;
-
-		b2Fixture *otherShape = (contact->GetFixtureA()->GetBody() == m_circleBody) ? 
-			contact->GetFixtureB() :
-			contact->GetFixtureA();
-
-		b2Body *otherBody = otherShape->GetBody();
-
-		if (otherBody->GetUserData() != nullptr &&
-			((b2UserData*)(otherBody->GetUserData()))->type == b2UserData_Edge)
-		{
-			adjustSpeed(0.9);
-		}
-
-		contactNode = contactNode->next;
-	}
-}

@@ -138,7 +138,13 @@ void Scene::applyConstraints()
 
 void Scene::detectCollisions()
 {
-	m_puck->detectCollisions();
+	for (int i=0; i<2; i++)
+	{
+		if (m_players[i] != nullptr)
+		{
+			m_players[i]->detectCollisions();
+		}
+	}
 }
 
 void Scene::onMouseMoved(b2Vec2 p)
