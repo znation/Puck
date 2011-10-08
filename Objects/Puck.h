@@ -11,11 +11,16 @@ class Puck
 public:
 	Puck(b2Vec2 viewportSize, ComPtr<ID2D1DeviceContext> ctx, b2World *world);
 	void applyConstraints();
-	void draw(ComPtr<ID2D1DeviceContext> ctx);
+	void draw();
 	void move();
+	void reset();
+
 private:
+	b2World *m_world;
+	b2Vec2 m_viewportSize;
 	void adjustSpeed(double factor);
 	D2D1_ELLIPSE m_ellipse;
+	ComPtr<ID2D1DeviceContext> m_ctx;
 	ComPtr<ID2D1SolidColorBrush> m_brush;
 	b2Vec2 m_position;
 	int m_radius;

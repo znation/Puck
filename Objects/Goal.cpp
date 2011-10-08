@@ -6,8 +6,15 @@
 Goal::Goal(b2Vec2 sceneSize,
 		   b2Vec2 scenePosition,
 		   int playerIdx,
-		   ComPtr<ID2D1DeviceContext> ctx, b2World *world)
+		   ComPtr<ID2D1DeviceContext> ctx,
+		   b2World *world,
+		   Scene *scene,
+		   Score *score)
 {
+	m_ctx = ctx;
+	m_scene = scene;
+	m_score = score;
+	m_playerIdx = playerIdx;
 	m_size = b2Vec2(16.0, sceneSize.y / 8);
 	m_position = b2Vec2(playerIdx == 0 ? scenePosition.x - (m_size.x / 2.0) : 
 		scenePosition.x + sceneSize.x - (m_size.x / 2.0),
@@ -37,9 +44,9 @@ Goal::Goal(b2Vec2 sceneSize,
 	m_goalBody->SetUserData(new b2UserData(b2UserData_Goal, nullptr));
 }
 
-void Goal::draw(ComPtr<ID2D1DeviceContext> ctx)
+void Goal::draw()
 {
-	ctx->FillRectangle(
+	m_ctx->FillRectangle(
 		&m_rect,
 		m_brush.Get());
 }
@@ -61,7 +68,20 @@ void Goal::detectCollisions()
 		{
 			if (((b2UserData*)(otherBody->GetUserData()))->type == b2UserData_Puck)
 			{
-				//assert(false);
+
+				// TODO -- BUGBUG this should be the other player's score
+				m_score->increment();
+				
+				int score = m_score->getScore();
+				if (score == MAX_SCORE)
+				{
+					m_scene->win(m_playerIdx);
+				}
+				else
+				{
+					m_scene->reset();
+				}
+				return;
 			}
 		}
 

@@ -5,25 +5,41 @@
 
 Puck::Puck(b2Vec2 viewportSize, ComPtr<ID2D1DeviceContext> ctx, b2World *world)
 {
+	m_world = world;
+	m_viewportSize = viewportSize;
+	m_ctx = ctx;
 	m_radius = 20;
-	m_position = b2Vec2(viewportSize.x/2.0, viewportSize.y/2.0);
 	m_maxSpeed = 3.0;
-
-	m_ellipse.point.x = m_position.x;
-	m_ellipse.point.y = m_position.y;
 	m_ellipse.radiusX = m_radius;
 	m_ellipse.radiusY = m_radius;
+	m_circleBody = nullptr;
 
 	DX::ThrowIfFailed(ctx->CreateSolidColorBrush(
 		D2D1::ColorF(D2D1::ColorF::Cyan),
 		&m_brush));
+
+	// Set initial position
+	reset();
+}
+
+void Puck::reset()
+{
+	m_position = b2Vec2(m_viewportSize.x/2.0, m_viewportSize.y/2.0);
+	m_ellipse.point.x = m_position.x;
+	m_ellipse.point.y = m_position.y;
+	
+	if (m_circleBody != nullptr)
+	{
+		m_world->DestroyBody(m_circleBody);
+		m_circleBody = nullptr;
+	}
 
 	b2BodyDef circleBd;
 	circleBd.position.Set(pixelToBox(m_position.x), pixelToBox(m_position.y));
 	circleBd.type = b2_dynamicBody;
 	circleBd.fixedRotation = true; // TODO -- try setting this to false
 	circleBd.bullet = true;
-	m_circleBody = world->CreateBody(&circleBd);
+	m_circleBody = m_world->CreateBody(&circleBd);
 	m_circleBody->SetUserData(new b2UserData(b2UserData_Puck, nullptr));
 	b2CircleShape circleSd;
 	circleSd.m_type = b2Shape::Type::e_circle;
@@ -36,9 +52,9 @@ Puck::Puck(b2Vec2 viewportSize, ComPtr<ID2D1DeviceContext> ctx, b2World *world)
 	m_circleBody->CreateFixture(&circleF);
 }
 
-void Puck::draw(ComPtr<ID2D1DeviceContext> ctx)
+void Puck::draw()
 {
-	ctx->FillEllipse(&m_ellipse,
+	m_ctx->FillEllipse(&m_ellipse,
 		*(&m_brush));
 }
 

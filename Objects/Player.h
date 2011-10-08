@@ -4,10 +4,14 @@
 #include "Stick.h"
 #include "Goal.h"
 #include "Score.h"
+#include <dwrite_1.h>
 
 #pragma once
 
 using namespace Microsoft::WRL;
+
+// forward declaration to prevent circular dependency
+class Scene;
 
 class Player
 {
@@ -18,17 +22,23 @@ public:
 		int playerIdx,
 		b2World *world,
 		b2Body *groundBody,
-		ComPtr<IDWriteFactory1> dwriteFactory);
-	void draw(ComPtr<ID2D1DeviceContext> ctx);
+		ComPtr<IDWriteFactory1> dwriteFactory,
+		Scene *scene);
+	void draw();
 	Stick *m_stick;
 	bool containsPoint(b2Vec2 p);
 	void detectCollisions();
+	void showWinnerText();
+	void reset();
 
 private:
+	ComPtr<ID2D1DeviceContext> m_ctx;
+	bool m_winner;
 	int m_playerIdx;
 	b2Vec2 m_size;
 	b2Vec2 m_position;
 	ComPtr<ID2D1SolidColorBrush> m_brush;
+	ComPtr<IDWriteTextFormat> m_format;
 	D2D1_ROUNDED_RECT m_rect;
 	Goal *m_goal;
 	Score *m_score;

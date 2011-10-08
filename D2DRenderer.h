@@ -17,6 +17,7 @@ using namespace Microsoft::WRL;
 
 double pixelToBox(int coord);
 int boxToPixel(double coord);
+#define MAX_SCORE 11
 
 ref class D2DRenderer : public DirectXBase
 {

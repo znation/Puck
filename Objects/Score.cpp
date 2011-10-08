@@ -32,9 +32,6 @@ Score::Score(b2Vec2 playerSize, b2Vec2 playerPosition, int playerIdx, ComPtr<ID2
 		m_format->SetTextAlignment(m_playerIdx == 0 ? DWRITE_TEXT_ALIGNMENT_TRAILING : DWRITE_TEXT_ALIGNMENT_LEADING)
 		);
 
-	DX::ThrowIfFailed(
-		m_format->SetParagraphAlignment(DWRITE_PARAGRAPH_ALIGNMENT_NEAR));
-
 	DX::ThrowIfFailed(ctx->CreateSolidColorBrush(
 		D2D1::ColorF(D2D1::ColorF::GhostWhite),
 		&m_brush));
@@ -51,6 +48,11 @@ void Score::setScore(int score)
 	mbstowcs_s(&m_scoreTextLength, m_scoreText, strlen(buf)+1, buf, _TRUNCATE);
 }
 
+int Score::getScore()
+{
+	return m_score;
+}
+
 void Score::increment()
 {
 	setScore(m_score+1);
@@ -58,7 +60,6 @@ void Score::increment()
 
 void Score::draw()
 {
-	
 	m_ctx->DrawText(
 		m_scoreText,
 		m_scoreTextLength,

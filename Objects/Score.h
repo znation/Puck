@@ -13,6 +13,8 @@ public:
 	Score(b2Vec2 playerSize, b2Vec2 playerPosition, int playerIdx, ComPtr<ID2D1DeviceContext> ctx, ComPtr<IDWriteFactory1> dwriteFactory);
 	void draw();
 	void increment();
+	int getScore();
+
 private:
 	int m_playerIdx;
 	ComPtr<IDWriteTextFormat> m_format;

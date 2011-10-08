@@ -13,13 +13,19 @@ class Scene
 public:
 	Scene(b2Vec2 viewportSize, ComPtr<ID2D1DeviceContext> ctx, b2World *world, ComPtr<IDWriteFactory1> dwriteFactory);
 	void move();
-	void draw(ComPtr<ID2D1DeviceContext> ctx);
+	void draw();
 	void applyConstraints();
 	void detectCollisions();
 	void onMouseMoved(b2Vec2 p);
+	void win(int playerIdx);
+	void reset();
 
 private:
-	void drawGrid(ComPtr<ID2D1DeviceContext> ctx);
+	void drawGrid();
+	void drawRoundTimer();
+	void beginRound();
+
+	ComPtr<ID2D1DeviceContext> m_ctx;
 	b2Vec2 m_size;
 	b2Vec2 m_position;
 	ComPtr<ID2D1SolidColorBrush> m_brush;
@@ -29,7 +35,13 @@ private:
 	Puck *m_puck;
 	D2D1_RECT_F m_groundBoxRect;
 	b2Body *m_groundBoxBody;
-
+	bool m_gameOver;
+	bool m_frozen;
+	ULONGLONG m_beginTime;
+	ComPtr<IDWriteTextFormat> m_roundTimerTextFormat;
+	D2D1_RECT_F m_roundTimerRect;
+	ComPtr<ID2D1SolidColorBrush> m_roundTimerRectBrush;
+	
 	class Edge
 	{
 	public:

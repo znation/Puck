@@ -5,7 +5,7 @@
 Stick::Stick(b2Vec2 playerSize, b2Vec2 playerPosition, b2World *world, b2Body *groundBody)
 {
 	m_radius = 32;
-	m_position = b2Vec2(playerPosition.x + (playerSize.x/2.0f),
+	m_startingPosition = m_position = b2Vec2(playerPosition.x + (playerSize.x/2.0f),
 		playerPosition.y + (playerSize.y/2.0f));
 	m_nextPosition = m_position;
 
@@ -42,6 +42,11 @@ Stick::Stick(b2Vec2 playerSize, b2Vec2 playerPosition, b2World *world, b2Body *g
 	mousedef.frequencyHz = 100;
 	mousedef.dampingRatio = 0;
 	m_boxMouseJoint = (b2MouseJoint*) world->CreateJoint(&mousedef);
+}
+
+void Stick::reset()
+{
+	updatePosition(m_startingPosition.x, m_startingPosition.y);
 }
 
 void Stick::updateEllipse()

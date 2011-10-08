@@ -134,7 +134,7 @@ void D2DRenderer::Render()
 	world->Step(1.0 / 60.0, 8, 3);
 	scene->detectCollisions();
 	scene->move();
-	scene->draw(m_d2dContext);
+	scene->draw();
 
 	RenderFPS(renderTargetSize);
 
