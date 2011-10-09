@@ -14,7 +14,7 @@ Goal::Goal(b2Vec2 sceneSize,
 	m_ctx = ctx;
 	m_scene = scene;
 	m_playerIdx = playerIdx;
-	m_size = b2Vec2(16.0, sceneSize.y / 8);
+	m_size = b2Vec2(16.0, sceneSize.y / 4);
 	m_position = b2Vec2(playerIdx == 0 ? scenePosition.x - (m_size.x / 2.0) : 
 		scenePosition.x + sceneSize.x - (m_size.x / 2.0),
 		scenePosition.y + ((sceneSize.y / 2) - (m_size.y / 2.0)));
