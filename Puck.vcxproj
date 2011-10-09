@@ -416,10 +416,10 @@
     <ClInclude Include="View.h" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="logo.png" />
-    <Image Include="smalllogo.png" />
-    <Image Include="splashscreen.png" />
-    <Image Include="storelogo.png" />
+    <Image Include="Images\logo.png" />
+    <Image Include="Images\smalllogo.png" />
+    <Image Include="Images\splashscreen.png" />
+    <Image Include="Images\storelogo.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

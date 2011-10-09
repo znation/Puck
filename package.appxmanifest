@@ -1,39 +1,24 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/2010/manifest">
-  
-  <Identity Name="15180b81-251e-4d88-bd67-1e6d12b6a7e9"
-            Publisher="CN=zanation"
-            Version="1.0.0.0" />
-  
+  <Identity Name="15180b81-251e-4d88-bd67-1e6d12b6a7e9" Publisher="CN=zanation" Version="1.0.0.0" />
   <Properties>
     <DisplayName>Puck</DisplayName>
     <PublisherDisplayName>zanation</PublisherDisplayName>
-    <Logo>StoreLogo.png</Logo>
+    <Logo>Images\storelogo.png</Logo>
     <Description>Puck</Description>
   </Properties>
-  
   <Prerequisites>
     <OSMinVersion>6.2</OSMinVersion>
     <OSMaxVersionTested>6.2</OSMaxVersionTested>
   </Prerequisites>
-  
   <Resources>
-    <Resource Language="en-us"/>
+    <Resource Language="en-us" />
   </Resources>
-  
   <Applications>
-    <Application Id="App" 
-        Executable="puck.exe" 
-        EntryPoint="Puck.App">
-        <VisualElements 
-            DisplayName="Puck"
-            Logo="Logo.png"
-            SmallLogo="SmallLogo.png"
-            Description="Puck"
-            ForegroundText="light"
-            BackgroundColor="#222222">
-            <SplashScreen Image="SplashScreen.png" />
-        </VisualElements>
+    <Application Id="App" Executable="puck.exe" EntryPoint="Puck.App">
+      <VisualElements DisplayName="Puck" Logo="Images\logo.png" SmallLogo="Images\smalllogo.png" Description="Puck" ForegroundText="light" BackgroundColor="#222222" InitialRotationPreference="portrait">
+        <SplashScreen Image="Images\splashscreen.png" />
+      </VisualElements>
     </Application>
   </Applications>
   <Capabilities>

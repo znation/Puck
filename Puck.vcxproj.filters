@@ -135,16 +135,16 @@
     <ClInclude Include="Utility.h" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="logo.png">
+    <Image Include="Images\logo.png">
       <Filter>Resources</Filter>
     </Image>
-    <Image Include="smalllogo.png">
+    <Image Include="Images\smalllogo.png">
       <Filter>Resources</Filter>
     </Image>
-    <Image Include="splashscreen.png">
+    <Image Include="Images\splashscreen.png">
       <Filter>Resources</Filter>
     </Image>
-    <Image Include="storelogo.png">
+    <Image Include="Images\storelogo.png">
       <Filter>Resources</Filter>
     </Image>
   </ItemGroup>
