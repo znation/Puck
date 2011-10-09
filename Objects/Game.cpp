@@ -7,6 +7,7 @@ Game::Game(b2Vec2 viewportSize, ComPtr<ID2D1DeviceContext> ctx, ComPtr<IDWriteFa
 	m_dwriteFactory = dwriteFactory;
 	m_menu = new GameMenu(viewportSize, this, ctx, dwriteFactory);
 	m_scene = nullptr;
+	m_world = nullptr;
 }
 
 void Game::Begin()
@@ -33,15 +34,15 @@ void Game::Begin()
 
 void Game::Draw()
 {
-	if (!m_showMenu)
-	{
-		m_scene->applyConstraints();
-		m_world->Step(1.0 / 60.0, 8, 3);
-		m_scene->detectCollisions();
-		m_scene->move();
-	}
 	if (m_scene != nullptr)
 	{
+		if (!m_showMenu)
+		{
+			m_scene->applyConstraints();
+			m_world->Step(1.0 / 60.0, 8, 3);
+			m_scene->detectCollisions();
+			m_scene->move();
+		}
 		m_scene->draw();
 	}
 	if (m_showMenu)
@@ -52,7 +53,7 @@ void Game::Draw()
 
 void Game::OnMouseMove(b2Vec2 p)
 {
-	if (!m_showMenu)
+	if (!m_showMenu && m_scene != nullptr)
 	{
 		m_scene->onMouseMoved(p);
 	}
@@ -60,8 +61,15 @@ void Game::OnMouseMove(b2Vec2 p)
 
 void Game::OnMouseDown(Windows::UI::Core::PointerEventArgs^ args)
 {
-	if (m_showMenu)
+	if (args->CurrentPoint->Properties->IsRightButtonPressed)
 	{
-		m_menu->OnMouseDown(args);
+		m_showMenu = !m_showMenu;
+	}
+	else if (args->CurrentPoint->Properties->IsLeftButtonPressed)
+	{
+		if (m_showMenu)
+		{
+			m_menu->OnMouseDown(args);
+		}
 	}
 }

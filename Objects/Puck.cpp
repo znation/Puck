@@ -1,6 +1,6 @@
 #include "Puck.h"
 #include "DirectXSample.h"
-#include "D2DRenderer.h"
+#include "Utility.h"
 #include "b2UserData.h"
 
 Puck::Puck(b2Vec2 viewportSize, ComPtr<ID2D1DeviceContext> ctx, b2World *world)

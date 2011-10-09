@@ -349,6 +349,7 @@
     <ClCompile Include="Objects\Scene.cpp" />
     <ClCompile Include="Objects\Score.cpp" />
     <ClCompile Include="Objects\Stick.cpp" />
+    <ClCompile Include="Utility.cpp" />
     <ClCompile Include="View.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -411,6 +412,7 @@
     <ClInclude Include="Objects\Scene.h" />
     <ClInclude Include="Objects\Score.h" />
     <ClInclude Include="Objects\Stick.h" />
+    <ClInclude Include="Utility.h" />
     <ClInclude Include="View.h" />
   </ItemGroup>
   <ItemGroup>

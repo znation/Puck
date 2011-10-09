@@ -1,7 +1,8 @@
 #include "Goal.h"
 #include "DirectXSample.h"
 #include "b2UserData.h"
-#include "D2DRenderer.h"
+#include "Utility.h"
+#include "Scene.h"
 
 Goal::Goal(b2Vec2 sceneSize,
 		   b2Vec2 scenePosition,

@@ -1,5 +1,7 @@
 #include "GameMenu.h"
 #include "DirectXSample.h"
+#include "Game.h"
+#include "Utility.h"
 
 GameMenu::GameMenu(b2Vec2 viewportSize, Game *game, ComPtr<ID2D1DeviceContext> ctx, ComPtr<IDWriteFactory1> dwriteFactory)
 {
@@ -70,5 +72,10 @@ void GameMenu::Draw()
 
 void GameMenu::OnMouseDown(Windows::UI::Core::PointerEventArgs^ args)
 {
-
+	Windows::Foundation::Point pp = args->CurrentPoint->Position;
+	b2Vec2 p = b2Vec2(pp.X, pp.Y);
+	if (rectContainsPoint(m_buttonRect, p))
+	{
+		m_game->Begin();
+	}
 }

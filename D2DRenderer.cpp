@@ -14,19 +14,6 @@ using namespace Microsoft::WRL;
 using namespace Windows::Foundation;
 using namespace Windows::UI::Core;
 
-double scalingFactor = 200.0;
-double frameRate = 60.0;
-
-int boxToPixel(double coord)
-{
-	return (int)(coord * scalingFactor);
-}
-
-double pixelToBox(int coord)
-{
-	return ((double)coord) / scalingFactor;
-}
-
 D2DRenderer::D2DRenderer()
 {
 	DX::ThrowIfFailed(

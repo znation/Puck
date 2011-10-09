@@ -1,6 +1,6 @@
 #include "Scene.h"
 #include "DirectXSample.h"
-#include "D2DRenderer.h"
+#include "Utility.h"
 #include "b2UserData.h"
 
 using namespace Microsoft::WRL;

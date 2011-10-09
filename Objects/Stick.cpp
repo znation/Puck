@@ -1,5 +1,5 @@
 #include "Stick.h"
-#include "D2DRenderer.h"
+#include "Utility.h"
 #include "b2UserData.h"
 
 Stick::Stick(b2Vec2 playerSize, b2Vec2 playerPosition, b2World *world, b2Body *groundBody)

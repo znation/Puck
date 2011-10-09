@@ -1,6 +1,7 @@
 #include "Player.h"
 #include "DirectXSample.h"
-#include "D2DRenderer.h"
+#include "Utility.h"
+#include "Scene.h"
 
 Player::Player(b2Vec2 sceneSize,
 		b2Vec2 scenePosition,
@@ -58,6 +59,11 @@ void Player::reset()
 	m_stick->reset();
 }
 
+bool Player::containsPoint(b2Vec2 p)
+{
+	return rectContainsPoint(m_rect.rect, p);
+}
+
 void Player::scoreGoal()
 {
 	m_score->increment();
@@ -93,14 +99,6 @@ void Player::draw()
 		&(m_rect.rect),
 		m_brush.Get());
 	}
-}
-
-bool Player::containsPoint(b2Vec2 p)
-{
-	return (p.x >= m_rect.rect.left &&
-		p.x <= m_rect.rect.right &&
-		p.y >= m_rect.rect.top &&
-		p.y <= m_rect.rect.bottom);
 }
 
 void Player::detectCollisions()
