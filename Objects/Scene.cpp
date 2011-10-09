@@ -37,22 +37,15 @@ Scene::Scene(b2Vec2 viewportSize, ComPtr<ID2D1DeviceContext> ctx, b2World *world
 		dwriteFactory->CreateTextFormat(
 		L"Segoe UI",
 		nullptr,
-		DWRITE_FONT_WEIGHT_NORMAL,
+		DWRITE_FONT_WEIGHT_EXTRA_BOLD,
 		DWRITE_FONT_STYLE_NORMAL,
 		DWRITE_FONT_STRETCH_NORMAL,
-		64.0f,
+		128.0f,
 		L"en-US",
 		&m_roundTimerTextFormat));
 
 	DX::ThrowIfFailed(m_roundTimerTextFormat->SetTextAlignment(DWRITE_TEXT_ALIGNMENT_CENTER));
 	DX::ThrowIfFailed(m_roundTimerTextFormat->SetParagraphAlignment(DWRITE_PARAGRAPH_ALIGNMENT_CENTER));
-
-	DX::ThrowIfFailed(ctx->CreateSolidColorBrush(
-		D2D1::ColorF(D2D1::ColorF(0.0784313725490196f,
-		0.0784313725490196f,
-		0.0784313725490196f,
-		0.8f)),
-		&m_roundTimerRectBrush));
 
 	m_rect.rect.top = m_position.y;
 	m_rect.rect.left = m_position.x;
@@ -60,13 +53,6 @@ Scene::Scene(b2Vec2 viewportSize, ComPtr<ID2D1DeviceContext> ctx, b2World *world
 	m_rect.rect.right = m_position.x + m_size.x;
 	m_rect.radiusX = 10;
 	m_rect.radiusY = 10;
-
-	int roundTimerRectWidth = 200;
-	int roundTimerRectHeight = 120;
-	m_roundTimerRect.top = m_position.y + (m_size.y / 2.0) - (roundTimerRectHeight / 2.0);
-	m_roundTimerRect.bottom = m_position.y + (m_size.y / 2.0) + (roundTimerRectHeight / 2.0);
-	m_roundTimerRect.left = m_position.x + (m_size.x / 2.0) - (roundTimerRectWidth / 2.0);
-	m_roundTimerRect.right = m_position.x + (m_size.x / 2.0) - (roundTimerRectWidth / 2.0);
 
 	// Construct a border box to keep everything inside
 	b2Vec2 horizontalEdgeSize = b2Vec2(m_size.x / 2.0, m_position.y / 2.0);
@@ -130,48 +116,47 @@ void Scene::beginRound()
 	m_beginTime = GetTickCount64();
 }
 
-void Scene::drawRoundTimer()
+bool Scene::drawRoundTimer()
 {
-	if (m_frozen && !m_gameOver)
+	if (!m_frozen || m_gameOver)
 	{
-		ULONGLONG currentTime = GetTickCount64();
-		ULONGLONG diffSeconds = (currentTime - m_beginTime) / 1000;
-		const wchar_t *timerText;
-		size_t timerTextLength;
-		switch (diffSeconds)
-		{
-		case 0:
-			timerText = L"3";
-			timerTextLength = 1;
-			break;
-		case 1:
-			timerText = L"2";
-			timerTextLength = 1;
-			break;
-		case 2:
-			timerText = L"1";
-			timerTextLength = 1;
-			break;
-		case 3:
-			timerText = L"GO!";
-			timerTextLength = 3;
-			break;
-		default: // 4 or more seconds
-			m_frozen = false;
-			return;
-		}
-
-		m_ctx->FillRectangle(
-			m_roundTimerRect,
-			m_roundTimerRectBrush.Get());
-
-		m_ctx->DrawText(
-			timerText,
-			timerTextLength,
-			m_roundTimerTextFormat.Get(),
-			&(m_rect.rect),
-			m_brush.Get());
+		return false;
 	}
+
+	ULONGLONG currentTime = GetTickCount64();
+	ULONGLONG diffSeconds = (currentTime - m_beginTime) / 1000;
+	const wchar_t *timerText;
+	size_t timerTextLength;
+	switch (diffSeconds)
+	{
+	case 0:
+		timerText = L"3";
+		timerTextLength = 1;
+		break;
+	case 1:
+		timerText = L"2";
+		timerTextLength = 1;
+		break;
+	case 2:
+		timerText = L"1";
+		timerTextLength = 1;
+		break;
+	case 3:
+		timerText = L"GO!";
+		timerTextLength = 3;
+		break;
+	default: // 4 or more seconds
+		m_frozen = false;
+		return false;
+	}
+
+	m_ctx->DrawText(
+		timerText,
+		timerTextLength,
+		m_roundTimerTextFormat.Get(),
+		&(m_rect.rect),
+		m_brush.Get());
+	return true;
 }
 
 void Scene::drawGrid()
@@ -226,9 +211,10 @@ void Scene::draw()
 		m_players[i]->draw();
 	}
 
-	m_puck->draw();
-
-	drawRoundTimer();
+	if (!drawRoundTimer())
+	{
+		m_puck->draw();
+	}
 }
 
 void Scene::move()

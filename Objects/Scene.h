@@ -23,7 +23,7 @@ public:
 
 private:
 	void drawGrid();
-	void drawRoundTimer();
+	bool drawRoundTimer();
 	void beginRound();
 
 	ComPtr<ID2D1DeviceContext> m_ctx;
@@ -40,8 +40,6 @@ private:
 	bool m_frozen;
 	ULONGLONG m_beginTime;
 	ComPtr<IDWriteTextFormat> m_roundTimerTextFormat;
-	D2D1_RECT_F m_roundTimerRect;
-	ComPtr<ID2D1SolidColorBrush> m_roundTimerRectBrush;
 	
 	class Edge
 	{
