@@ -74,7 +74,7 @@ void D2DRenderer::RenderFPS(D2D1_SIZE_F)
 	}
 
 	DX::ThrowIfFailed(
-		m_d2dContext->CreateSolidColorBrush(D2D1::ColorF(D2D1::ColorF::White), &m_whiteBrush)
+		m_d2dContext->CreateSolidColorBrush(D2D1::ColorF(1.0, 1.0, 1.0, 0.5), &m_whiteBrush)
 		);
 
 	D2D1_RECT_F layoutRect;
