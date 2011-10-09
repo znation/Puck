@@ -49,6 +49,8 @@ void View::Run()
 {
     m_window->Activate();
 
+	//Audio^ a = Audio.FromFile("sound\pucktheme.mp3", true);
+
     while (true)
     {
         m_window->Dispatcher->ProcessEvents(CoreProcessEventsOption::ProcessAllIfPresent);

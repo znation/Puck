@@ -1,0 +1,9 @@
+TODO:
+
+- play sound
+- make score appear at top
+- use new graphics for:
+	- scene border
+	- player border?
+	- other things?
+- fix memory leaks
