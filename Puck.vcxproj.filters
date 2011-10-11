@@ -70,6 +70,7 @@
     <ClCompile Include="Objects\Game.cpp" />
     <ClCompile Include="Objects\GameMenu.cpp" />
     <ClCompile Include="Utility.cpp" />
+    <ClCompile Include="ThemeMusic.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="View.h" />
@@ -133,6 +134,7 @@
     <ClInclude Include="Objects\Game.h" />
     <ClInclude Include="Objects\GameMenu.h" />
     <ClInclude Include="Utility.h" />
+    <ClInclude Include="ThemeMusic.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Images\logo.png">

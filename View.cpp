@@ -6,6 +6,7 @@
 //// Copyright (c) Microsoft Corporation. All rights reserved
 
 #include "View.h"
+#include "ThemeMusic.h"
 
 using namespace Windows::ApplicationModel::Core;
 using namespace Windows::ApplicationModel::Activation;
@@ -43,13 +44,13 @@ void View::Initialize(
 
     m_renderer = ref new D2DRenderer();
     m_renderer->Initialize(m_window, m_dpi);
+
+	ThemeMusic::Play(m_window);
 }
 
 void View::Run()
 {
     m_window->Activate();
-
-	//Audio^ a = Audio.FromFile("sound\pucktheme.mp3", true);
 
     while (true)
     {
