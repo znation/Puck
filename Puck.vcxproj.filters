@@ -150,4 +150,7 @@
       <Filter>Resources</Filter>
     </Image>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Sound\pucktheme.mp3" />
+  </ItemGroup>
 </Project>

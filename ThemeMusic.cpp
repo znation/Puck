@@ -92,13 +92,60 @@ ThemeMusic::ThemeMusic(Windows::UI::Core::CoreWindow^ window)
 		&m_spEngine
 		));
 
-	DX::ThrowIfFailed(m_spEngine->SetSource(L"Sound\\PuckTheme.mp3"));
+	DX::ThrowIfFailed(m_spEngine.Get()->QueryInterface(__uuidof(IMFMediaEngine), (void**) &m_spEngineEx));	
+
+	//DX::ThrowIfFailed(m_spEngine->SetSource(L"Sound\\PuckTheme.mp3"));
+	SetFile();
+}
+
+void ThemeMusic::SetFile()
+{
+	auto themeMusic = this;
+
+	StorageFolder^ folder = Windows::ApplicationModel::Package::Current->InstalledLocation;
+	StorageFileRetrievalOperation^ op = folder->GetFileAsync("Sound\\PuckTheme.mp3");
+	op->Completed = ref new AsyncOperationCompletedHandler<StorageFile^>([themeMusic](IAsyncOperation<StorageFile^>^ fileOp)
+	{
+		StorageFile^ fileHandle = fileOp->GetResults();
+		if (!fileHandle)
+		{
+			DX::ThrowIfFailed(E_OUTOFMEMORY);
+		}
+
+		auto fOpenStream = fileHandle->OpenAsync(Windows::Storage::FileAccessMode::Read);
+		if(!fOpenStream)
+		{
+			DX::ThrowIfFailed(E_OUTOFMEMORY);
+		}
+		
+		themeMusic->SetURL(fileHandle->Path);
+
+		fOpenStream->Completed = ref new AsyncOperationCompletedHandler<IRandomAccessStream^>(
+			[themeMusic](IAsyncOperation<IRandomAccessStream^>^ asyncRead)
+		{
+			auto streamHandle = asyncRead->GetResults();
+			themeMusic->SetBytestream(streamHandle);			
+		});
+		
+		if(!fOpenStream->Completed)
+		{
+			DX::ThrowIfFailed(E_UNEXPECTED);
+		}
+
+		fOpenStream->Start();
+	});
+
+	op->Start();
 }
 
 void ThemeMusic::OnMediaEngineEvent(DWORD meEvent)
 {
 	switch (meEvent)
 	{
+	case MF_MEDIA_ENGINE_EVENT_LOADSTART:
+		break;
+	case MF_MEDIA_ENGINE_EVENT_LOADEDDATA:
+		break;
 	case MF_MEDIA_ENGINE_EVENT_LOADEDMETADATA:
 		break;
 	case MF_MEDIA_ENGINE_EVENT_CANPLAY:
@@ -116,4 +163,33 @@ void ThemeMusic::OnMediaEngineEvent(DWORD meEvent)
 		DX::ThrowIfFailed(E_ABORT);
 		break;    
 	}
+}
+
+void ThemeMusic::SetBytestream(IRandomAccessStream^ streamHandle)
+{
+	HRESULT hr = S_OK;
+	ComPtr<IMFByteStream> spMFByteStream = NULL;	
+	
+	DX::ThrowIfFailed(MFCreateMFByteStreamOnStreamEx((IUnknown*)streamHandle, &spMFByteStream));
+
+	DX::ThrowIfFailed(m_spEngineEx->SetSourceFromByteStream(spMFByteStream.Get(), m_bstrURL));	
+	
+    return;
+}
+
+void ThemeMusic::SetURL(Platform::String^ szURL)
+{
+	if(NULL != m_bstrURL)
+	{
+		SysFreeString(m_bstrURL);
+		m_bstrURL = NULL;
+	}
+
+	m_bstrURL = SysAllocString(szURL->Data());
+    if (m_bstrURL == 0)
+    {
+        DX::ThrowIfFailed(E_OUTOFMEMORY);
+    }
+
+	return;
 }
