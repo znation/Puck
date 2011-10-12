@@ -1,6 +1,5 @@
 TODO:
 
-- play sound
 - make score appear at top
 - make menu button at top
 - use new graphics for:

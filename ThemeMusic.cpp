@@ -94,7 +94,9 @@ ThemeMusic::ThemeMusic(Windows::UI::Core::CoreWindow^ window)
 		&m_spEngine
 		));
 
-	DX::ThrowIfFailed(m_spEngine.Get()->QueryInterface(__uuidof(IMFMediaEngine), (void**) &m_spEngineEx));	
+	DX::ThrowIfFailed(m_spEngine.Get()->QueryInterface(__uuidof(IMFMediaEngine), (void**) &m_spEngineEx));
+
+	DX::ThrowIfFailed(m_spEngine->SetLoop(true));
 
 	//DX::ThrowIfFailed(m_spEngine->SetSource(L"Sound\\PuckTheme.mp3"));
 	SetFile();
@@ -151,9 +153,7 @@ void ThemeMusic::OnMediaEngineEvent(DWORD meEvent)
 	case MF_MEDIA_ENGINE_EVENT_LOADEDMETADATA:
 		break;
 	case MF_MEDIA_ENGINE_EVENT_CANPLAY:
-		{
-			DX::ThrowIfFailed(m_spEngine->Play());
-		}
+		DX::ThrowIfFailed(m_spEngine->Play());
 		break;        
 	case MF_MEDIA_ENGINE_EVENT_PLAY:
 		break;				
