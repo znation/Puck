@@ -18,10 +18,14 @@ Scene::Scene(b2Vec2 viewportSize, ComPtr<ID2D1DeviceContext> ctx, b2World *world
 	m_gameOver = false;
 
 	m_ctx = ctx;
+
 	int padding = 16;
+	b2Vec2 topBarSize = b2Vec2(viewportSize.x - (2 * padding), 32);
+	b2Vec2 topBarPosition = b2Vec2(padding, padding);
+
 	m_size = b2Vec2(viewportSize.x - (2 * padding),
-		viewportSize.y - (2 * padding));
-	m_position = b2Vec2(padding, padding);
+		viewportSize.y - ((3 * padding) + topBarSize.y));
+	m_position = b2Vec2(padding, (2 * padding) + topBarPosition.y + topBarSize.y);
 
 	DX::ThrowIfFailed(ctx->CreateSolidColorBrush(
 		D2D1::ColorF(D2D1::ColorF::Cyan),
@@ -55,12 +59,12 @@ Scene::Scene(b2Vec2 viewportSize, ComPtr<ID2D1DeviceContext> ctx, b2World *world
 	m_rect.radiusY = 10;
 
 	// Construct a border box to keep everything inside
-	b2Vec2 horizontalEdgeSize = b2Vec2(m_size.x / 2.0, m_position.y / 2.0);
-	b2Vec2 verticalEdgeSize = b2Vec2(m_position.x / 2.0, m_size.y / 2.0);
-	Edge edges[] = {Edge(b2Vec2(m_position.x + (m_size.x / 2.0), (m_position.y / 2.0) + m_size.y), horizontalEdgeSize, "x"), // bottom
-		Edge(b2Vec2(m_position.x + (m_size.x / 2.0), m_position.y / 2.0), horizontalEdgeSize, "x"), // top
-		Edge(b2Vec2(m_position.x / 2.0, m_position.y + (m_size.y / 2.0)), verticalEdgeSize, "y"), // left
-		Edge(b2Vec2(m_size.x + (m_position.x / 2.0), m_position.y + (m_size.y / 2.0)), verticalEdgeSize, "y")}; // right
+	b2Vec2 horizontalEdgeSize = b2Vec2(m_size.x / 2.0, padding / 2.0);
+	b2Vec2 verticalEdgeSize = b2Vec2(padding / 2.0, m_size.y / 2.0);
+	Edge edges[] = {Edge(b2Vec2(m_position.x + (m_size.x / 2.0), m_position.y + m_size.y + (padding / 2.0)), horizontalEdgeSize, "x"), // bottom
+		Edge(b2Vec2(m_position.x + (m_size.x / 2.0), m_position.y - (padding / 2.0)), horizontalEdgeSize, "x"), // top
+		Edge(b2Vec2(padding / 2.0, m_position.y + (m_size.y / 2.0)), verticalEdgeSize, "y"), // left
+		Edge(b2Vec2(m_size.x + (padding / 2.0), m_position.y + (m_size.y / 2.0)), verticalEdgeSize, "y")}; // right
 
 	for (int i=0; i<4; i++)
 	{
@@ -83,6 +87,7 @@ Scene::Scene(b2Vec2 viewportSize, ComPtr<ID2D1DeviceContext> ctx, b2World *world
 	m_players[0] = new Player(m_size, m_position, ctx, 0, world, m_groundBoxBody, dwriteFactory, this);
 	m_players[1] = new Player(m_size, m_position, ctx, 1, world, m_groundBoxBody, dwriteFactory, this);
 	m_puck = new Puck(viewportSize, ctx, world);
+	m_topBar = new TopBar();
 
 	beginRound();
 }

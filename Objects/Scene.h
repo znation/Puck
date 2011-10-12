@@ -3,6 +3,7 @@
 #include "Box2D\Box2D.h"
 #include "Player.h"
 #include "Puck.h"
+#include "TopBar.h"
 
 #pragma once
 
@@ -34,6 +35,7 @@ private:
 	D2D1_ROUNDED_RECT m_rect;
 	Player *m_players[2];
 	Puck *m_puck;
+	TopBar *m_topBar;
 	D2D1_RECT_F m_groundBoxRect;
 	b2Body *m_groundBoxBody;
 	bool m_gameOver;

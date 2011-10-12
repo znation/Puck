@@ -31,7 +31,7 @@ D2DRenderer::D2DRenderer()
 		DWRITE_FONT_WEIGHT_NORMAL,
 		DWRITE_FONT_STYLE_NORMAL,
 		DWRITE_FONT_STRETCH_NORMAL,
-		64.0f,
+		32.0f,
 		L"en-US",
 		&m_textFormat));
 }
@@ -78,9 +78,9 @@ void D2DRenderer::RenderFPS(D2D1_SIZE_F)
 		);
 
 	D2D1_RECT_F layoutRect;
-	layoutRect.top = 60;
+	layoutRect.top = 150;
 	layoutRect.left = 60;
-	layoutRect.bottom = 250;
+	layoutRect.bottom = 400;
 	layoutRect.right = 400;
 
 	m_d2dContext->DrawText(
