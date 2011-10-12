@@ -432,7 +432,9 @@
     <Image Include="Images\storelogo.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Sound\pucktheme.mp3" />
+    <None Include="Sound\pucktheme.mp3">
+      <DeploymentContent>true</DeploymentContent>
+    </None>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

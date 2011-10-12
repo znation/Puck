@@ -64,6 +64,8 @@ public:
 
 ThemeMusic::ThemeMusic(Windows::UI::Core::CoreWindow^ window)
 {
+	m_bstrURL = NULL;
+
 	DX::ThrowIfFailed(
 		MFStartup(
 		MF_VERSION
