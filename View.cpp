@@ -45,7 +45,7 @@ void View::Initialize(
     m_renderer = ref new D2DRenderer();
     m_renderer->Initialize(m_window, m_dpi);
 
-	ThemeMusic::Play(m_window);
+	ThemeMusic *m = new ThemeMusic(window);
 }
 
 void View::Run()

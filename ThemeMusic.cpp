@@ -1,21 +1,21 @@
 #include "ThemeMusic.h"
-#include <Mfmediaengine.h>
-#include <Mfapi.h>
 #include "DirectXSample.h"
 
 // MediaEngineNotify: Implements the callback for Media Engine event notification.
 class MediaEngineNotify : public IMFMediaEngineNotify
 {
-    long m_cRef;
-    Windows::UI::Core::CoreWindow^ m_cWindow;
+private:
+	long m_cRef;
+	Windows::UI::Core::CoreWindow^ m_cWindow;
+	ThemeMusic *m_tM;
 
 public:
-    MediaEngineNotify(Windows::UI::Core::CoreWindow^ cWindow) : m_cWindow(cWindow), m_cRef(1)
-    {
-    }
+	MediaEngineNotify(Windows::UI::Core::CoreWindow^ cWindow, ThemeMusic *tM) : m_cWindow(cWindow), m_cRef(1), m_tM(tM)
+	{
+	}
 
-    STDMETHODIMP QueryInterface(REFIID riid, void** ppv)
-    {
+	STDMETHODIMP QueryInterface(REFIID riid, void** ppv)
+	{
 		if(__uuidof(IMFMediaEngineNotify) == riid)
 		{
 			*ppv = static_cast<IMFMediaEngineNotify*>(this);
@@ -29,75 +29,91 @@ public:
 		AddRef();
 
 		return S_OK;
-    }      
+	}      
 
-    STDMETHODIMP_(ULONG) AddRef()
-    {
-        return InterlockedIncrement(&m_cRef);
-    }
+	STDMETHODIMP_(ULONG) AddRef()
+	{
+		return InterlockedIncrement(&m_cRef);
+	}
 
-    STDMETHODIMP_(ULONG) Release()
-    {
-        LONG cRef = InterlockedDecrement(&m_cRef);
-        if (cRef == 0)
-        {
-            delete this;
-        }
-        return cRef;
-    }
+	STDMETHODIMP_(ULONG) Release()
+	{
+		LONG cRef = InterlockedDecrement(&m_cRef);
+		if (cRef == 0)
+		{
+			delete this;
+		}
+		return cRef;
+	}
 
-    // EventNotify is called when the Media Engine sends an event.
-    STDMETHODIMP EventNotify(DWORD meEvent, DWORD_PTR param1, DWORD param2)
-    {
-        if (meEvent == MF_MEDIA_ENGINE_EVENT_NOTIFYSTABLESTATE)
-        {
-            SetEvent(reinterpret_cast<HANDLE>(param1));			
-        }
+	// EventNotify is called when the Media Engine sends an event.
+	STDMETHODIMP EventNotify(DWORD meEvent, DWORD_PTR param1, DWORD param2)
+	{
+		if (meEvent == MF_MEDIA_ENGINE_EVENT_NOTIFYSTABLESTATE)
+		{
+			SetEvent(reinterpret_cast<HANDLE>(param1));			
+		}
 		else
 		{
-			// TODO event here
-			//m_pCB->OnMediaEngineEvent(meEvent);			
+			m_tM->OnMediaEngineEvent(meEvent);
 		}
 
 		return S_OK;
-    }
+	}
 };
 
-void ThemeMusic::Play(Windows::UI::Core::CoreWindow^ window)
+ThemeMusic::ThemeMusic(Windows::UI::Core::CoreWindow^ window)
 {
-	// TODO throw if these fail
-
-	ComPtr<IMFMediaEngineClassFactory> spFactory;
-	ComPtr<IMFAttributes> spAttributes;
-	ComPtr<IMFMediaEngine> ppPlayer;
-	ComPtr<MediaEngineNotify> spNotify;
-
 	DX::ThrowIfFailed(
 		MFStartup(
 		MF_VERSION
 		));
 
 	// Create our event callback object.
-    spNotify = new MediaEngineNotify(window);
-    if (spNotify == NULL)
-    {
-        DX::ThrowIfFailed(E_OUTOFMEMORY);    
-    }
+	m_spNotify = new MediaEngineNotify(window, this);
+	if (m_spNotify == NULL)
+	{
+		DX::ThrowIfFailed(E_OUTOFMEMORY);    
+	}
 
 	DX::ThrowIfFailed(
 		CoCreateInstance(
-		CLSID_MFMediaEngineClassFactory, NULL, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&spFactory)));
+		CLSID_MFMediaEngineClassFactory, NULL, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&m_spFactory)));
 
 	DX::ThrowIfFailed(
-		MFCreateAttributes(&spAttributes, 1));
+		MFCreateAttributes(&m_spAttributes, 1));
 
 	DX::ThrowIfFailed(
-		spAttributes->SetUnknown(MF_MEDIA_ENGINE_CALLBACK, (IUnknown*) spNotify.Get()));
+		m_spAttributes->SetUnknown(MF_MEDIA_ENGINE_CALLBACK, (IUnknown*) m_spNotify.Get()));
 
-	DX::ThrowIfFailed(spFactory->CreateInstance(
+	DX::ThrowIfFailed(m_spFactory->CreateInstance(
 		MF_MEDIA_ENGINE_WAITFORSTABLE_STATE | MF_MEDIA_ENGINE_AUDIOONLY,
-		spAttributes.Get(),
-		&ppPlayer
+		m_spAttributes.Get(),
+		&m_spEngine
 		));
+
+	DX::ThrowIfFailed(m_spEngine->SetSource(L"Sound\\PuckTheme.mp3"));
 }
 
+void ThemeMusic::OnMediaEngineEvent(DWORD meEvent)
+{
+	switch (meEvent)
+	{
+	case MF_MEDIA_ENGINE_EVENT_LOADEDMETADATA:
+		break;
+	case MF_MEDIA_ENGINE_EVENT_CANPLAY:
+		{
+			DX::ThrowIfFailed(m_spEngine->Play());
+		}
+		break;        
+	case MF_MEDIA_ENGINE_EVENT_PLAY:
+		break;				
+	case MF_MEDIA_ENGINE_EVENT_PAUSE:
+		break;
+	case MF_MEDIA_ENGINE_EVENT_TIMEUPDATE:        
+		break;
+	case MF_MEDIA_ENGINE_EVENT_ERROR:
+		DX::ThrowIfFailed(E_ABORT);
+		break;    
+	}
+}
