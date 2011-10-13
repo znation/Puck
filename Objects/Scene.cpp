@@ -24,8 +24,8 @@ Scene::Scene(b2Vec2 viewportSize, ComPtr<ID2D1DeviceContext> ctx, b2World *world
 	b2Vec2 topBarPosition = b2Vec2(padding, padding);
 
 	m_size = b2Vec2(viewportSize.x - (2 * padding),
-		viewportSize.y - ((3 * padding) + topBarSize.y));
-	m_position = b2Vec2(padding, (2 * padding) + topBarPosition.y + topBarSize.y);
+		viewportSize.y - ((2 * padding) + topBarSize.y));
+	m_position = b2Vec2(padding, padding + topBarPosition.y + topBarSize.y);
 
 	DX::ThrowIfFailed(ctx->CreateSolidColorBrush(
 		D2D1::ColorF(D2D1::ColorF::Cyan),
@@ -87,7 +87,7 @@ Scene::Scene(b2Vec2 viewportSize, ComPtr<ID2D1DeviceContext> ctx, b2World *world
 	m_players[0] = new Player(m_size, m_position, ctx, 0, world, m_groundBoxBody, dwriteFactory, this);
 	m_players[1] = new Player(m_size, m_position, ctx, 1, world, m_groundBoxBody, dwriteFactory, this);
 	m_puck = new Puck(viewportSize, ctx, world);
-	m_topBar = new TopBar();
+	m_topBar = new TopBar(this, ctx, topBarSize, topBarPosition);
 
 	beginRound();
 }
@@ -97,21 +97,26 @@ void Scene::win(int playerIdx)
 	m_frozen = true;
 	m_gameOver = true;
 	m_players[playerIdx]->showWinnerText();
+	resetCore();
 }
 
 void Scene::scoreGoal(int playerIdx)
 {
-	m_players[playerIdx]->scoreGoal();
+	m_topBar->ScoreGoal(playerIdx);
 }
 
-void Scene::reset()
+void Scene::resetCore()
 {
 	for (int i=0; i<2; i++)
 	{
 		m_players[i]->reset();
 	}
 	m_puck->reset();
+}
 
+void Scene::reset()
+{
+	resetCore();
 	beginRound();
 }
 
@@ -210,6 +215,8 @@ void Scene::draw()
 		2.0f);
 
 	drawGrid();
+
+	m_topBar->Draw();
 
 	for (int i=0; i<2; i++)
 	{

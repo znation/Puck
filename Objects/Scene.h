@@ -26,6 +26,7 @@ private:
 	void drawGrid();
 	bool drawRoundTimer();
 	void beginRound();
+	void resetCore();
 
 	ComPtr<ID2D1DeviceContext> m_ctx;
 	b2Vec2 m_size;

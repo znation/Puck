@@ -20,8 +20,7 @@ Player::Player(b2Vec2 sceneSize,
 	m_size = b2Vec2((sceneSize.x / 2.0) - (padding * 1.5), sceneSize.y - (padding * 2.0));
 	m_position = b2Vec2(playerIdx == 0 ? scenePosition.x + padding : (sceneSize.x/2.0) + scenePosition.x + (0.5 * padding),
             scenePosition.y + padding);
-	m_stick = new Stick(m_size, m_position, world, groundBody);
-	m_score = new Score(m_size, m_position, m_playerIdx, ctx, dwriteFactory);
+	m_stick = new Stick(m_size, m_position, world, groundBody);	
 	m_goal = new Goal(sceneSize, scenePosition, m_playerIdx, ctx, world, scene);
 	
 	DX::ThrowIfFailed(ctx->CreateSolidColorBrush(
@@ -64,20 +63,6 @@ bool Player::containsPoint(b2Vec2 p)
 	return rectContainsPoint(m_rect.rect, p);
 }
 
-void Player::scoreGoal()
-{
-	m_score->increment();
-	int score = m_score->getScore();
-	if (score == MAX_SCORE)
-	{
-		m_scene->win(m_playerIdx);
-	}
-	else
-	{
-		m_scene->reset();
-	}
-}
-
 void Player::draw()
 {
 	m_ctx->DrawRoundedRectangle(&m_rect,
@@ -87,8 +72,6 @@ void Player::draw()
 	m_goal->draw();
 
 	m_stick->draw(m_ctx, m_brush);
-
-	m_score->draw();
 
 	if (m_winner)
 	{

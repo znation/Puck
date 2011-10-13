@@ -30,7 +30,6 @@ public:
 	void detectCollisions();
 	void showWinnerText();
 	void reset();
-	void scoreGoal();
 
 private:
 	ComPtr<ID2D1DeviceContext> m_ctx;
@@ -42,6 +41,5 @@ private:
 	ComPtr<IDWriteTextFormat> m_format;
 	D2D1_ROUNDED_RECT m_rect;
 	Goal *m_goal;
-	Score *m_score;
 	Scene *m_scene;
 };

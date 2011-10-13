@@ -1,9 +1,13 @@
 TODO:
 
-- make score appear at top
+- make score and goals cyan
 - make menu button at top
 - use new graphics for:
 	- scene border
 	- player border?
 	- other things?
 - fix memory leaks
+- go into background mode when app switched
+	- pause music
+	- pause game
+	- don't bother rendering frames
