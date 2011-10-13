@@ -41,7 +41,11 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup />
+  <PropertyGroup>
+    <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
+    <PackageCertificateThumbprint>F47E4B75F000D62F96B3280A715635EA52AA950B</PackageCertificateThumbprint>
+    <PackageCertificateKeyFile>Puck_StoreKey.pfx</PackageCertificateKeyFile>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Link>
       <AdditionalDependencies>d3d11.lib;d2d1.lib;dwrite.lib;runtimeobject.lib;Mfplat.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -435,6 +439,8 @@
     <Image Include="Images\storelogo.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Package.StoreAssociation.xml" />
+    <None Include="Puck_StoreKey.pfx" />
     <None Include="Sound\pucktheme.mp3">
       <DeploymentContent>true</DeploymentContent>
     </None>

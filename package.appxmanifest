@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/2010/manifest">
-  <Identity Name="15180b81-251e-4d88-bd67-1e6d12b6a7e9" Publisher="CN=zanation" Version="1.0.0.0" />
+  <Identity Name="znation.Puck" Publisher="CN=1AF15987-4B0C-46A8-B2B3-35D5D7B4F6EF" Version="1.0.0.1" />
   <Properties>
     <DisplayName>Puck</DisplayName>
-    <PublisherDisplayName>zanation</PublisherDisplayName>
+    <PublisherDisplayName>Zach Nation</PublisherDisplayName>
     <Logo>Images\storelogo.png</Logo>
     <Description>Puck</Description>
   </Properties>

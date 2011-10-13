@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<StoreAssociation>
+  <Publisher>CN=1AF15987-4B0C-46A8-B2B3-35D5D7B4F6EF</Publisher>
+  <NamespacePrefix>znation</NamespacePrefix>
+  <PublisherDisplayName>Zach Nation</PublisherDisplayName>
+  <GeneratePackageHash>http://www.w3.org/2001/04/xmlenc#sha256</GeneratePackageHash>
+  <SupportedLocales>en-us;ja-jp</SupportedLocales>
+  <ProductReservedInfo>
+    <MainPackageIdentityName>znation.Puck</MainPackageIdentityName>
+    <ReservedNames>
+      <ReservedName>Puck</ReservedName>
+    </ReservedNames>
+  </ProductReservedInfo>
+  <AccountPackageIdentityNames />
+  <PackageInfoList />
+</StoreAssociation>

@@ -154,5 +154,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Sound\pucktheme.mp3" />
+    <None Include="Package.StoreAssociation.xml" />
+    <None Include="Puck_StoreKey.pfx" />
   </ItemGroup>
 </Project>
