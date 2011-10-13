@@ -29,7 +29,8 @@ void Game::Begin()
 	m_scene = new Scene(m_size,
 		m_ctx,
 		m_world,
-		m_dwriteFactory);
+		m_dwriteFactory,
+		this);
 }
 
 void Game::Draw()
@@ -71,5 +72,14 @@ void Game::OnMouseDown(Windows::UI::Core::PointerEventArgs^ args)
 		{
 			m_menu->OnMouseDown(args);
 		}
+		else
+		{
+			m_scene->OnMouseDown(args);
+		}
 	}
+}
+
+void Game::ShowMenu()
+{
+	m_showMenu = true;
 }

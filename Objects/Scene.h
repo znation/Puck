@@ -9,10 +9,18 @@
 
 using namespace Microsoft::WRL;
 
+class Game;
+
 class Scene
 {
 public:
-	Scene(b2Vec2 viewportSize, ComPtr<ID2D1DeviceContext> ctx, b2World *world, ComPtr<IDWriteFactory1> dwriteFactory);
+	static ComPtr<ID2D1SolidColorBrush> Cyan;
+
+	Scene(b2Vec2 viewportSize,
+			 ComPtr<ID2D1DeviceContext> ctx,
+			 b2World *world,
+			 ComPtr<IDWriteFactory1> dwriteFactory,
+			 Game *game);
 	void move();
 	void draw();
 	void applyConstraints();
@@ -21,7 +29,8 @@ public:
 	void win(int playerIdx);
 	void reset();
 	void scoreGoal(int playerIdx);
-	static ComPtr<ID2D1SolidColorBrush> Cyan;
+	void OnMouseDown(Windows::UI::Core::PointerEventArgs^ args);
+	void Pause();
 
 private:
 	void drawGrid();

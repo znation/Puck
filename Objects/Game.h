@@ -18,6 +18,7 @@ public:
 	void OnMouseMove(b2Vec2 p);
 	void OnMouseDown(Windows::UI::Core::PointerEventArgs^ args);
 	void Begin();
+	void ShowMenu();
 	
 private:
 	b2Vec2 m_size;

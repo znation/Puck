@@ -1,7 +1,6 @@
 TODO:
 
-- make score and goals cyan
-- make menu button at top
+- add menu button to resume
 - use new graphics for:
 	- scene border
 	- player border?
@@ -11,3 +10,6 @@ TODO:
 	- pause music
 	- pause game
 	- don't bother rendering frames
+- remove unneeded member variables from objects
+- fix inconsistent casing of methods
+

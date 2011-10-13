@@ -2,6 +2,7 @@
 #include "DirectXSample.h"
 #include "Utility.h"
 #include "b2UserData.h"
+#include "Game.h"
 
 using namespace Microsoft::WRL;
 
@@ -14,7 +15,11 @@ Scene::Edge::Edge(b2Vec2 center_, b2Vec2 extents_, const char *e)
 	extraInfo = e;
 }
 
-Scene::Scene(b2Vec2 viewportSize, ComPtr<ID2D1DeviceContext> ctx, b2World *world, ComPtr<IDWriteFactory1> dwriteFactory)
+Scene::Scene(b2Vec2 viewportSize,
+			 ComPtr<ID2D1DeviceContext> ctx,
+			 b2World *world,
+			 ComPtr<IDWriteFactory1> dwriteFactory,
+			 Game *game)
 {
 	m_frozen = false;
 	m_gameOver = false;
@@ -89,7 +94,7 @@ Scene::Scene(b2Vec2 viewportSize, ComPtr<ID2D1DeviceContext> ctx, b2World *world
 	m_players[0] = new Player(m_size, m_position, ctx, 0, world, m_groundBoxBody, dwriteFactory, this);
 	m_players[1] = new Player(m_size, m_position, ctx, 1, world, m_groundBoxBody, dwriteFactory, this);
 	m_puck = new Puck(viewportSize, ctx, world);
-	m_topBar = new TopBar(this, ctx, topBarSize, topBarPosition);
+	m_topBar = new TopBar(this, game, ctx, topBarSize, topBarPosition, dwriteFactory);
 
 	beginRound();
 }
@@ -272,4 +277,9 @@ void Scene::onMouseMoved(b2Vec2 p)
 			return;
 		}
 	}
+}
+
+void Scene::OnMouseDown(Windows::UI::Core::PointerEventArgs^ args)
+{
+	m_topBar->OnMouseDown(args);
 }
