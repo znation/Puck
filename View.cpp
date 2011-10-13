@@ -30,7 +30,7 @@ void View::Initialize(
 
     m_dpi = static_cast<float>(DisplayProperties::LogicalDpi);
 
-    m_window->PointerCursor = ref new CoreCursor(CoreCursorType::Arrow, 0);
+	m_window->PointerCursor = ref new CoreCursor(CoreCursorType::Cross, 0);
 
 	m_window->PointerMoved += ref new TypedEventHandler<CoreWindow^, PointerEventArgs^>(this, &View::OnMouseMove);
 
