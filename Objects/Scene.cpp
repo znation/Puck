@@ -71,7 +71,7 @@ Scene::Scene(b2Vec2 viewportSize,
 	Edge edges[] = {Edge(b2Vec2(m_position.x + (m_size.x / 2.0), m_position.y + m_size.y + (padding / 2.0)), horizontalEdgeSize, "x"), // bottom
 		Edge(b2Vec2(m_position.x + (m_size.x / 2.0), m_position.y - (padding / 2.0)), horizontalEdgeSize, "x"), // top
 		Edge(b2Vec2(padding / 2.0, m_position.y + (m_size.y / 2.0)), verticalEdgeSize, "y"), // left
-		Edge(b2Vec2(m_size.x + (padding / 2.0), m_position.y + (m_size.y / 2.0)), verticalEdgeSize, "y")}; // right
+		Edge(b2Vec2(m_position.x + m_size.x + (padding / 2.0), m_position.y + (m_size.y / 2.0)), verticalEdgeSize, "y")}; // right
 
 	for (int i=0; i<4; i++)
 	{

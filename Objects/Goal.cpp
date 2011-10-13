@@ -14,10 +14,10 @@ Goal::Goal(b2Vec2 sceneSize,
 	m_ctx = ctx;
 	m_scene = scene;
 	m_playerIdx = playerIdx;
-	m_size = b2Vec2(16.0, sceneSize.y / 4);
+	m_size = b2Vec2(16.0, sceneSize.y / 4.0);
 	m_position = b2Vec2(playerIdx == 0 ? scenePosition.x - (m_size.x / 2.0) : 
 		scenePosition.x + sceneSize.x - (m_size.x / 2.0),
-		scenePosition.y + ((sceneSize.y / 2) - (m_size.y / 2.0)));
+		scenePosition.y + ((sceneSize.y / 2.0) - (m_size.y / 2.0)));
 	DX::ThrowIfFailed(ctx->CreateSolidColorBrush(
 		D2D1::ColorF(D2D1::ColorF::WhiteSmoke),
 		&m_brush));
@@ -79,11 +79,11 @@ void Goal::detectCollisions()
 			}
 		}
 
-		assert(goalIdx != -1);
-		assert(puckIdx != -1);
-
-		m_scene->scoreGoal(m_playerIdx == 0 ? 1 : 0);
-		// TODO return???
+		if (goalIdx != -1 && puckIdx != -1 && contact->IsTouching())
+		{
+			m_scene->scoreGoal(m_playerIdx == 0 ? 1 : 0);
+			return;
+		}
 
 		contactNode = contactNode->next;
 	}
