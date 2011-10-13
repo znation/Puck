@@ -1,6 +1,5 @@
 TODO:
 
-- fix goal area
 - add menu button to turn off music
 - use new graphics for:
 	- scene border
