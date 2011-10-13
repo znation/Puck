@@ -3,7 +3,7 @@
 
 #pragma once
 
-#if DEBUG
+#ifdef DEBUG
 #define MAX_SCORE 2
 #else
 #define MAX_SCORE 11
