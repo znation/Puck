@@ -121,7 +121,9 @@ void D2DRenderer::Render()
 
 	m_game->Draw();
 
+#if DEBUG
 	RenderFPS(renderTargetSize);
+#endif
 
 	hr = m_d2dContext->EndDraw();
 
