@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/2010/manifest">
-  <Identity Name="znation.Puck" Publisher="CN=1AF15987-4B0C-46A8-B2B3-35D5D7B4F6EF" Version="1.0.0.1" />
+  <Identity Name="znation.puck" Publisher="CN=1AF15987-4B0C-46A8-B2B3-35D5D7B4F6EF" Version="1.0.0.2" />
   <Properties>
     <DisplayName>Puck</DisplayName>
     <PublisherDisplayName>Zach Nation</PublisherDisplayName>

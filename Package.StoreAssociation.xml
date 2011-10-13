@@ -6,11 +6,16 @@
   <GeneratePackageHash>http://www.w3.org/2001/04/xmlenc#sha256</GeneratePackageHash>
   <SupportedLocales>en-us;ja-jp</SupportedLocales>
   <ProductReservedInfo>
-    <MainPackageIdentityName>znation.Puck</MainPackageIdentityName>
+    <MainPackageIdentityName>znation.puck</MainPackageIdentityName>
     <ReservedNames>
       <ReservedName>Puck</ReservedName>
     </ReservedNames>
   </ProductReservedInfo>
   <AccountPackageIdentityNames />
-  <PackageInfoList />
+  <PackageInfoList>
+    <PackageInfo>
+      <PackageArchitecture>x86</PackageArchitecture>
+      <PackageMaxArchitectureVersion>1.0.0.1</PackageMaxArchitectureVersion>
+    </PackageInfo>
+  </PackageInfoList>
 </StoreAssociation>
