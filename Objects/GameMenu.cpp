@@ -9,18 +9,31 @@ GameMenu::GameMenu(b2Vec2 viewportSize, Game *game, ComPtr<ID2D1DeviceContext> c
 	m_game = game;
 	m_ctx = ctx;
 	m_dwriteFactory = dwriteFactory;
-	
+
 	m_rect.top = 0;
 	m_rect.bottom = m_size.y;
 	m_rect.left = 0;
 	m_rect.right = m_size.x;
 
-	int buttonRectWidth = 300;
-	int buttonRectHeight = 200;
-	m_buttonRect.top = (m_size.y / 2.0) - (buttonRectHeight / 2.0);
-	m_buttonRect.bottom = (m_size.y / 2.0) + (buttonRectHeight / 2.0);
-	m_buttonRect.left = (m_size.x / 2.0) - (buttonRectWidth / 2.0);
-	m_buttonRect.right = (m_size.x / 2.0) + (buttonRectWidth / 2.0);
+	float buttonWidth = 300;
+	float buttonHeight = 200;
+	float totalButtonWidth = buttonWidth * MENU_BUTTON_COUNT;
+	for (int i=0; i<MENU_BUTTON_COUNT; i++)
+	{
+		m_buttons[i].Size = b2Vec2(300, 200);
+		m_buttons[i].Position = b2Vec2(((m_size.x - totalButtonWidth) / 2.0) + (i * buttonWidth), (m_size.y / 2.0) - (buttonHeight / 2.0));
+		m_buttons[i].RoundedRect.radiusX = 10;
+		m_buttons[i].RoundedRect.radiusY = 10;
+		m_buttons[i].RoundedRect.rect.left = m_buttons[i].Position.x;
+		m_buttons[i].RoundedRect.rect.top = m_buttons[i].Position.y;
+		m_buttons[i].RoundedRect.rect.right = m_buttons[i].Position.x + m_buttons[i].Size.x;
+		m_buttons[i].RoundedRect.rect.bottom = m_buttons[i].Position.y + m_buttons[i].Size.y;
+	}
+
+	m_buttons[0].Text = L"New Game";
+	m_buttons[0].TextLength = 8;
+	m_buttons[1].Text = L"Resume";
+	m_buttons[1].TextLength = 6;
 
 	DX::ThrowIfFailed(ctx->CreateSolidColorBrush(
 		D2D1::ColorF(D2D1::ColorF::Black),
@@ -33,9 +46,6 @@ GameMenu::GameMenu(b2Vec2 viewportSize, Game *game, ComPtr<ID2D1DeviceContext> c
 	DX::ThrowIfFailed(ctx->CreateSolidColorBrush(
 		D2D1::ColorF(D2D1::ColorF(0.5, 0.5, 0.5, 0.5)),
 		&m_transparentBgBrush));
-
-	m_buttonText = L"New Game";
-	m_buttonTextLength = 8;
 
 	DX::ThrowIfFailed(
 		m_dwriteFactory->CreateTextFormat(
@@ -58,24 +68,37 @@ void GameMenu::Draw()
 		&m_rect,
 		m_transparentBgBrush.Get());
 
-	m_ctx->FillRectangle(
-		&m_buttonRect,
-		m_solidBgBrush.Get());
+	for (int i=0; i<MENU_BUTTON_COUNT; i++)
+	{
+		ComPtr<ID2D1SolidColorBrush> brush = m_solidBgBrush;
+		if (i == 1 && !m_game->CanResume())
+		{
+			brush = m_transparentBgBrush;
+		}
 
-	m_ctx->DrawText(
-		m_buttonText,
-		m_buttonTextLength,
-		m_buttonTextFormat.Get(),
-		&m_buttonRect,
-		m_buttonTextBrush.Get());
+		m_ctx->FillRoundedRectangle(
+			&(m_buttons[i].RoundedRect),
+			brush.Get());
+
+		m_ctx->DrawText(
+			m_buttons[i].Text,
+			m_buttons[i].TextLength,
+			m_buttonTextFormat.Get(),
+			&m_buttons[i].RoundedRect.rect,
+			m_buttonTextBrush.Get());
+	}
 }
 
 void GameMenu::OnMouseDown(Windows::UI::Core::PointerEventArgs^ args)
 {
 	Windows::Foundation::Point pp = args->CurrentPoint->Position;
 	b2Vec2 p = b2Vec2(pp.X, pp.Y);
-	if (rectContainsPoint(m_buttonRect, p))
+	if (rectContainsPoint(m_buttons[0].RoundedRect.rect, p))
 	{
 		m_game->Begin();
+	}
+	else if (m_game->CanResume() && rectContainsPoint(m_buttons[1].RoundedRect.rect, p))
+	{
+		m_game->Resume();
 	}
 }

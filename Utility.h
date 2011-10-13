@@ -9,6 +9,8 @@
 #define MAX_SCORE 11
 #endif
 
+#define MENU_BUTTON_COUNT 2
+
 double pixelToBox(int coord);
 int boxToPixel(double coord);
 bool rectContainsPoint(D2D1_RECT_F rect, b2Vec2 point);

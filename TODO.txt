@@ -1,6 +1,6 @@
 TODO:
 
-- add menu button to resume
+- add menu button to turn off music
 - use new graphics for:
 	- scene border
 	- player border?

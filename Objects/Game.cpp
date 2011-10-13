@@ -83,3 +83,13 @@ void Game::ShowMenu()
 {
 	m_showMenu = true;
 }
+
+void Game::Resume()
+{
+	m_showMenu = false;
+}
+
+bool Game::CanResume()
+{
+	return m_scene != nullptr;
+}

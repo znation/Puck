@@ -57,20 +57,33 @@ void Goal::detectCollisions()
 	{
 		b2Contact *contact = contactNode->contact;
 
-		b2Fixture *otherShape = (contact->GetFixtureA()->GetBody() == m_goalBody) ? 
-			contact->GetFixtureB() :
-		contact->GetFixtureA();
+		b2Fixture *fixtures[2];
+		b2Body *bodies[2];
+		int goalIdx = -1;
+		int puckIdx = -1;
 
-		b2Body *otherBody = otherShape->GetBody();
-
-		if (otherBody->GetUserData() != nullptr)
+		fixtures[0] = contact->GetFixtureA();
+		fixtures[1] = contact->GetFixtureB();
+		for (int i = 0; i < 2; i++)
 		{
-			if (((b2UserData*)(otherBody->GetUserData()))->type == b2UserData_Puck)
+			bodies[i] = fixtures[i]->GetBody();
+			b2UserData *userData = (b2UserData*) bodies[i]->GetUserData();
+			assert(userData != nullptr);
+			if (userData->type == b2UserData_Puck)
 			{
-				m_scene->scoreGoal(m_playerIdx == 0 ? 1 : 0);
-				return;
+				puckIdx = i;
+			}
+			else if (userData->type == b2UserData_Goal)
+			{
+				goalIdx = i;
 			}
 		}
+
+		assert(goalIdx != -1);
+		assert(puckIdx != -1);
+
+		m_scene->scoreGoal(m_playerIdx == 0 ? 1 : 0);
+		// TODO return???
 
 		contactNode = contactNode->next;
 	}

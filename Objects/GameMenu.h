@@ -2,12 +2,23 @@
 #include <d2d1_1.h>
 #include <Box2D\Box2D.h>
 #include <dwrite_1.h>
+#include "Utility.h"
 
 #pragma once
 
 using namespace Microsoft::WRL;
 
 class Game;
+
+class MenuButton
+{
+public:
+	b2Vec2 Size;
+	b2Vec2 Position;
+	D2D1_ROUNDED_RECT RoundedRect;
+	size_t TextLength;
+	const wchar_t *Text;
+};
 
 class GameMenu
 {
@@ -21,13 +32,10 @@ private:
 	ComPtr<IDWriteFactory1> m_dwriteFactory;
 	Game *m_game;
 	D2D1_RECT_F m_rect;
-	D2D1_RECT_F m_buttonRect;
-
 	ComPtr<ID2D1SolidColorBrush> m_transparentBgBrush;
 	ComPtr<ID2D1SolidColorBrush> m_solidBgBrush;
 	ComPtr<ID2D1SolidColorBrush> m_buttonTextBrush;
-
 	ComPtr<IDWriteTextFormat> m_buttonTextFormat;
-	size_t m_buttonTextLength;
-	const wchar_t *m_buttonText;
+
+	MenuButton m_buttons[MENU_BUTTON_COUNT];
 };

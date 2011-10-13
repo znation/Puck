@@ -19,6 +19,8 @@ public:
 	void OnMouseDown(Windows::UI::Core::PointerEventArgs^ args);
 	void Begin();
 	void ShowMenu();
+	void Resume();
+	bool CanResume();
 	
 private:
 	b2Vec2 m_size;

@@ -30,7 +30,6 @@ public:
 	void reset();
 	void scoreGoal(int playerIdx);
 	void OnMouseDown(Windows::UI::Core::PointerEventArgs^ args);
-	void Pause();
 
 private:
 	void drawGrid();
