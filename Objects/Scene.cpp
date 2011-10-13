@@ -5,6 +5,8 @@
 
 using namespace Microsoft::WRL;
 
+ComPtr<ID2D1SolidColorBrush> Scene::Cyan;
+
 Scene::Edge::Edge(b2Vec2 center_, b2Vec2 extents_, const char *e)
 {
 	center = center_;
@@ -29,7 +31,7 @@ Scene::Scene(b2Vec2 viewportSize, ComPtr<ID2D1DeviceContext> ctx, b2World *world
 
 	DX::ThrowIfFailed(ctx->CreateSolidColorBrush(
 		D2D1::ColorF(D2D1::ColorF::Cyan),
-		&m_brush));
+		&Scene::Cyan));
 
 	DX::ThrowIfFailed(ctx->CreateSolidColorBrush(
 		D2D1::ColorF(D2D1::ColorF(0.0784313725490196f,
@@ -165,7 +167,7 @@ bool Scene::drawRoundTimer()
 		timerTextLength,
 		m_roundTimerTextFormat.Get(),
 		&(m_rect.rect),
-		m_brush.Get());
+		Scene::Cyan.Get());
 	return true;
 }
 
@@ -211,7 +213,7 @@ void Scene::drawGrid()
 void Scene::draw()
 {
 	m_ctx->DrawRoundedRectangle(&m_rect,
-		m_brush.Get(),
+		Scene::Cyan.Get(),
 		2.0f);
 
 	drawGrid();

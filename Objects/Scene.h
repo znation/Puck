@@ -21,6 +21,7 @@ public:
 	void win(int playerIdx);
 	void reset();
 	void scoreGoal(int playerIdx);
+	static ComPtr<ID2D1SolidColorBrush> Cyan;
 
 private:
 	void drawGrid();
@@ -31,7 +32,6 @@ private:
 	ComPtr<ID2D1DeviceContext> m_ctx;
 	b2Vec2 m_size;
 	b2Vec2 m_position;
-	ComPtr<ID2D1SolidColorBrush> m_brush;
 	ComPtr<ID2D1SolidColorBrush> m_gridBrush;
 	D2D1_ROUNDED_RECT m_rect;
 	Player *m_players[2];

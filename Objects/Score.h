@@ -13,15 +13,13 @@ class ScoreButton
 public:
 	ScoreButton(ComPtr<ID2D1DeviceContext> ctx,
 						 b2Vec2 buttonSize,
-						 b2Vec2 buttonPosition,
-						 ComPtr<ID2D1SolidColorBrush> brush);
+						 b2Vec2 buttonPosition);
 	void SetFilled(bool filled);
 	void Draw();
 private:
 	ComPtr<ID2D1DeviceContext> m_ctx;
 	b2Vec2 m_size;
 	b2Vec2 m_position;
-	ComPtr<ID2D1SolidColorBrush> m_brush;
 	bool m_filled;
 	D2D1_ELLIPSE m_ellipse;
 };
@@ -42,6 +40,5 @@ private:
 	int m_playerIdx;
 	ComPtr<ID2D1DeviceContext> m_ctx;
 	int m_score;
-	ComPtr<ID2D1SolidColorBrush> m_brush;
 	ScoreButton *m_scoreButtons[MAX_SCORE];
 };
