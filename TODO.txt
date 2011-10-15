@@ -1,11 +1,13 @@
 TODO:
 
+- separate Box2D into different project
+- use precompiled headers
+- fix memory leaks (use smart pointers?)
 - add menu button to turn off music
 - use new graphics for:
 	- scene border
 	- player border?
 	- other things?
-- fix memory leaks
 - go into background mode when app switched
 	- pause music
 	- pause game
