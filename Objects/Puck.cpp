@@ -24,7 +24,7 @@ Puck::Puck(b2Vec2 viewportSize, ComPtr<ID2D1DeviceContext> ctx, b2World *world)
 
 void Puck::reset()
 {
-	m_position = b2Vec2(m_viewportSize.x/2.0, m_viewportSize.y/2.0);
+	m_position = b2Vec2(m_viewportSize.x/2.0f, m_viewportSize.y/2.0f);
 	m_ellipse.point.x = m_position.x;
 	m_ellipse.point.y = m_position.y;
 	
@@ -69,7 +69,7 @@ void Puck::move()
 void Puck::applyConstraints()
 {
 	b2Vec2 velocity = m_circleBody->GetLinearVelocity();
-	double speed = velocity.Length();
+	float speed = velocity.Length();
 	if (speed > m_maxSpeed)
 	{
 		velocity *= (m_maxSpeed / speed);

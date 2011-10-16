@@ -1,6 +1,5 @@
 TODO:
 
-- separate Box2D into different project
 - enable all warnings and werr on puck project
 - fix memory leaks (use smart pointers?)
 - add menu button to turn off music

@@ -1,6 +1,9 @@
 #include "ThemeMusic.h"
 #include "DirectXSample.h"
 
+// Disable warning 4400 (not sure why it's happening)
+#pragma warning ( disable : 4400 )
+
 // MediaEngineNotify: Implements the callback for Media Engine event notification.
 class MediaEngineNotify : public IMFMediaEngineNotify
 {
@@ -47,7 +50,7 @@ public:
 	}
 
 	// EventNotify is called when the Media Engine sends an event.
-	STDMETHODIMP EventNotify(DWORD meEvent, DWORD_PTR param1, DWORD param2)
+	STDMETHODIMP EventNotify(DWORD meEvent, DWORD_PTR param1, DWORD)
 	{
 		if (meEvent == MF_MEDIA_ENGINE_EVENT_NOTIFYSTABLESTATE)
 		{
@@ -97,8 +100,10 @@ ThemeMusic::ThemeMusic(Windows::UI::Core::CoreWindow^ window)
 	DX::ThrowIfFailed(m_spEngine.Get()->QueryInterface(__uuidof(IMFMediaEngine), (void**) &m_spEngineEx));
 
 	DX::ThrowIfFailed(m_spEngine->SetLoop(true));
+}
 
-	//DX::ThrowIfFailed(m_spEngine->SetSource(L"Sound\\PuckTheme.mp3"));
+void ThemeMusic::Play()
+{
 	SetFile();
 }
 
@@ -169,7 +174,6 @@ void ThemeMusic::OnMediaEngineEvent(DWORD meEvent)
 
 void ThemeMusic::SetBytestream(IRandomAccessStream^ streamHandle)
 {
-	HRESULT hr = S_OK;
 	ComPtr<IMFByteStream> spMFByteStream = NULL;	
 	
 	DX::ThrowIfFailed(MFCreateMFByteStreamOnStreamEx((IUnknown*)streamHandle, &spMFByteStream));

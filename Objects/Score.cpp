@@ -50,10 +50,10 @@ ScoreButton::ScoreButton(ComPtr<ID2D1DeviceContext> ctx,
 	m_position = buttonPosition;
 	m_filled = false;
 
-	m_ellipse.point.x = m_position.x + (m_size.x / 2.0);
-	m_ellipse.point.y = m_position.y + (m_size.y / 2.0);
-	m_ellipse.radiusX = (m_size.x / 2.0) - 3;
-	m_ellipse.radiusY = (m_size.y / 2.0) - 3;
+	m_ellipse.point.x = m_position.x + (m_size.x / 2.0f);
+	m_ellipse.point.y = m_position.y + (m_size.y / 2.0f);
+	m_ellipse.radiusX = (m_size.x / 2.0f) - 3.0f;
+	m_ellipse.radiusY = (m_size.y / 2.0f) - 3.0f;
 }
 
 void ScoreButton::SetFilled(bool filled)

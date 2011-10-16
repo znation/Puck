@@ -26,8 +26,8 @@ Scene::Scene(b2Vec2 viewportSize,
 
 	m_ctx = ctx;
 
-	int padding = 16;
-	b2Vec2 topBarSize = b2Vec2(viewportSize.x - (2 * padding), 32);
+	float padding = 16.0f;
+	b2Vec2 topBarSize = b2Vec2(viewportSize.x - (2 * padding), 32.0f);
 	b2Vec2 topBarPosition = b2Vec2(padding, padding);
 
 	m_size = b2Vec2(viewportSize.x - (2 * padding),
@@ -66,12 +66,12 @@ Scene::Scene(b2Vec2 viewportSize,
 	m_rect.radiusY = 10;
 
 	// Construct a border box to keep everything inside
-	b2Vec2 horizontalEdgeSize = b2Vec2(m_size.x / 2.0, padding / 2.0);
-	b2Vec2 verticalEdgeSize = b2Vec2(padding / 2.0, m_size.y / 2.0);
-	Edge edges[] = {Edge(b2Vec2(m_position.x + (m_size.x / 2.0), m_position.y + m_size.y + (padding / 2.0)), horizontalEdgeSize, "x"), // bottom
-		Edge(b2Vec2(m_position.x + (m_size.x / 2.0), m_position.y - (padding / 2.0)), horizontalEdgeSize, "x"), // top
-		Edge(b2Vec2(padding / 2.0, m_position.y + (m_size.y / 2.0)), verticalEdgeSize, "y"), // left
-		Edge(b2Vec2(m_position.x + m_size.x + (padding / 2.0), m_position.y + (m_size.y / 2.0)), verticalEdgeSize, "y")}; // right
+	b2Vec2 horizontalEdgeSize = b2Vec2(m_size.x / 2.0f, padding / 2.0f);
+	b2Vec2 verticalEdgeSize = b2Vec2(padding / 2.0f, m_size.y / 2.0f);
+	Edge edges[] = {Edge(b2Vec2(m_position.x + (m_size.x / 2.0f), m_position.y + m_size.y + (padding / 2.0f)), horizontalEdgeSize, "x"), // bottom
+		Edge(b2Vec2(m_position.x + (m_size.x / 2.0f), m_position.y - (padding / 2.0f)), horizontalEdgeSize, "x"), // top
+		Edge(b2Vec2(padding / 2.0f, m_position.y + (m_size.y / 2.0f)), verticalEdgeSize, "y"), // left
+		Edge(b2Vec2(m_position.x + m_size.x + (padding / 2.0f), m_position.y + (m_size.y / 2.0f)), verticalEdgeSize, "y")}; // right
 
 	for (int i=0; i<4; i++)
 	{
@@ -178,14 +178,14 @@ bool Scene::drawRoundTimer()
 
 void Scene::drawGrid()
 {
-	double verticalSquareCount = 25.0;
-	int sideLength = floor(((double) m_size.y) / verticalSquareCount);
+	float verticalSquareCount = 25.0;
+	float sideLength = floor(m_size.y / verticalSquareCount);
 
 	D2D1_POINT_2F x1y1;
 	D2D1_POINT_2F x2y2;
 
 	// draw vertical lines
-	int x = sideLength + m_position.x;
+	float x = sideLength + m_position.x;
 	while (x < (m_size.x + m_position.x - 1))
 	{
 		x1y1.x = x;

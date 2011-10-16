@@ -21,7 +21,7 @@ GameMenu::GameMenu(b2Vec2 viewportSize, Game *game, ComPtr<ID2D1DeviceContext> c
 	for (int i=0; i<MENU_BUTTON_COUNT; i++)
 	{
 		m_buttons[i].Size = b2Vec2(300, 200);
-		m_buttons[i].Position = b2Vec2(((m_size.x - totalButtonWidth) / 2.0) + (i * buttonWidth), (m_size.y / 2.0) - (buttonHeight / 2.0));
+		m_buttons[i].Position = b2Vec2(((m_size.x - totalButtonWidth) / 2.0f) + (i * buttonWidth), (m_size.y / 2.0f) - (buttonHeight / 2.0f));
 		m_buttons[i].RoundedRect.radiusX = 10;
 		m_buttons[i].RoundedRect.radiusY = 10;
 		m_buttons[i].RoundedRect.rect.left = m_buttons[i].Position.x;

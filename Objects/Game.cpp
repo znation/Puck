@@ -40,7 +40,7 @@ void Game::Draw()
 		if (!m_showMenu)
 		{
 			m_scene->applyConstraints();
-			m_world->Step(1.0 / 60.0, 8, 3);
+			m_world->Step(1.0f / FRAMERATE, 8, 3);
 			m_scene->detectCollisions();
 			m_scene->move();
 		}

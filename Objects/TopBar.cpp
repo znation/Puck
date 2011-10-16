@@ -17,7 +17,7 @@ TopBar::TopBar(Scene *scene,
 	m_position = topBarPosition;
 
 	b2Vec2 buttonAreaSize = b2Vec2(300, topBarSize.y);
-	b2Vec2 buttonAreaPosition = b2Vec2(m_position.x + (m_size.x / 2.0) - (buttonAreaSize.x / 2.0),
+	b2Vec2 buttonAreaPosition = b2Vec2(m_position.x + (m_size.x / 2.0f) - (buttonAreaSize.x / 2.0f),
 		topBarPosition.y);
 
 	m_menuButtonRect.radiusX = 10;
@@ -29,7 +29,7 @@ TopBar::TopBar(Scene *scene,
 
 	for (int i=0; i<2; i++)
 	{
-		b2Vec2 scoreSize = b2Vec2((topBarSize.x - buttonAreaSize.x) / 2.0, topBarSize.y);
+		b2Vec2 scoreSize = b2Vec2((topBarSize.x - buttonAreaSize.x) / 2.0f, topBarSize.y);
 		b2Vec2 scorePosition = b2Vec2(i == 0 ?
 			topBarPosition.x :
 		topBarPosition.x + scoreSize.x + buttonAreaSize.x,

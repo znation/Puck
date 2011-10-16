@@ -10,7 +10,8 @@
 #endif
 
 #define MENU_BUTTON_COUNT 2
+#define FRAMERATE 60.0f
 
-double pixelToBox(int coord);
-int boxToPixel(double coord);
+float32 pixelToBox(float32 coord);
+float32 boxToPixel(float32 coord);
 bool rectContainsPoint(D2D1_RECT_F rect, b2Vec2 point);

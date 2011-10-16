@@ -14,10 +14,10 @@ Goal::Goal(b2Vec2 sceneSize,
 	m_ctx = ctx;
 	m_scene = scene;
 	m_playerIdx = playerIdx;
-	m_size = b2Vec2(16.0, sceneSize.y / 4.0);
-	m_position = b2Vec2(playerIdx == 0 ? scenePosition.x - (m_size.x / 2.0) : 
-		scenePosition.x + sceneSize.x - (m_size.x / 2.0),
-		scenePosition.y + ((sceneSize.y / 2.0) - (m_size.y / 2.0)));
+	m_size = b2Vec2(16.0f, sceneSize.y / 4.0f);
+	m_position = b2Vec2(playerIdx == 0 ? scenePosition.x - (m_size.x / 2.0f) : 
+		scenePosition.x + sceneSize.x - (m_size.x / 2.0f),
+		scenePosition.y + ((sceneSize.y / 2.0f) - (m_size.y / 2.0f)));
 	DX::ThrowIfFailed(ctx->CreateSolidColorBrush(
 		D2D1::ColorF(D2D1::ColorF::WhiteSmoke),
 		&m_brush));
@@ -28,10 +28,10 @@ Goal::Goal(b2Vec2 sceneSize,
 	m_rect.right = m_position.x + m_size.x;
 
 	b2Vec2 center, extents;
-	center.x = pixelToBox(m_position.x + (m_size.x / 2.0));
-	center.y = pixelToBox(m_position.y + (m_size.y / 2.0));
-	extents.x = pixelToBox(m_size.x / 2.0);
-	extents.y = pixelToBox(m_size.y / 2.0);
+	center.x = pixelToBox(m_position.x + (m_size.x / 2.0f));
+	center.y = pixelToBox(m_position.y + (m_size.y / 2.0f));
+	extents.x = pixelToBox(m_size.x / 2.0f);
+	extents.y = pixelToBox(m_size.y / 2.0f);
 
 	b2BodyDef bodyDef;
 	bodyDef.position.Set(center.x, center.y);

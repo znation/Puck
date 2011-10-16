@@ -27,7 +27,7 @@ void DirectXViewProvider::Initialize(
 }
 
 // this method is called after Initialize
-void DirectXViewProvider::Load(Platform::String^ entryPoint)
+void DirectXViewProvider::Load(Platform::String^)
 {
 }
 

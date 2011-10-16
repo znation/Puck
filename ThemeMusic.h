@@ -16,6 +16,7 @@ class ThemeMusic
 public:
 	ThemeMusic(Windows::UI::Core::CoreWindow^ window);
 	void OnMediaEngineEvent(DWORD meEvent);
+	void Play();
 
 private:
 	void SetFile();

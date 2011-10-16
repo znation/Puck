@@ -4,13 +4,13 @@
 
 Stick::Stick(b2Vec2 playerSize, b2Vec2 playerPosition, b2World *world, b2Body *groundBody)
 {
-	m_radius = 32;
+	m_radius = 32.0f;
 	m_startingPosition = m_position = b2Vec2(playerPosition.x + (playerSize.x/2.0f),
 		playerPosition.y + (playerSize.y/2.0f));
 	m_nextPosition = m_position;
 
-	m_innerCircleWidth = floor((double)m_radius / 10.0);
-	m_outerCircleWidth = floor((double)m_radius / 15.0);
+	m_innerCircleWidth = floor(m_radius / 10.0f);
+	m_outerCircleWidth = floor(m_radius / 15.0f);
 	m_innerCircleWidth = max(1, m_innerCircleWidth);
 	m_outerCircleWidth = max(m_innerCircleWidth+1, m_outerCircleWidth);
 
@@ -28,9 +28,9 @@ Stick::Stick(b2Vec2 playerSize, b2Vec2 playerPosition, b2World *world, b2Body *g
 
 	b2FixtureDef circleF;
 	circleF.shape = &circleSd;
-	circleF.density = 0.1;
-	circleF.friction = 0.0;
-	circleF.restitution = 1.0;
+	circleF.density = 0.1f;
+	circleF.friction = 0.0f;
+	circleF.restitution = 1.0f;
 	m_circleBody->CreateFixture(&circleF);
 
 	b2MouseJointDef mousedef;
@@ -51,7 +51,7 @@ void Stick::reset()
 
 void Stick::updateEllipse()
 {
-	int innerCircleRadius = m_radius / 2;
+	float innerCircleRadius = m_radius / 2.0f;
 	m_innerEllipse.point.x = m_position.x;
 	m_innerEllipse.point.y = m_position.y;
 	m_innerEllipse.radiusX = innerCircleRadius;
@@ -63,7 +63,7 @@ void Stick::updateEllipse()
 	m_outerEllipse.radiusY = m_radius;
 }
 
-void Stick::updatePosition(int x, int y)
+void Stick::updatePosition(float x, float y)
 {
 	m_nextPosition = b2Vec2(x, y);
 }

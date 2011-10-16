@@ -262,10 +262,11 @@ void DirectXBase::CreateWindowSizeDependentResources()
         );
 
     // Create a DepthStencil view on this surface to use on bind.
+	CD3D11_DEPTH_STENCIL_VIEW_DESC desc = CD3D11_DEPTH_STENCIL_VIEW_DESC(D3D11_DSV_DIMENSION_TEXTURE2D);
     DX::ThrowIfFailed(
         m_d3dDevice->CreateDepthStencilView(
             depthStencil.Get(),
-            &CD3D11_DEPTH_STENCIL_VIEW_DESC(D3D11_DSV_DIMENSION_TEXTURE2D),
+            &desc,
             &m_depthStencilView
             )
         );

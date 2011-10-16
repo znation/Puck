@@ -1,16 +1,15 @@
 #include "Utility.h"
 
-double scalingFactor = 200.0;
-double frameRate = 60.0;
+float scalingFactor = 200.0f;
 
-int boxToPixel(double coord)
+float32 boxToPixel(float32 coord)
 {
-	return (int)(coord * scalingFactor);
+	return coord * scalingFactor;
 }
 
-double pixelToBox(int coord)
+float32 pixelToBox(float32 coord)
 {
-	return ((double)coord) / scalingFactor;
+	return coord / scalingFactor;
 }
 
 bool rectContainsPoint(D2D1_RECT_F r, b2Vec2 p)

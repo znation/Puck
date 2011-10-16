@@ -46,12 +46,15 @@ void View::Initialize(
     m_renderer->Initialize(m_window, m_dpi);
 
 	ThemeMusic *m = new ThemeMusic(window);
+	m->Play();
 }
 
 void View::Run()
 {
     m_window->Activate();
 
+// Suppress warning C4127 (conditional expression is constant)
+#pragma warning ( suppress : 4127 )
     while (true)
     {
         m_window->Dispatcher->ProcessEvents(CoreProcessEventsOption::ProcessAllIfPresent);
@@ -60,15 +63,15 @@ void View::Run()
 }
 
 void View::OnWindowSizeChanged(
-    _In_ Windows::UI::Core::CoreWindow^ sender,
-    _In_ Windows::UI::Core::WindowSizeChangedEventArgs^ args
+    _In_ Windows::UI::Core::CoreWindow^,
+    _In_ Windows::UI::Core::WindowSizeChangedEventArgs^
     )
 {
     m_renderer->UpdateForWindowSizeChange();
 }
 
 void View::OnMouseMove(
-		_In_ Windows::UI::Core::CoreWindow^ sender,
+		_In_ Windows::UI::Core::CoreWindow^,
 		_In_ Windows::UI::Core::PointerEventArgs^ args
         )
 {
@@ -76,14 +79,14 @@ void View::OnMouseMove(
 }
 
 void View::OnMouseDown(
-		_In_ Windows::UI::Core::CoreWindow^ sender,
+		_In_ Windows::UI::Core::CoreWindow^,
 		_In_ Windows::UI::Core::PointerEventArgs^ args
         )
 {
 	m_renderer->OnMouseDown(args);
 }
 
-void View::OnLogicalDpiChanged(__in Platform::Object^ sender)
+void View::OnLogicalDpiChanged(__in Platform::Object^)
 {
     m_dpi = static_cast<float>(DisplayProperties::LogicalDpi);
     m_renderer->SetDpi(m_dpi);

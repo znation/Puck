@@ -65,7 +65,7 @@ void D2DRenderer::RenderFPS(D2D1_SIZE_F)
 		m_frameCounter = 0;
 
 		char buf[10];
-		sprintf(buf, "FPS: %d", m_fps);
+		sprintf_s(buf, 10, "FPS: %d", m_fps);
 		mbstowcs_s(&m_fpsTextLength, m_fpsText, strlen(buf)+1, buf, _TRUNCATE);
 	}
 	else

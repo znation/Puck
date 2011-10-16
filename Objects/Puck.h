@@ -23,7 +23,7 @@ private:
 	ComPtr<ID2D1DeviceContext> m_ctx;
 	ComPtr<ID2D1SolidColorBrush> m_brush;
 	b2Vec2 m_position;
-	int m_radius;
-	double m_maxSpeed;
+	float m_radius;
+	float m_maxSpeed;
 	b2Body *m_circleBody;
 };
