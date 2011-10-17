@@ -89,17 +89,22 @@ ThemeMusic::ThemeMusic(Windows::UI::Core::CoreWindow^ window)
 		MFCreateAttributes(&m_spAttributes, 1));
 
 	DX::ThrowIfFailed(
-		m_spAttributes->SetUnknown(MF_MEDIA_ENGINE_CALLBACK, (IUnknown*) m_spNotify.Get()));
+		m_spAttributes->SetUnknown(MF_MEDIA_ENGINE_CALLBACK, (IUnknown*) m_spNotify));
 
 	DX::ThrowIfFailed(m_spFactory->CreateInstance(
 		MF_MEDIA_ENGINE_WAITFORSTABLE_STATE | MF_MEDIA_ENGINE_AUDIOONLY,
-		m_spAttributes.Get(),
+		m_spAttributes,
 		&m_spEngine
 		));
 
-	DX::ThrowIfFailed(m_spEngine.Get()->QueryInterface(__uuidof(IMFMediaEngine), (void**) &m_spEngineEx));
+	DX::ThrowIfFailed(m_spEngine->QueryInterface(__uuidof(IMFMediaEngine), (void**) &m_spEngineEx));
 
 	DX::ThrowIfFailed(m_spEngine->SetLoop(true));
+}
+
+ThemeMusic::~ThemeMusic()
+{
+	delete m_spNotify;
 }
 
 void ThemeMusic::Play()
@@ -174,11 +179,11 @@ void ThemeMusic::OnMediaEngineEvent(DWORD meEvent)
 
 void ThemeMusic::SetBytestream(IRandomAccessStream^ streamHandle)
 {
-	ComPtr<IMFByteStream> spMFByteStream = NULL;	
+	IMFByteStream *spMFByteStream = NULL;
 	
 	DX::ThrowIfFailed(MFCreateMFByteStreamOnStreamEx((IUnknown*)streamHandle, &spMFByteStream));
 
-	DX::ThrowIfFailed(m_spEngineEx->SetSourceFromByteStream(spMFByteStream.Get(), m_bstrURL));	
+	DX::ThrowIfFailed(m_spEngineEx->SetSourceFromByteStream(spMFByteStream, m_bstrURL));	
 }
 
 void ThemeMusic::SetURL(Platform::String^ szURL)
