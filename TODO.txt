@@ -1,6 +1,7 @@
 TODO:
 
 - fix memory leaks (use smart pointers?)
+- use relative sizes instead of hardcoded pixels everywhere
 - add menu button to turn off music
 - use new graphics for:
 	- scene border
