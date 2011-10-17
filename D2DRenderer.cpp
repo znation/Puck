@@ -16,11 +16,12 @@ using namespace Windows::UI::Core;
 
 D2DRenderer::D2DRenderer()
 {
+#ifdef DEBUG
 	DX::ThrowIfFailed(
 		DWriteCreateFactory(
 		DWRITE_FACTORY_TYPE_SHARED,
 		__uuidof(IDWriteFactory),
-		&m_dwriteFactory
+		(IUnknown **)(&m_dwriteFactory)
 		)
 		);
 
@@ -34,6 +35,12 @@ D2DRenderer::D2DRenderer()
 		32.0f,
 		L"en-US",
 		&m_textFormat));
+#endif
+}
+
+D2DRenderer::~D2DRenderer()
+{
+	delete m_game;
 }
 
 void D2DRenderer::CreateDeviceIndependentResources()
@@ -54,6 +61,7 @@ void D2DRenderer::RecreateTarget()
 	CreateWindowSizeDependentResources();
 }
 
+#ifdef DEBUG
 void D2DRenderer::RenderFPS(D2D1_SIZE_F)
 {
 	SYSTEMTIME time;
@@ -86,10 +94,11 @@ void D2DRenderer::RenderFPS(D2D1_SIZE_F)
 	m_d2dContext->DrawText(
 		m_fpsText,
 		m_fpsTextLength,
-		m_textFormat.Get(),
+		m_textFormat,
 		&layoutRect,
-		m_whiteBrush.Get());
+		m_whiteBrush);
 }
+#endif
 
 void D2DRenderer::OnMouseMove(Windows::UI::Core::PointerEventArgs^ args)
 {
