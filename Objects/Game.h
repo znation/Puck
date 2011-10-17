@@ -12,7 +12,7 @@ using namespace Microsoft::WRL;
 class Game
 {
 public:
-	Game(b2Vec2 viewportSize, ComPtr<ID2D1DeviceContext> ctx, ComPtr<IDWriteFactory1> dwriteFactory);
+	Game(b2Vec2 viewportSize, ID2D1DeviceContext * ctx, IDWriteFactory1 * dwriteFactory);
 	~Game();
 	void Draw();
 	void OnMouseMove(b2Vec2 p);
@@ -24,10 +24,10 @@ public:
 	
 private:
 	b2Vec2 m_size;
-	b2World *m_world;
+	b2World * m_world;
 	Scene *m_scene;
 	bool m_showMenu;
-	GameMenu *m_menu;
-	ComPtr<ID2D1DeviceContext> m_ctx;
-	ComPtr<IDWriteFactory1> m_dwriteFactory;
+	GameMenu * m_menu;
+	ID2D1DeviceContext * m_ctx;
+	IDWriteFactory1 * m_dwriteFactory;
 };

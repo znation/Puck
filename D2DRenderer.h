@@ -34,10 +34,9 @@ private:
 	int m_frameCounter;
 	int m_fps;
 	WORD m_lastFrameSecond;
-
+	IDWriteFactory1 * m_dwriteFactory; // used for FPS text and game menu
 #ifdef DEBUG
 	ID2D1SolidColorBrush * m_whiteBrush; // used only for FPS text
-	IDWriteFactory1 * m_dwriteFactory; // only used for FPS text
 	IDWriteTextFormat * m_textFormat; // only used for FPS text
 	WCHAR m_fpsText[10]; // used only for FPS text
 	uint32 m_fpsTextLength; // used only for FPS text

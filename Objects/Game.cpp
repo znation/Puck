@@ -1,6 +1,6 @@
 #include "Game.h"
 
-Game::Game(b2Vec2 viewportSize, ComPtr<ID2D1DeviceContext> ctx, ComPtr<IDWriteFactory1> dwriteFactory)
+Game::Game(b2Vec2 viewportSize, ID2D1DeviceContext * ctx, IDWriteFactory1 * dwriteFactory)
 {	
 	m_size = viewportSize;
 	m_ctx = ctx;
@@ -8,6 +8,13 @@ Game::Game(b2Vec2 viewportSize, ComPtr<ID2D1DeviceContext> ctx, ComPtr<IDWriteFa
 	m_menu = new GameMenu(viewportSize, this, ctx, dwriteFactory);
 	m_scene = nullptr;
 	m_world = nullptr;
+}
+
+Game::~Game()
+{
+	delete m_menu;
+	delete m_world;
+	delete m_scene;
 }
 
 void Game::Begin()

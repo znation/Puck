@@ -16,7 +16,6 @@ using namespace Windows::UI::Core;
 
 D2DRenderer::D2DRenderer()
 {
-#ifdef DEBUG
 	DX::ThrowIfFailed(
 		DWriteCreateFactory(
 		DWRITE_FACTORY_TYPE_SHARED,
@@ -25,6 +24,7 @@ D2DRenderer::D2DRenderer()
 		)
 		);
 
+#ifdef DEBUG
 	DX::ThrowIfFailed(
 		m_dwriteFactory->CreateTextFormat(
 		L"Segoe UI",
@@ -121,7 +121,7 @@ void D2DRenderer::Render()
 	if (m_game == nullptr)
 	{
 		// Initialize Game
-		m_game = new Game(b2Vec2(renderTargetSize.width, renderTargetSize.height), m_d2dContext, m_dwriteFactory);
+		m_game = new Game(b2Vec2(renderTargetSize.width, renderTargetSize.height), m_d2dContext.Get(), m_dwriteFactory);
 	}
 
 	m_d2dContext->BeginDraw();
