@@ -179,8 +179,6 @@ void ThemeMusic::SetBytestream(IRandomAccessStream^ streamHandle)
 	DX::ThrowIfFailed(MFCreateMFByteStreamOnStreamEx((IUnknown*)streamHandle, &spMFByteStream));
 
 	DX::ThrowIfFailed(m_spEngineEx->SetSourceFromByteStream(spMFByteStream.Get(), m_bstrURL));	
-	
-    return;
 }
 
 void ThemeMusic::SetURL(Platform::String^ szURL)
