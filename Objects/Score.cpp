@@ -22,6 +22,14 @@ Score::Score(b2Vec2 scoreSize,
 	}
 }
 
+Score::~Score()
+{
+	for (int i=0; i<MAX_SCORE; i++)
+	{
+		delete m_scoreButtons[i];
+	}
+}
+
 int Score::getScore()
 {
 	return m_score;

@@ -31,6 +31,7 @@ public:
 		b2Vec2 scorePosition,
 		int playerIdx,
 		ComPtr<ID2D1DeviceContext> ctx);
+	~Score();
 	void draw();
 	void increment();
 	int getScore();
