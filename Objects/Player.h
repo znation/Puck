@@ -24,6 +24,7 @@ public:
 		b2Body *groundBody,
 		ComPtr<IDWriteFactory1> dwriteFactory,
 		Scene *scene);
+	~Player();
 	void draw();
 	Stick *m_stick;
 	bool containsPoint(b2Vec2 p);

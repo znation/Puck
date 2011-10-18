@@ -53,6 +53,12 @@ Player::Player(b2Vec2 sceneSize,
 	m_rect.radiusY = 10;
 }
 
+Player::~Player()
+{
+	delete m_goal;
+	delete m_stick;
+}
+
 void Player::reset()
 {
 	m_stick->reset();
