@@ -40,7 +40,13 @@ Goal::Goal(b2Vec2 sceneSize,
 	b2PolygonShape goalBox;
 	goalBox.SetAsBox(extents.x, extents.y);
 	m_goalBody->CreateFixture(&goalBox, 0.0f);
-	m_goalBody->SetUserData(new b2UserData(b2UserData_Goal, nullptr));
+	m_userData = new b2UserData(b2UserData_Goal, nullptr);
+	m_goalBody->SetUserData(m_userData);
+}
+
+Goal::~Goal()
+{
+	delete m_userData;
 }
 
 void Goal::draw()

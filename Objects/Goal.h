@@ -1,6 +1,7 @@
 #include <wrl.h>
 #include <d2d1_1.h>
 #include "Box2D\Box2D.h"
+#include "b2UserData.h"
 
 #pragma once
 
@@ -18,6 +19,7 @@ public:
 		ComPtr<ID2D1DeviceContext> ctx,
 		b2World *world,
 		Scene *scene);
+	~Goal();
 	void draw();
 	void detectCollisions();
 
@@ -30,4 +32,5 @@ private:
 	ComPtr<ID2D1SolidColorBrush> m_brush;
 	D2D1_RECT_F m_rect;
 	b2Body *m_goalBody;
+	b2UserData *m_userData;
 };
