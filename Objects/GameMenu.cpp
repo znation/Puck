@@ -3,7 +3,7 @@
 #include "Game.h"
 #include "Utility.h"
 
-GameMenu::GameMenu(b2Vec2 viewportSize, Game *game, ComPtr<ID2D1DeviceContext> ctx, ComPtr<IDWriteFactory1> dwriteFactory)
+GameMenu::GameMenu(b2Vec2 viewportSize, Game * game, ID2D1DeviceContext * ctx, IDWriteFactory1 * dwriteFactory)
 {
 	m_size = viewportSize;
 	m_game = game;
@@ -66,7 +66,7 @@ void GameMenu::Draw()
 {
 	m_ctx->FillRectangle(
 		&m_rect,
-		m_transparentBgBrush.Get());
+		m_transparentBgBrush);
 
 	for (int i=0; i<MENU_BUTTON_COUNT; i++)
 	{
@@ -83,9 +83,9 @@ void GameMenu::Draw()
 		m_ctx->DrawText(
 			m_buttons[i].Text,
 			m_buttons[i].TextLength,
-			m_buttonTextFormat.Get(),
+			m_buttonTextFormat,
 			&m_buttons[i].RoundedRect.rect,
-			m_buttonTextBrush.Get());
+			m_buttonTextBrush);
 	}
 }
 

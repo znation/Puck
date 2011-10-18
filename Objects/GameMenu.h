@@ -23,19 +23,19 @@ public:
 class GameMenu
 {
 public:
-	GameMenu(b2Vec2 viewportSize, Game *game, ComPtr<ID2D1DeviceContext> ctx, ComPtr<IDWriteFactory1> dwriteFactory);
+	GameMenu(b2Vec2 viewportSize, Game *game, ID2D1DeviceContext * ctx, IDWriteFactory1 * dwriteFactory);
 	void Draw();
 	void OnMouseDown(Windows::UI::Core::PointerEventArgs^ args);
 private:
 	b2Vec2 m_size;
-	ComPtr<ID2D1DeviceContext> m_ctx;
-	ComPtr<IDWriteFactory1> m_dwriteFactory;
+	ID2D1DeviceContext * m_ctx;
+	IDWriteFactory1 * m_dwriteFactory;
 	Game *m_game;
 	D2D1_RECT_F m_rect;
-	ComPtr<ID2D1SolidColorBrush> m_transparentBgBrush;
-	ComPtr<ID2D1SolidColorBrush> m_solidBgBrush;
-	ComPtr<ID2D1SolidColorBrush> m_buttonTextBrush;
-	ComPtr<IDWriteTextFormat> m_buttonTextFormat;
+	ID2D1SolidColorBrush * m_transparentBgBrush;
+	ID2D1SolidColorBrush * m_solidBgBrush;
+	ID2D1SolidColorBrush * m_buttonTextBrush;
+	IDWriteTextFormat * m_buttonTextFormat;
 
 	MenuButton m_buttons[MENU_BUTTON_COUNT];
 };
