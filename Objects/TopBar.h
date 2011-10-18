@@ -21,6 +21,7 @@ public:
 		b2Vec2 topBarSize,
 		b2Vec2 topBarPosition,
 		ComPtr<IDWriteFactory1> dwriteFactory);
+	~TopBar();
 	void ScoreGoal(int playerIdx);
 	void Draw();
 	void OnMouseDown(Windows::UI::Core::PointerEventArgs^ args);

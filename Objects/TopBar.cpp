@@ -52,6 +52,14 @@ TopBar::TopBar(Scene *scene,
 	DX::ThrowIfFailed(m_menuButtonTextFormat->SetParagraphAlignment(DWRITE_PARAGRAPH_ALIGNMENT_CENTER));
 }
 
+TopBar::~TopBar()
+{
+	for (int i=0; i<2; i++)
+	{
+		delete m_score[i];
+	}
+}
+
 void TopBar::Draw()
 {
 	for (int i=0; i<2; i++)
