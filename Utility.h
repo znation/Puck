@@ -15,3 +15,5 @@
 float32 pixelToBox(float32 coord);
 float32 boxToPixel(float32 coord);
 bool rectContainsPoint(D2D1_RECT_F rect, b2Vec2 point);
+void ThrowIfFailed(HRESULT hr);
+IUnknown* GetIUnknown(Windows::UI::Core::CoreWindow^ window);

@@ -19,3 +19,16 @@ bool rectContainsPoint(D2D1_RECT_F r, b2Vec2 p)
 		p.y >= r.top &&
 		p.y <= r.bottom);
 }
+
+void ThrowIfFailed(HRESULT hr)
+{
+	if (FAILED(hr))
+	{
+		__cli_WinRTraiseException(hr);
+	}
+}
+
+IUnknown* GetIUnknown(Windows::UI::Core::CoreWindow^ window)
+{
+	return (IUnknown*) reinterpret_cast<__cli_IUnknown*>(window);
+}

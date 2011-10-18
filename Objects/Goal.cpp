@@ -1,5 +1,4 @@
 #include "Goal.h"
-#include "DirectXSample.h"
 #include "b2UserData.h"
 #include "Utility.h"
 #include "Scene.h"
@@ -18,7 +17,7 @@ Goal::Goal(b2Vec2 sceneSize,
 	m_position = b2Vec2(playerIdx == 0 ? scenePosition.x - (m_size.x / 2.0f) : 
 		scenePosition.x + sceneSize.x - (m_size.x / 2.0f),
 		scenePosition.y + ((sceneSize.y / 2.0f) - (m_size.y / 2.0f)));
-	DX::ThrowIfFailed(ctx->CreateSolidColorBrush(
+	ThrowIfFailed(ctx->CreateSolidColorBrush(
 		D2D1::ColorF(D2D1::ColorF::WhiteSmoke),
 		&m_brush));
 

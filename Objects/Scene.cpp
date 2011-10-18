@@ -1,5 +1,4 @@
 #include "Scene.h"
-#include "DirectXSample.h"
 #include "Utility.h"
 #include "b2UserData.h"
 #include "Game.h"
@@ -34,17 +33,17 @@ Scene::Scene(b2Vec2 viewportSize,
 		viewportSize.y - ((2 * padding) + topBarSize.y));
 	m_position = b2Vec2(padding, padding + topBarPosition.y + topBarSize.y);
 
-	DX::ThrowIfFailed(ctx->CreateSolidColorBrush(
+	ThrowIfFailed(ctx->CreateSolidColorBrush(
 		D2D1::ColorF(D2D1::ColorF::Cyan),
 		&Scene::Cyan));
 
-	DX::ThrowIfFailed(ctx->CreateSolidColorBrush(
+	ThrowIfFailed(ctx->CreateSolidColorBrush(
 		D2D1::ColorF(D2D1::ColorF(0.0784313725490196f,
 		0.0784313725490196f,
 		0.0784313725490196f)),
 		&m_gridBrush));
 
-	DX::ThrowIfFailed(
+	ThrowIfFailed(
 		dwriteFactory->CreateTextFormat(
 		L"Segoe UI",
 		nullptr,
@@ -55,8 +54,8 @@ Scene::Scene(b2Vec2 viewportSize,
 		L"en-US",
 		&m_roundTimerTextFormat));
 
-	DX::ThrowIfFailed(m_roundTimerTextFormat->SetTextAlignment(DWRITE_TEXT_ALIGNMENT_CENTER));
-	DX::ThrowIfFailed(m_roundTimerTextFormat->SetParagraphAlignment(DWRITE_PARAGRAPH_ALIGNMENT_CENTER));
+	ThrowIfFailed(m_roundTimerTextFormat->SetTextAlignment(DWRITE_TEXT_ALIGNMENT_CENTER));
+	ThrowIfFailed(m_roundTimerTextFormat->SetParagraphAlignment(DWRITE_PARAGRAPH_ALIGNMENT_CENTER));
 
 	m_rect.rect.top = m_position.y;
 	m_rect.rect.left = m_position.x;

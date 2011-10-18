@@ -331,7 +331,6 @@
   <ItemGroup>
     <ClInclude Include="D2DRenderer.h" />
     <ClInclude Include="DirectXBase.h" />
-    <ClInclude Include="DirectXSample.h" />
     <ClInclude Include="DirectXViewProvider.h" />
     <ClInclude Include="Objects\b2UserData.h" />
     <ClInclude Include="Objects\Game.h" />

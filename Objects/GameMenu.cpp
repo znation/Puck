@@ -1,5 +1,4 @@
 #include "GameMenu.h"
-#include "DirectXSample.h"
 #include "Game.h"
 #include "Utility.h"
 
@@ -35,19 +34,19 @@ GameMenu::GameMenu(b2Vec2 viewportSize, Game * game, ComPtr<ID2D1DeviceContext> 
 	m_buttons[1].Text = L"Resume";
 	m_buttons[1].TextLength = 6;
 
-	DX::ThrowIfFailed(ctx->CreateSolidColorBrush(
+	ThrowIfFailed(ctx->CreateSolidColorBrush(
 		D2D1::ColorF(D2D1::ColorF::Black),
 		&m_solidBgBrush));
 
-	DX::ThrowIfFailed(ctx->CreateSolidColorBrush(
+	ThrowIfFailed(ctx->CreateSolidColorBrush(
 		D2D1::ColorF(D2D1::ColorF::White),
 		&m_buttonTextBrush));
 
-	DX::ThrowIfFailed(ctx->CreateSolidColorBrush(
+	ThrowIfFailed(ctx->CreateSolidColorBrush(
 		D2D1::ColorF(D2D1::ColorF(0.5, 0.5, 0.5, 0.5)),
 		&m_transparentBgBrush));
 
-	DX::ThrowIfFailed(
+	ThrowIfFailed(
 		m_dwriteFactory->CreateTextFormat(
 		L"Segoe UI",
 		nullptr,
@@ -58,8 +57,8 @@ GameMenu::GameMenu(b2Vec2 viewportSize, Game * game, ComPtr<ID2D1DeviceContext> 
 		L"en-US",
 		&m_buttonTextFormat));
 
-	DX::ThrowIfFailed(m_buttonTextFormat->SetTextAlignment(DWRITE_TEXT_ALIGNMENT_CENTER));
-	DX::ThrowIfFailed(m_buttonTextFormat->SetParagraphAlignment(DWRITE_PARAGRAPH_ALIGNMENT_CENTER));
+	ThrowIfFailed(m_buttonTextFormat->SetTextAlignment(DWRITE_TEXT_ALIGNMENT_CENTER));
+	ThrowIfFailed(m_buttonTextFormat->SetParagraphAlignment(DWRITE_PARAGRAPH_ALIGNMENT_CENTER));
 }
 
 void GameMenu::Draw()

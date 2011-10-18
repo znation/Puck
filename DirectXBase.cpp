@@ -40,7 +40,7 @@ void DirectXBase::CreateDeviceIndependentResources()
     options.debugLevel = D2D1_DEBUG_LEVEL_INFORMATION;
 #endif
 
-    DX::ThrowIfFailed(
+    ThrowIfFailed(
         D2D1CreateFactory(
             D2D1_FACTORY_TYPE_SINGLE_THREADED, 
             __uuidof(ID2D1Factory1),
@@ -49,7 +49,7 @@ void DirectXBase::CreateDeviceIndependentResources()
             )
         );
 
-    DX::ThrowIfFailed(
+    ThrowIfFailed(
         CoCreateInstance(
             CLSID_WICImagingFactory,
             nullptr,
@@ -93,7 +93,7 @@ void DirectXBase::CreateDeviceResources()
     // Create the DX11 API device object, and get a corresponding context.
     ComPtr<ID3D11Device> device;
     ComPtr<ID3D11DeviceContext> context;
-    DX::ThrowIfFailed(
+    ThrowIfFailed(
         D3D11CreateDevice(
             nullptr,                    // specify null to use the default adapter
             D3D_DRIVER_TYPE_HARDWARE,
@@ -109,27 +109,27 @@ void DirectXBase::CreateDeviceResources()
         );
 
     // Get the DirectX11.1 device by QI off the DirectX11 one.
-    DX::ThrowIfFailed(
+    ThrowIfFailed(
         device.As(&m_d3dDevice)
         );
 
     // And get the corresponding device context in the same way.
-    DX::ThrowIfFailed(
+    ThrowIfFailed(
         context.As(&m_d3dContext)
         );
 
     // Obtain the underlying DXGI device of the Direct3D11.1 device.
-    DX::ThrowIfFailed(
+    ThrowIfFailed(
         m_d3dDevice.As(&dxgiDevice)
         );
 
     // Obtain the Direct2D device for 2-D rendering.
-    DX::ThrowIfFailed(
+    ThrowIfFailed(
         m_d2dFactory->CreateDevice(dxgiDevice.Get(), &m_d2dDevice)
         );
 
     // And get its corresponding device context object.
-    DX::ThrowIfFailed(
+    ThrowIfFailed(
         m_d2dDevice->CreateDeviceContext(
             D2D1_DEVICE_CONTEXT_OPTIONS_NONE,
             &m_d2dContext
@@ -154,7 +154,7 @@ void DirectXBase::CreateWindowSizeDependentResources()
     // If the swap chain already exists, resize it.
     if(m_swapChain != nullptr)
     {
-        DX::ThrowIfFailed(
+        ThrowIfFailed(
             m_swapChain->ResizeBuffers(2, 0, 0, DXGI_FORMAT_B8G8R8A8_UNORM, 0)
             );
     }
@@ -179,26 +179,26 @@ void DirectXBase::CreateWindowSizeDependentResources()
 
         // First, retrieve the underlying DXGI Device from the D3D Device.
         ComPtr<IDXGIDevice1>  dxgiDevice;
-        DX::ThrowIfFailed(
+        ThrowIfFailed(
             m_d3dDevice.As(&dxgiDevice)
             );
 
         // Ensure that DXGI does not queue more than one frame at a time. This both reduces 
         // latency and ensures that the application will only render after each VSync, minimizing 
         // power consumption.
-        DX::ThrowIfFailed(
+        ThrowIfFailed(
             dxgiDevice->SetMaximumFrameLatency(1)
             );
 
         // Identify the physical adapter (GPU or card) this device is running on.
         ComPtr<IDXGIAdapter> dxgiAdapter;
-        DX::ThrowIfFailed(
+        ThrowIfFailed(
             dxgiDevice->GetAdapter(&dxgiAdapter)
             );
 
         // And obtain the factory object that created it.
         ComPtr<IDXGIFactory2> dxgiFactory;
-        DX::ThrowIfFailed(
+        ThrowIfFailed(
             dxgiAdapter->GetParent(
                 __uuidof(IDXGIFactory2), 
                 &dxgiFactory
@@ -206,10 +206,10 @@ void DirectXBase::CreateWindowSizeDependentResources()
             );
 
         // Obtain the final swap chain for this window from the DXGI factory.
-        DX::ThrowIfFailed(
+        ThrowIfFailed(
             dxgiFactory->CreateSwapChainForImmersiveWindow(
                 m_d3dDevice.Get(),
-                DX::GetIUnknown(m_window),
+                GetIUnknown(m_window),
                 &swapChainDesc,
                 nullptr,    // allow on all displays
                 &m_swapChain
@@ -219,7 +219,7 @@ void DirectXBase::CreateWindowSizeDependentResources()
 
     // Obtain the backbuffer for this window which will be the final 3D rendertarget.
     ComPtr<ID3D11Texture2D> backBuffer;
-    DX::ThrowIfFailed(
+    ThrowIfFailed(
         m_swapChain->GetBuffer(
             0,
             __uuidof(ID3D11Texture2D),
@@ -228,7 +228,7 @@ void DirectXBase::CreateWindowSizeDependentResources()
         );
 
     // Create a view interface on the rendertarget to use on bind.
-    DX::ThrowIfFailed(
+    ThrowIfFailed(
         m_d3dDevice->CreateRenderTargetView(
             backBuffer.Get(),
             nullptr,
@@ -253,7 +253,7 @@ void DirectXBase::CreateWindowSizeDependentResources()
 
     // Allocate a 2-D surface as the depth/stencil buffer.
     ComPtr<ID3D11Texture2D> depthStencil;
-    DX::ThrowIfFailed(
+    ThrowIfFailed(
         m_d3dDevice->CreateTexture2D(
             &depthStencilDesc,
             nullptr,
@@ -263,7 +263,7 @@ void DirectXBase::CreateWindowSizeDependentResources()
 
     // Create a DepthStencil view on this surface to use on bind.
 	CD3D11_DEPTH_STENCIL_VIEW_DESC desc = CD3D11_DEPTH_STENCIL_VIEW_DESC(D3D11_DSV_DIMENSION_TEXTURE2D);
-    DX::ThrowIfFailed(
+    ThrowIfFailed(
         m_d3dDevice->CreateDepthStencilView(
             depthStencil.Get(),
             &desc,
@@ -295,7 +295,7 @@ void DirectXBase::CreateWindowSizeDependentResources()
 
     // Direct2D needs the dxgi version of the backbuffer surface pointer.
     ComPtr<IDXGISurface> dxgiBackBuffer;
-    DX::ThrowIfFailed(
+    ThrowIfFailed(
         m_swapChain->GetBuffer(
             0,
             __uuidof(IDXGISurface),
@@ -304,7 +304,7 @@ void DirectXBase::CreateWindowSizeDependentResources()
         );
 
     // Get a D2D surface from the DXGI back buffer to use as the D2D render target.
-    DX::ThrowIfFailed(
+    ThrowIfFailed(
         m_d2dContext->CreateBitmapFromDxgiSurface(
             dxgiBackBuffer.Get(),
             &bitmapProperties,
@@ -364,6 +364,6 @@ void DirectXBase::Present()
     }
     else
     {
-        DX::ThrowIfFailed(hr);
+        ThrowIfFailed(hr);
     }
 }

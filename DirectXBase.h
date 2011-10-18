@@ -15,7 +15,7 @@
 #include <d2d1effects.h>
 #include <dwrite_1.h>
 #include <wincodec.h>
-#include "DirectXSample.h"
+#include "Utility.h"
 
 ref class DirectXBase abstract
 {

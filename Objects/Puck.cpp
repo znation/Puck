@@ -1,5 +1,4 @@
 #include "Puck.h"
-#include "DirectXSample.h"
 #include "Utility.h"
 #include "b2UserData.h"
 
@@ -14,7 +13,7 @@ Puck::Puck(b2Vec2 viewportSize, ComPtr<ID2D1DeviceContext> ctx, b2World *world)
 	m_ellipse.radiusY = m_radius;
 	m_circleBody = nullptr;
 
-	DX::ThrowIfFailed(ctx->CreateSolidColorBrush(
+	ThrowIfFailed(ctx->CreateSolidColorBrush(
 		D2D1::ColorF(D2D1::ColorF::Cyan),
 		&m_brush));
 

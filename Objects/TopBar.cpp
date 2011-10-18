@@ -1,7 +1,7 @@
 #include "TopBar.h"
 #include "Scene.h"
-#include "DirectXSample.h"
 #include "Game.h"
+#include "Utility.h"
 
 TopBar::TopBar(Scene *scene,
 			   Game *game,
@@ -37,7 +37,7 @@ TopBar::TopBar(Scene *scene,
 		m_score[i] = new Score(scoreSize, scorePosition, i, ctx);
 	}
 
-	DX::ThrowIfFailed(
+	ThrowIfFailed(
 		dwriteFactory->CreateTextFormat(
 		L"Segoe UI",
 		nullptr,
@@ -48,8 +48,8 @@ TopBar::TopBar(Scene *scene,
 		L"en-US",
 		&m_menuButtonTextFormat));
 
-	DX::ThrowIfFailed(m_menuButtonTextFormat->SetTextAlignment(DWRITE_TEXT_ALIGNMENT_CENTER));
-	DX::ThrowIfFailed(m_menuButtonTextFormat->SetParagraphAlignment(DWRITE_PARAGRAPH_ALIGNMENT_CENTER));
+	ThrowIfFailed(m_menuButtonTextFormat->SetTextAlignment(DWRITE_TEXT_ALIGNMENT_CENTER));
+	ThrowIfFailed(m_menuButtonTextFormat->SetParagraphAlignment(DWRITE_PARAGRAPH_ALIGNMENT_CENTER));
 }
 
 TopBar::~TopBar()

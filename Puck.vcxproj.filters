@@ -33,7 +33,6 @@
     <ClInclude Include="DirectXViewProvider.h" />
     <ClInclude Include="D2DRenderer.h" />
     <ClInclude Include="DirectXBase.h" />
-    <ClInclude Include="DirectXSample.h" />
     <ClInclude Include="Objects\Puck.h" />
     <ClInclude Include="Objects\Stick.h" />
     <ClInclude Include="Objects\Player.h" />

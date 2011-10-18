@@ -16,7 +16,7 @@ using namespace Windows::UI::Core;
 
 D2DRenderer::D2DRenderer()
 {
-	DX::ThrowIfFailed(
+	ThrowIfFailed(
 		DWriteCreateFactory(
 		DWRITE_FACTORY_TYPE_SHARED,
 		__uuidof(IDWriteFactory),
@@ -25,7 +25,7 @@ D2DRenderer::D2DRenderer()
 		);
 
 #ifdef DEBUG
-	DX::ThrowIfFailed(
+	ThrowIfFailed(
 		m_dwriteFactory->CreateTextFormat(
 		L"Segoe UI",
 		nullptr,
@@ -81,7 +81,7 @@ void D2DRenderer::RenderFPS(D2D1_SIZE_F)
 		m_frameCounter++;
 	}
 
-	DX::ThrowIfFailed(
+	ThrowIfFailed(
 		m_d2dContext->CreateSolidColorBrush(D2D1::ColorF(1.0, 1.0, 1.0, 0.5), &m_whiteBrush)
 		);
 
@@ -142,7 +142,7 @@ void D2DRenderer::Render()
 	}
 	else
 	{
-		DX::ThrowIfFailed(hr);
+		ThrowIfFailed(hr);
 	}
 
 	Present();

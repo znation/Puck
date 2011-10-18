@@ -1,5 +1,4 @@
 #include "Player.h"
-#include "DirectXSample.h"
 #include "Utility.h"
 #include "Scene.h"
 
@@ -23,11 +22,11 @@ Player::Player(b2Vec2 sceneSize,
 	m_stick = new Stick(m_size, m_position, world, groundBody);	
 	m_goal = new Goal(sceneSize, scenePosition, m_playerIdx, ctx, world, scene);
 	
-	DX::ThrowIfFailed(ctx->CreateSolidColorBrush(
+	ThrowIfFailed(ctx->CreateSolidColorBrush(
 		D2D1::ColorF(m_playerIdx == 0 ? D2D1::ColorF::Yellow : D2D1::ColorF::Magenta),
         &m_brush));
 
-	DX::ThrowIfFailed(
+	ThrowIfFailed(
 		dwriteFactory->CreateTextFormat(
 		L"Segoe UI",
 		nullptr,
@@ -38,11 +37,11 @@ Player::Player(b2Vec2 sceneSize,
 		L"en-US",
 		&m_format));
 
-	DX::ThrowIfFailed(
+	ThrowIfFailed(
 		m_format->SetTextAlignment(DWRITE_TEXT_ALIGNMENT_CENTER)
 		);
 
-	DX::ThrowIfFailed(
+	ThrowIfFailed(
 		m_format->SetParagraphAlignment(DWRITE_PARAGRAPH_ALIGNMENT_CENTER));
 
 	m_rect.rect.top = m_position.y;

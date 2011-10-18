@@ -1,6 +1,6 @@
 #include "Score.h"
-#include "DirectXSample.h"
 #include "Scene.h"
+#include "Utility.h"
 
 Score::Score(b2Vec2 scoreSize,
 		b2Vec2 scorePosition,

@@ -1,5 +1,5 @@
 #include "ThemeMusic.h"
-#include "DirectXSample.h"
+#include "Utility.h"
 
 // Disable warning 4400 (not sure why it's happening)
 #pragma warning ( disable : 4400 )
@@ -69,7 +69,7 @@ ThemeMusic::ThemeMusic(Windows::UI::Core::CoreWindow^ window)
 {
 	m_bstrURL = NULL;
 
-	DX::ThrowIfFailed(
+	ThrowIfFailed(
 		MFStartup(
 		MF_VERSION
 		));
@@ -78,28 +78,28 @@ ThemeMusic::ThemeMusic(Windows::UI::Core::CoreWindow^ window)
 	m_spNotify = new MediaEngineNotify(window, this);
 	if (m_spNotify == NULL)
 	{
-		DX::ThrowIfFailed(E_OUTOFMEMORY);    
+		ThrowIfFailed(E_OUTOFMEMORY);    
 	}
 
-	DX::ThrowIfFailed(
+	ThrowIfFailed(
 		CoCreateInstance(
 		CLSID_MFMediaEngineClassFactory, NULL, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&m_spFactory)));
 
-	DX::ThrowIfFailed(
+	ThrowIfFailed(
 		MFCreateAttributes(&m_spAttributes, 1));
 
-	DX::ThrowIfFailed(
+	ThrowIfFailed(
 		m_spAttributes->SetUnknown(MF_MEDIA_ENGINE_CALLBACK, (IUnknown*) m_spNotify));
 
-	DX::ThrowIfFailed(m_spFactory->CreateInstance(
+	ThrowIfFailed(m_spFactory->CreateInstance(
 		MF_MEDIA_ENGINE_WAITFORSTABLE_STATE | MF_MEDIA_ENGINE_AUDIOONLY,
 		m_spAttributes,
 		&m_spEngine
 		));
 
-	DX::ThrowIfFailed(m_spEngine->QueryInterface(__uuidof(IMFMediaEngine), (void**) &m_spEngineEx));
+	ThrowIfFailed(m_spEngine->QueryInterface(__uuidof(IMFMediaEngine), (void**) &m_spEngineEx));
 
-	DX::ThrowIfFailed(m_spEngine->SetLoop(true));
+	ThrowIfFailed(m_spEngine->SetLoop(true));
 }
 
 ThemeMusic::~ThemeMusic()
@@ -123,13 +123,13 @@ void ThemeMusic::SetFile()
 		StorageFile^ fileHandle = fileOp->GetResults();
 		if (!fileHandle)
 		{
-			DX::ThrowIfFailed(E_OUTOFMEMORY);
+			ThrowIfFailed(E_OUTOFMEMORY);
 		}
 
 		auto fOpenStream = fileHandle->OpenAsync(Windows::Storage::FileAccessMode::Read);
 		if(!fOpenStream)
 		{
-			DX::ThrowIfFailed(E_OUTOFMEMORY);
+			ThrowIfFailed(E_OUTOFMEMORY);
 		}
 		
 		themeMusic->SetURL(fileHandle->Path);
@@ -143,7 +143,7 @@ void ThemeMusic::SetFile()
 		
 		if(!fOpenStream->Completed)
 		{
-			DX::ThrowIfFailed(E_UNEXPECTED);
+			ThrowIfFailed(E_UNEXPECTED);
 		}
 
 		fOpenStream->Start();
@@ -163,7 +163,7 @@ void ThemeMusic::OnMediaEngineEvent(DWORD meEvent)
 	case MF_MEDIA_ENGINE_EVENT_LOADEDMETADATA:
 		break;
 	case MF_MEDIA_ENGINE_EVENT_CANPLAY:
-		DX::ThrowIfFailed(m_spEngine->Play());
+		ThrowIfFailed(m_spEngine->Play());
 		break;        
 	case MF_MEDIA_ENGINE_EVENT_PLAY:
 		break;				
@@ -172,7 +172,7 @@ void ThemeMusic::OnMediaEngineEvent(DWORD meEvent)
 	case MF_MEDIA_ENGINE_EVENT_TIMEUPDATE:        
 		break;
 	case MF_MEDIA_ENGINE_EVENT_ERROR:
-		DX::ThrowIfFailed(E_ABORT);
+		ThrowIfFailed(E_ABORT);
 		break;    
 	}
 }
@@ -181,9 +181,9 @@ void ThemeMusic::SetBytestream(IRandomAccessStream^ streamHandle)
 {
 	IMFByteStream *spMFByteStream = NULL;
 	
-	DX::ThrowIfFailed(MFCreateMFByteStreamOnStreamEx((IUnknown*)streamHandle, &spMFByteStream));
+	ThrowIfFailed(MFCreateMFByteStreamOnStreamEx((IUnknown*)streamHandle, &spMFByteStream));
 
-	DX::ThrowIfFailed(m_spEngineEx->SetSourceFromByteStream(spMFByteStream, m_bstrURL));	
+	ThrowIfFailed(m_spEngineEx->SetSourceFromByteStream(spMFByteStream, m_bstrURL));	
 }
 
 void ThemeMusic::SetURL(Platform::String^ szURL)
@@ -197,7 +197,7 @@ void ThemeMusic::SetURL(Platform::String^ szURL)
 	m_bstrURL = SysAllocString(szURL->Data());
     if (m_bstrURL == 0)
     {
-        DX::ThrowIfFailed(E_OUTOFMEMORY);
+        ThrowIfFailed(E_OUTOFMEMORY);
     }
 
 	return;
