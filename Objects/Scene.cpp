@@ -73,6 +73,7 @@ Scene::Scene(b2Vec2 viewportSize,
 		Edge(b2Vec2(padding / 2.0f, m_position.y + (m_size.y / 2.0f)), verticalEdgeSize, "y"), // left
 		Edge(b2Vec2(m_position.x + m_size.x + (padding / 2.0f), m_position.y + (m_size.y / 2.0f)), verticalEdgeSize, "y")}; // right
 
+	b2Body * groundBoxBody;
 	for (int i=0; i<4; i++)
 	{
 		Edge edge = edges[i];
@@ -84,19 +85,34 @@ Scene::Scene(b2Vec2 viewportSize,
 		b2BodyDef groundBodyDef;
 		groundBodyDef.position.Set(edge.center.x, edge.center.y);
 		groundBodyDef.type = b2_staticBody;
-		m_groundBoxBody = world->CreateBody(&groundBodyDef);
+		groundBoxBody = world->CreateBody(&groundBodyDef);
 		b2PolygonShape groundBox;
 		groundBox.SetAsBox(edge.extents.x, edge.extents.y);
-		m_groundBoxBody->CreateFixture(&groundBox, 0.0f);
-		m_groundBoxBody->SetUserData(new b2UserData(b2UserData_Edge, (void*)edge.extraInfo));
+		groundBoxBody->CreateFixture(&groundBox, 0.0f);
+		m_userData[i] = new b2UserData(b2UserData_Edge, (void*)edge.extraInfo);
+		groundBoxBody->SetUserData(m_userData[i]);
 	}
 
-	m_players[0] = new Player(m_size, m_position, ctx, 0, world, m_groundBoxBody, dwriteFactory, this);
-	m_players[1] = new Player(m_size, m_position, ctx, 1, world, m_groundBoxBody, dwriteFactory, this);
+	m_players[0] = new Player(m_size, m_position, ctx, 0, world, groundBoxBody, dwriteFactory, this);
+	m_players[1] = new Player(m_size, m_position, ctx, 1, world, groundBoxBody, dwriteFactory, this);
 	m_puck = new Puck(viewportSize, ctx, world);
 	m_topBar = new TopBar(this, game, ctx, topBarSize, topBarPosition, dwriteFactory);
 
 	beginRound();
+}
+
+Scene::~Scene()
+{
+	for (int i=0; i<4; i++)
+	{
+		delete m_userData[i];
+	}
+	for (int i=0; i<2; i++)
+	{
+		delete m_players[i];
+	}
+	delete m_puck;
+	delete m_topBar;
 }
 
 void Scene::win(int playerIdx)

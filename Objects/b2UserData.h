@@ -1,3 +1,5 @@
+#pragma once
+
 enum b2UserDataType
 {
 	b2UserData_Edge,

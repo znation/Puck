@@ -4,6 +4,7 @@
 #include "Player.h"
 #include "Puck.h"
 #include "TopBar.h"
+#include "b2UserData.h"
 
 #pragma once
 
@@ -21,6 +22,7 @@ public:
 			 b2World *world,
 			 ComPtr<IDWriteFactory1> dwriteFactory,
 			 Game *game);
+	~Scene();
 	void move();
 	void draw();
 	void applyConstraints();
@@ -43,10 +45,9 @@ private:
 	ComPtr<ID2D1SolidColorBrush> m_gridBrush;
 	D2D1_ROUNDED_RECT m_rect;
 	Player *m_players[2];
+	b2UserData *m_userData[4];
 	Puck *m_puck;
 	TopBar *m_topBar;
-	D2D1_RECT_F m_groundBoxRect;
-	b2Body *m_groundBoxBody;
 	bool m_gameOver;
 	bool m_frozen;
 	ULONGLONG m_beginTime;
