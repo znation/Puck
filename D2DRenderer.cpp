@@ -94,9 +94,9 @@ void D2DRenderer::RenderFPS(D2D1_SIZE_F)
 	m_d2dContext->DrawText(
 		m_fpsText,
 		m_fpsTextLength,
-		m_textFormat,
+		m_textFormat.Get(),
 		&layoutRect,
-		m_whiteBrush);
+		m_whiteBrush.Get());
 }
 #endif
 
