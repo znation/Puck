@@ -1,0 +1,144 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCTargetsPath Condition="'$(VCTargetsPath11)' != '' and '$(VSVersion)' == '' and '$(VisualStudioVersion)' == ''">$(VCTargetsPath11)</VCTargetsPath>
+  </PropertyGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{7DE59434-835E-4881-8F5F-7D3E882360E9}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>PuckWin7</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v110</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v110</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Box2D\Box2DWin7\Box2DWin7.vcxproj">
+      <Project>{59fc293d-c684-4d6f-b0c8-1f6e34018c68}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="D2DRenderer.cpp" />
+    <ClCompile Include="DirectXBase.cpp" />
+    <ClCompile Include="DirectXViewProvider.cpp" />
+    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Objects\b2UserData.cpp" />
+    <ClCompile Include="Objects\Game.cpp" />
+    <ClCompile Include="Objects\GameMenu.cpp" />
+    <ClCompile Include="Objects\Goal.cpp" />
+    <ClCompile Include="Objects\Player.cpp" />
+    <ClCompile Include="Objects\Puck.cpp" />
+    <ClCompile Include="Objects\Scene.cpp" />
+    <ClCompile Include="Objects\Score.cpp" />
+    <ClCompile Include="Objects\Stick.cpp" />
+    <ClCompile Include="Objects\TopBar.cpp" />
+    <ClCompile Include="ThemeMusic.cpp" />
+    <ClCompile Include="Utility.cpp" />
+    <ClCompile Include="View.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="D2DRenderer.h" />
+    <ClInclude Include="DirectXBase.h" />
+    <ClInclude Include="DirectXViewProvider.h" />
+    <ClInclude Include="Objects\b2UserData.h" />
+    <ClInclude Include="Objects\Game.h" />
+    <ClInclude Include="Objects\GameMenu.h" />
+    <ClInclude Include="Objects\Goal.h" />
+    <ClInclude Include="Objects\Player.h" />
+    <ClInclude Include="Objects\Puck.h" />
+    <ClInclude Include="Objects\Scene.h" />
+    <ClInclude Include="Objects\Score.h" />
+    <ClInclude Include="Objects\Stick.h" />
+    <ClInclude Include="Objects\TopBar.h" />
+    <ClInclude Include="ThemeMusic.h" />
+    <ClInclude Include="Utility.h" />
+    <ClInclude Include="View.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <AppxManifest Include="package.appxmanifest" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Package.StoreAssociation.xml" />
+    <None Include="PuckWin7.sln~" />
+    <None Include="Puck_StoreKey.pfx" />
+    <None Include="Sound\pucktheme.mp3" />
+    <None Include="TODO.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Images\logo.png" />
+    <Image Include="Images\smalllogo.png" />
+    <Image Include="Images\splashscreen.png" />
+    <Image Include="Images\storelogo.png" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
