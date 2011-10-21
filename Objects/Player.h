@@ -1,4 +1,4 @@
-#include <wrl.h>
+#include "Utility.h"
 #include <d2d1_1.h>
 #include "Box2D\Box2D.h"
 #include "Stick.h"
@@ -7,8 +7,6 @@
 #include <dwrite_1.h>
 
 #pragma once
-
-using namespace Microsoft::WRL;
 
 // forward declaration to prevent circular dependency
 class Scene;

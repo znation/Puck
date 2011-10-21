@@ -1,11 +1,9 @@
-#include <wrl.h>
 #include <d2d1_1.h>
 #include "Box2D\Box2D.h"
 #include "b2UserData.h"
+#include "Utility.h"
 
 #pragma once
-
-using namespace Microsoft::WRL;
 
 // forward declaration of Scene (to prevent a circular .h dependency)
 class Scene;

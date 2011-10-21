@@ -1,7 +1,19 @@
+#ifdef WINRT
+#include <wrl.h>
+#endif
 #include "Box2D\Box2D.h"
 #include <d2d1_1helper.h>
 
 #pragma once
+
+#ifdef WINRT
+using namespace Microsoft::WRL;
+using namespace Windows::Storage;
+using namespace Windows::Foundation;
+using namespace Windows::Storage::Streams;
+#else
+#define ref 
+#endif
 
 #ifdef DEBUG
 #define MAX_SCORE 2

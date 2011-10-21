@@ -7,8 +7,8 @@
 
 #pragma once
 
-#include <wrl.h>
 #include "D2DRenderer.h"
+#include "Utility.h"
 
 ref class View
 {

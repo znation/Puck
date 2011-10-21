@@ -7,7 +7,7 @@
 
 #pragma once
 
-#include <wrl.h>
+#include "Utility.h"
 
 typedef enum class ActivationEntryPoint
 {

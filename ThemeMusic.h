@@ -1,13 +1,8 @@
-#include <wrl.h>
+#include "Utility.h"
 #include <Mfmediaengine.h>
 #include <Mfapi.h>
 
 #pragma once
-
-using namespace Microsoft::WRL;
-using namespace Windows::Storage;
-using namespace Windows::Foundation;
-using namespace Windows::Storage::Streams;
 
 class MediaEngineNotify;
 

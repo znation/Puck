@@ -7,13 +7,10 @@
 
 #pragma once
 
-#include <wrl.h>
-
+#include "Utility.h"
 #include "DirectXBase.h"
 #include "Box2D\Box2D.h"
 #include "Objects\Game.h"
-
-using namespace Microsoft::WRL;
 
 ref class D2DRenderer : public DirectXBase
 {
