@@ -21,7 +21,9 @@ public:
 	~TopBar();
 	void ScoreGoal(int playerIdx);
 	void Draw();
+#ifdef WINRT
 	void OnMouseDown(Windows::UI::Core::PointerEventArgs^ args);
+#endif
 private:
 	ComPtr<ID2D1DeviceContext> m_ctx;
 	Score *m_score[2];

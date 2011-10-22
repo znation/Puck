@@ -21,8 +21,10 @@ public:
 	virtual void CreateDeviceIndependentResources() override;
 	virtual void CreateDeviceResources() override;
 	virtual void Render() override;
+#ifdef WINRT
 	void OnMouseMove(Windows::UI::Core::PointerEventArgs^ args);
 	void OnMouseDown(Windows::UI::Core::PointerEventArgs^ args);
+#endif
 
 private:
 	void RecreateTarget();

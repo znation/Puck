@@ -88,6 +88,7 @@ void GameMenu::Draw()
 	}
 }
 
+#ifdef WINRT
 void GameMenu::OnMouseDown(Windows::UI::Core::PointerEventArgs^ args)
 {
 	Windows::Foundation::Point pp = args->CurrentPoint->Position;
@@ -101,3 +102,4 @@ void GameMenu::OnMouseDown(Windows::UI::Core::PointerEventArgs^ args)
 		m_game->Resume();
 	}
 }
+#endif

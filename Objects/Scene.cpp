@@ -3,8 +3,6 @@
 #include "b2UserData.h"
 #include "Game.h"
 
-using namespace Microsoft::WRL;
-
 ComPtr<ID2D1SolidColorBrush> Scene::Cyan;
 
 Scene::Edge::Edge(b2Vec2 center_, b2Vec2 extents_, const char *e)
@@ -294,7 +292,9 @@ void Scene::onMouseMoved(b2Vec2 p)
 	}
 }
 
+#ifdef WINRT
 void Scene::OnMouseDown(Windows::UI::Core::PointerEventArgs^ args)
 {
 	m_topBar->OnMouseDown(args);
 }
+#endif

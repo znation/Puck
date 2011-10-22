@@ -21,7 +21,9 @@ ref class DirectXBase abstract
 public:
     DirectXBase();
 
+#ifdef WINRT
     virtual void Initialize(Windows::UI::Core::CoreWindow^ window, float dpi);
+#endif
     virtual void CreateDeviceIndependentResources();
     virtual void CreateDeviceResources();
     virtual void CreateWindowSizeDependentResources();
@@ -32,26 +34,28 @@ public:
 
 protected:
 
+#ifdef WINRT
     Windows::UI::Core::CoreWindow^                  m_window;
+	Windows::Foundation::Size                       m_renderTargetSize;
+    Windows::Foundation::Rect                       m_windowBounds;
+#endif
 
     // Declare Direct2D Objects
-    Microsoft::WRL::ComPtr<ID2D1Factory1>           m_d2dFactory;
-    Microsoft::WRL::ComPtr<ID2D1Device>             m_d2dDevice;
-    Microsoft::WRL::ComPtr<ID2D1DeviceContext>      m_d2dContext;
-    Microsoft::WRL::ComPtr<ID2D1Bitmap1>            m_d2dTargetBitmap;
+    ComPtr<ID2D1Factory1>           m_d2dFactory;
+    ComPtr<ID2D1Device>             m_d2dDevice;
+    ComPtr<ID2D1DeviceContext>      m_d2dContext;
+    ComPtr<ID2D1Bitmap1>            m_d2dTargetBitmap;
 
     // Declare DirectWrite & Windows Imaging Component Objects
-    Microsoft::WRL::ComPtr<IWICImagingFactory2>     m_wicFactory;
+    ComPtr<IWICImagingFactory2>     m_wicFactory;
 
     // Direct3D Objects
-    Microsoft::WRL::ComPtr<ID3D11Device1>           m_d3dDevice;
-    Microsoft::WRL::ComPtr<ID3D11DeviceContext1>    m_d3dContext;
-    Microsoft::WRL::ComPtr<IDXGISwapChain1>         m_swapChain;
-    Microsoft::WRL::ComPtr<ID3D11RenderTargetView>  m_renderTargetView;
-    Microsoft::WRL::ComPtr<ID3D11DepthStencilView>  m_depthStencilView;
+    ComPtr<ID3D11Device1>           m_d3dDevice;
+    ComPtr<ID3D11DeviceContext1>    m_d3dContext;
+    ComPtr<IDXGISwapChain1>         m_swapChain;
+    ComPtr<ID3D11RenderTargetView>  m_renderTargetView;
+    ComPtr<ID3D11DepthStencilView>  m_depthStencilView;
 
     D3D_FEATURE_LEVEL                               m_featureLevel;
-    Windows::Foundation::Size                       m_renderTargetSize;
-    Windows::Foundation::Rect                       m_windowBounds;
     float                                           m_dpi;
 };

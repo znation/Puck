@@ -8,9 +8,11 @@
 // DirectXBase is a helper class that demonstrates initializing the Direct3D and Direct2D APIs in samples
 #include "DirectXBase.h" 
 
+#ifdef WINRT
 using namespace Windows::UI::Core;
 using namespace Windows::Foundation;
 using namespace Microsoft::WRL;
+#endif
 using namespace D2D1;
 
 // Constructor.
@@ -19,6 +21,7 @@ DirectXBase::DirectXBase()
 }
 
 // Initialize the Direct3D resources required to run.
+#ifdef WINRT
 void DirectXBase::Initialize(CoreWindow^ window, float dpi)
 {
     m_window = window;
@@ -28,6 +31,7 @@ void DirectXBase::Initialize(CoreWindow^ window, float dpi)
     CreateDeviceResources();
     CreateWindowSizeDependentResources();
 }
+#endif
 
 // These are the resources required independent of hardware.
 void DirectXBase::CreateDeviceIndependentResources()
@@ -42,10 +46,10 @@ void DirectXBase::CreateDeviceIndependentResources()
 
     ThrowIfFailed(
         D2D1CreateFactory(
-            D2D1_FACTORY_TYPE_SINGLE_THREADED, 
+            D2D1_FACTORY_TYPE_SINGLE_THREADED,
             __uuidof(ID2D1Factory1),
-            &options, 
-            &m_d2dFactory
+            &options,
+            (void **) &m_d2dFactory
             )
         );
 
@@ -55,7 +59,7 @@ void DirectXBase::CreateDeviceIndependentResources()
             nullptr,
             CLSCTX_INPROC_SERVER,
             __uuidof(IWICImagingFactory2),
-            &m_wicFactory
+            (LPVOID *) (&m_wicFactory)
             )
         );
 }
@@ -110,17 +114,29 @@ void DirectXBase::CreateDeviceResources()
 
     // Get the DirectX11.1 device by QI off the DirectX11 one.
     ThrowIfFailed(
+#ifdef WINRT
         device.As(&m_d3dDevice)
+#else
+		device.QueryInterface(&m_d3dDevice)
+#endif
         );
 
     // And get the corresponding device context in the same way.
     ThrowIfFailed(
+#ifdef WINRT
         context.As(&m_d3dContext)
+#else
+		context.QueryInterface(&m_d3dContext)
+#endif
         );
 
     // Obtain the underlying DXGI device of the Direct3D11.1 device.
     ThrowIfFailed(
+#ifdef WINRT
         m_d3dDevice.As(&dxgiDevice)
+#else
+		m_d3dDevice.QueryInterface(&dxgiDevice)
+#endif
         );
 
     // Obtain the Direct2D device for 2-D rendering.
@@ -149,7 +165,9 @@ void DirectXBase::CreateWindowSizeDependentResources()
 {
     // Store the window bounds so the next time we get a SizeChanged event we can
     // avoid rebuilding everything if the size is identical.
+#ifdef WINRT
     m_windowBounds = m_window->Bounds;
+#endif
 
     // If the swap chain already exists, resize it.
     if(m_swapChain != nullptr)
@@ -180,7 +198,11 @@ void DirectXBase::CreateWindowSizeDependentResources()
         // First, retrieve the underlying DXGI Device from the D3D Device.
         ComPtr<IDXGIDevice1>  dxgiDevice;
         ThrowIfFailed(
+#ifdef WINRT
             m_d3dDevice.As(&dxgiDevice)
+#else
+			m_d3dDevice.QueryInterface(&dxgiDevice)
+#endif
             );
 
         // Ensure that DXGI does not queue more than one frame at a time. This both reduces 
@@ -201,11 +223,13 @@ void DirectXBase::CreateWindowSizeDependentResources()
         ThrowIfFailed(
             dxgiAdapter->GetParent(
                 __uuidof(IDXGIFactory2), 
-                &dxgiFactory
+                (void **) (&dxgiFactory)
                 )
             );
 
         // Obtain the final swap chain for this window from the DXGI factory.
+		// TODO -- how to do this in Win7?
+#ifdef WINRT
         ThrowIfFailed(
             dxgiFactory->CreateSwapChainForImmersiveWindow(
                 m_d3dDevice.Get(),
@@ -215,6 +239,7 @@ void DirectXBase::CreateWindowSizeDependentResources()
                 &m_swapChain
                 )
             );
+#endif
     }
 
     // Obtain the backbuffer for this window which will be the final 3D rendertarget.
@@ -223,7 +248,7 @@ void DirectXBase::CreateWindowSizeDependentResources()
         m_swapChain->GetBuffer(
             0,
             __uuidof(ID3D11Texture2D),
-            &backBuffer
+            (void **) &backBuffer
             )
         );
 
@@ -239,8 +264,10 @@ void DirectXBase::CreateWindowSizeDependentResources()
     // Cache the rendertarget dimensions in our helper class for convenient use.
     D3D11_TEXTURE2D_DESC backBufferDesc = {0};
     backBuffer->GetDesc(&backBufferDesc);
+#ifdef WINRT
     m_renderTargetSize.Width  = static_cast<float>(backBufferDesc.Width);
     m_renderTargetSize.Height = static_cast<float>(backBufferDesc.Height);
+#endif
 
     // Create a descriptor for the depth/stencil buffer.
     CD3D11_TEXTURE2D_DESC depthStencilDesc(
@@ -299,7 +326,7 @@ void DirectXBase::CreateWindowSizeDependentResources()
         m_swapChain->GetBuffer(
             0,
             __uuidof(IDXGISurface),
-            &dxgiBackBuffer
+            (void **) &dxgiBackBuffer
             )
         );
 
@@ -322,6 +349,7 @@ void DirectXBase::CreateWindowSizeDependentResources()
 // This routine is called in the event handler for the view SizeChanged event.
 void DirectXBase::UpdateForWindowSizeChange()
 {
+#ifdef WINRT
     if (m_window->Bounds.Width  != m_windowBounds.Width ||
         m_window->Bounds.Height != m_windowBounds.Height)
     {
@@ -331,6 +359,7 @@ void DirectXBase::UpdateForWindowSizeChange()
         m_depthStencilView = nullptr;
         CreateWindowSizeDependentResources();
     }
+#endif
 }
 
 // Helps track the DPI in the helper class.
@@ -360,7 +389,9 @@ void DirectXBase::Present()
     // must completely reinitialize the renderer.
     if (hr == DXGI_ERROR_DEVICE_REMOVED || hr == DXGI_ERROR_DEVICE_RESET)
     {
+#ifdef WINRT
         Initialize(m_window, m_dpi);
+#endif
     }
     else
     {

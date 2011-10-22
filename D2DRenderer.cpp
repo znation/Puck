@@ -10,9 +10,11 @@
 #include <d2d1_1helper.h>
 #include "windows.h"
 
+#ifdef WINRT
 using namespace Microsoft::WRL;
 using namespace Windows::Foundation;
 using namespace Windows::UI::Core;
+#endif
 
 D2DRenderer::D2DRenderer()
 {
@@ -100,6 +102,7 @@ void D2DRenderer::RenderFPS(D2D1_SIZE_F)
 }
 #endif
 
+#ifdef WINRT
 void D2DRenderer::OnMouseMove(Windows::UI::Core::PointerEventArgs^ args)
 {
 	Point p = args->CurrentPoint->Position;
@@ -110,6 +113,7 @@ void D2DRenderer::OnMouseDown(Windows::UI::Core::PointerEventArgs^ args)
 {
 	m_game->OnMouseDown(args);
 }
+#endif
 
 void D2DRenderer::Render()
 {

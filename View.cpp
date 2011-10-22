@@ -8,18 +8,21 @@
 #include "View.h"
 #include "ThemeMusic.h"
 
+#ifdef WINRT
 using namespace Windows::ApplicationModel::Core;
 using namespace Windows::ApplicationModel::Activation;
 using namespace Windows::UI::Core;
 using namespace Windows::System;
 using namespace Windows::Foundation;
 using namespace Windows::Graphics::Display;
+#endif
 
 View::View() :
     m_dpi(96.0f)
 {
 }
 
+#ifdef WINRT
 void View::Initialize(
     _In_ CoreWindow^ window,
     _In_ CoreApplicationView^ applicationView
@@ -48,9 +51,11 @@ void View::Initialize(
 	ThemeMusic *m = new ThemeMusic(window);
 	m->Play();
 }
+#endif
 
 void View::Run()
 {
+#ifdef WINRT
     m_window->Activate();
 
 // Suppress warning C4127 (conditional expression is constant)
@@ -60,8 +65,10 @@ void View::Run()
         m_window->Dispatcher->ProcessEvents(CoreProcessEventsOption::ProcessAllIfPresent);
         m_renderer->Render(); // this call is sychronized to the display frame rate
     }
+#endif
 }
 
+#ifdef WINRT
 void View::OnWindowSizeChanged(
     _In_ Windows::UI::Core::CoreWindow^,
     _In_ Windows::UI::Core::WindowSizeChangedEventArgs^
@@ -91,3 +98,4 @@ void View::OnLogicalDpiChanged(__in Platform::Object^)
     m_dpi = static_cast<float>(DisplayProperties::LogicalDpi);
     m_renderer->SetDpi(m_dpi);
 }
+#endif

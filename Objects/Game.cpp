@@ -67,6 +67,7 @@ void Game::OnMouseMove(b2Vec2 p)
 	}
 }
 
+#ifdef WINRT
 void Game::OnMouseDown(Windows::UI::Core::PointerEventArgs^ args)
 {
 	if (args->CurrentPoint->Properties->IsRightButtonPressed)
@@ -85,6 +86,7 @@ void Game::OnMouseDown(Windows::UI::Core::PointerEventArgs^ args)
 		}
 	}
 }
+#endif
 
 void Game::ShowMenu()
 {

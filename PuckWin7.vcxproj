@@ -81,11 +81,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Box2D\Box2DWin7\Box2DWin7.vcxproj">
-      <Project>{59fc293d-c684-4d6f-b0c8-1f6e34018c68}</Project>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <ClCompile Include="D2DRenderer.cpp" />
     <ClCompile Include="DirectXBase.cpp" />
     <ClCompile Include="DirectXViewProvider.cpp" />
@@ -137,6 +132,11 @@
     <Image Include="Images\smalllogo.png" />
     <Image Include="Images\splashscreen.png" />
     <Image Include="Images\storelogo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Box2D\Box2DWin7.vcxproj">
+      <Project>{59fc293d-c684-4d6f-b0c8-1f6e34018c68}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

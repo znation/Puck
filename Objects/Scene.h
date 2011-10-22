@@ -29,7 +29,9 @@ public:
 	void win(int playerIdx);
 	void reset();
 	void scoreGoal(int playerIdx);
+#ifdef WINRT
 	void OnMouseDown(Windows::UI::Core::PointerEventArgs^ args);
+#endif
 
 private:
 	void drawGrid();

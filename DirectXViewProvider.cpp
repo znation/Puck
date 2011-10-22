@@ -8,15 +8,18 @@
 #include "DirectXViewProvider.h"
 #include "View.h"
 
+#ifdef WINRT
 using namespace Windows::ApplicationModel::Core;
 using namespace Windows::UI::Core;
 using namespace Windows::ApplicationModel::Infrastructure;
 using namespace Windows::ApplicationModel::Activation;
+#endif
 
 DirectXViewProvider::DirectXViewProvider()
 {
 }
 
+#ifdef WINRT
 void DirectXViewProvider::Initialize(
 									 _In_ Windows::UI::Core::CoreWindow^ window,
 									 _In_ Windows::ApplicationModel::Core::CoreApplicationView^ applicationView
@@ -25,17 +28,22 @@ void DirectXViewProvider::Initialize(
 	m_window = window;
 	m_applicationView = applicationView;
 }
+#endif
 
 // this method is called after Initialize
+#ifdef WINRT
 void DirectXViewProvider::Load(Platform::String^)
 {
 }
+#endif
 
 // this method is called after Load
 void DirectXViewProvider::Run()
 {
 	auto view = ref new View();
+#ifdef WINRT
 	view->Initialize(m_window, m_applicationView);
+#endif
 	view->Run();
 
 	// Must delete the view explicitly in order to break a circular dependency
@@ -53,7 +61,9 @@ void DirectXViewProvider::Uninitialize()
 {
 }
 
+#ifdef WINRT
 IViewProvider^ DirectXViewProviderFactory::CreateViewProvider()
 {
 	return ref new DirectXViewProvider();
 }
+#endif

@@ -9,13 +9,17 @@ class MediaEngineNotify : public IMFMediaEngineNotify
 {
 private:
 	long m_cRef;
+#ifdef WINRT
 	Windows::UI::Core::CoreWindow^ m_cWindow;
+#endif
 	ThemeMusic *m_tM;
 
 public:
+#ifdef WINRT
 	MediaEngineNotify(Windows::UI::Core::CoreWindow^ cWindow, ThemeMusic *tM) : m_cWindow(cWindow), m_cRef(1), m_tM(tM)
 	{
 	}
+#endif
 
 	STDMETHODIMP QueryInterface(REFIID riid, void** ppv)
 	{
@@ -65,6 +69,7 @@ public:
 	}
 };
 
+#ifdef WINRT
 ThemeMusic::ThemeMusic(Windows::UI::Core::CoreWindow^ window)
 {
 	m_bstrURL = NULL;
@@ -101,6 +106,7 @@ ThemeMusic::ThemeMusic(Windows::UI::Core::CoreWindow^ window)
 
 	ThrowIfFailed(m_spEngine->SetLoop(true));
 }
+#endif
 
 ThemeMusic::~ThemeMusic()
 {
@@ -112,6 +118,7 @@ void ThemeMusic::Play()
 	SetFile();
 }
 
+#ifdef WINRT
 void ThemeMusic::SetFile()
 {
 	auto themeMusic = this;
@@ -151,6 +158,7 @@ void ThemeMusic::SetFile()
 
 	op->Start();
 }
+#endif
 
 void ThemeMusic::OnMediaEngineEvent(DWORD meEvent)
 {
@@ -177,6 +185,7 @@ void ThemeMusic::OnMediaEngineEvent(DWORD meEvent)
 	}
 }
 
+#ifdef WINRT
 void ThemeMusic::SetBytestream(IRandomAccessStream^ streamHandle)
 {
 	IMFByteStream *spMFByteStream = NULL;
@@ -185,7 +194,9 @@ void ThemeMusic::SetBytestream(IRandomAccessStream^ streamHandle)
 
 	ThrowIfFailed(m_spEngineEx->SetSourceFromByteStream(spMFByteStream, m_bstrURL));	
 }
+#endif
 
+#ifdef WINRT
 void ThemeMusic::SetURL(Platform::String^ szURL)
 {
 	if(NULL != m_bstrURL)
@@ -202,3 +213,4 @@ void ThemeMusic::SetURL(Platform::String^ szURL)
 
 	return;
 }
+#endif

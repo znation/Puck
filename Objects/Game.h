@@ -13,7 +13,9 @@ public:
 	~Game();
 	void Draw();
 	void OnMouseMove(b2Vec2 p);
+#ifdef WINRT
 	void OnMouseDown(Windows::UI::Core::PointerEventArgs^ args);
+#endif
 	void Begin();
 	void ShowMenu();
 	void Resume();

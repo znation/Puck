@@ -9,15 +9,19 @@ class MediaEngineNotify;
 class ThemeMusic
 {
 public:
+#ifdef WINRT
 	ThemeMusic(Windows::UI::Core::CoreWindow^ window);
+#endif
 	~ThemeMusic();
 	void OnMediaEngineEvent(DWORD meEvent);
 	void Play();
 
 private:
 	void SetFile();
+#ifdef WINRT
 	void SetBytestream(IRandomAccessStream^ streamHandle);
 	void SetURL(Platform::String^ szURL);
+#endif
 	IMFMediaEngineClassFactory * m_spFactory;
 	IMFAttributes * m_spAttributes;
 	IMFMediaEngine * m_spEngine;
