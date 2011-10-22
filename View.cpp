@@ -27,45 +27,53 @@ void View::Initialize(
     _In_ CoreWindow^ window,
     _In_ CoreApplicationView^ applicationView
     )
+#else
+void View::Initialize()
+#endif
 {
+
+#ifdef WINRT
     m_window = window;
     m_applicationView = applicationView;
-
-    m_dpi = static_cast<float>(DisplayProperties::LogicalDpi);
-
+	m_dpi = static_cast<float>(DisplayProperties::LogicalDpi);
 	m_window->PointerCursor = ref new CoreCursor(CoreCursorType::Cross, 0);
-
 	m_window->PointerMoved += ref new TypedEventHandler<CoreWindow^, PointerEventArgs^>(this, &View::OnMouseMove);
-
 	m_window->PointerPressed += ref new TypedEventHandler<CoreWindow^, PointerEventArgs^>(this, &View::OnMouseDown);
-
-    m_window->SizeChanged += 
+	m_window->SizeChanged += 
         ref new TypedEventHandler<CoreWindow^, WindowSizeChangedEventArgs^>(this, &View::OnWindowSizeChanged);
-
     DisplayProperties::LogicalDpiChanged += 
         ref new DisplayPropertiesEventHandler(this, &View::OnLogicalDpiChanged);
-
+#endif
     m_renderer = ref new D2DRenderer();
-    m_renderer->Initialize(m_window, m_dpi);
+    m_renderer->Initialize(
+#ifdef WINRT
+		m_window,
+#endif
+		m_dpi);
 
-	ThemeMusic *m = new ThemeMusic(window);
+	ThemeMusic *m = new ThemeMusic(
+#ifdef WINRT
+		window
+#endif
+		);
 	m->Play();
 }
-#endif
 
 void View::Run()
 {
 #ifdef WINRT
     m_window->Activate();
+#endif
 
 // Suppress warning C4127 (conditional expression is constant)
 #pragma warning ( suppress : 4127 )
     while (true)
     {
+#ifdef WINRT
         m_window->Dispatcher->ProcessEvents(CoreProcessEventsOption::ProcessAllIfPresent);
+#endif
         m_renderer->Render(); // this call is sychronized to the display frame rate
     }
-#endif
 }
 
 #ifdef WINRT

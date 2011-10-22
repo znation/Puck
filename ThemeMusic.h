@@ -11,6 +11,8 @@ class ThemeMusic
 public:
 #ifdef WINRT
 	ThemeMusic(Windows::UI::Core::CoreWindow^ window);
+#else
+	ThemeMusic();
 #endif
 	~ThemeMusic();
 	void OnMediaEngineEvent(DWORD meEvent);

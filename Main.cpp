@@ -10,9 +10,13 @@ int __stdcall WinMain(__in  HINSTANCE hInstance,
   __in  int nCmdShow)
 #endif
 {
-    auto directXViewProviderFactory = ref new DirectXViewProviderFactory();
 #ifdef WINRT
+    auto directXViewProviderFactory = ref new DirectXViewProviderFactory();
     Windows::ApplicationModel::Core::CoreApplication::Run(directXViewProviderFactory);
+#else
+	DirectXViewProvider *provider = new DirectXViewProvider();
+	provider->Run();
+	delete provider;
 #endif
     return 0;
 }

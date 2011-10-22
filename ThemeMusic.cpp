@@ -17,9 +17,11 @@ private:
 public:
 #ifdef WINRT
 	MediaEngineNotify(Windows::UI::Core::CoreWindow^ cWindow, ThemeMusic *tM) : m_cWindow(cWindow), m_cRef(1), m_tM(tM)
+#else
+	MediaEngineNotify(ThemeMusic *tM) : m_cRef(1), m_tM(tM)
+#endif
 	{
 	}
-#endif
 
 	STDMETHODIMP QueryInterface(REFIID riid, void** ppv)
 	{
@@ -71,6 +73,9 @@ public:
 
 #ifdef WINRT
 ThemeMusic::ThemeMusic(Windows::UI::Core::CoreWindow^ window)
+#else
+ThemeMusic::ThemeMusic()
+#endif
 {
 	m_bstrURL = NULL;
 
@@ -80,7 +85,11 @@ ThemeMusic::ThemeMusic(Windows::UI::Core::CoreWindow^ window)
 		));
 
 	// Create our event callback object.
-	m_spNotify = new MediaEngineNotify(window, this);
+	m_spNotify = new MediaEngineNotify(
+#ifdef WINRT
+		window,
+#endif
+		this);
 	if (m_spNotify == NULL)
 	{
 		ThrowIfFailed(E_OUTOFMEMORY);    
@@ -106,7 +115,6 @@ ThemeMusic::ThemeMusic(Windows::UI::Core::CoreWindow^ window)
 
 	ThrowIfFailed(m_spEngine->SetLoop(true));
 }
-#endif
 
 ThemeMusic::~ThemeMusic()
 {

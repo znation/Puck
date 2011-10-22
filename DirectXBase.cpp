@@ -23,15 +23,21 @@ DirectXBase::DirectXBase()
 // Initialize the Direct3D resources required to run.
 #ifdef WINRT
 void DirectXBase::Initialize(CoreWindow^ window, float dpi)
+#else
+void DirectXBase::Initialize(float dpi)
+#endif
 {
+
+#ifdef WINRT
     m_window = window;
+#endif
+
     m_dpi = dpi;
 
     CreateDeviceIndependentResources();
     CreateDeviceResources();
     CreateWindowSizeDependentResources();
 }
-#endif
 
 // These are the resources required independent of hardware.
 void DirectXBase::CreateDeviceIndependentResources()

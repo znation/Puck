@@ -38,6 +38,8 @@ public:
         );
 
     void OnLogicalDpiChanged(__in Platform::Object^ sender);
+#else
+	void Initialize();
 #endif
 
     void Run();

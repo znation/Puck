@@ -23,6 +23,8 @@ public:
 
 #ifdef WINRT
     virtual void Initialize(Windows::UI::Core::CoreWindow^ window, float dpi);
+#else
+	virtual void Initialize(float dpi);
 #endif
     virtual void CreateDeviceIndependentResources();
     virtual void CreateDeviceResources();
