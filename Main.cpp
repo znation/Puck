@@ -4,7 +4,10 @@
 [Platform::MTAThread]
 int main(array<Platform::String^>^)
 #else
-int main()
+int __stdcall WinMain(__in  HINSTANCE hInstance,
+  __in  HINSTANCE hPrevInstance,
+  __in  LPSTR lpCmdLine,
+  __in  int nCmdShow)
 #endif
 {
     auto directXViewProviderFactory = ref new DirectXViewProviderFactory();
