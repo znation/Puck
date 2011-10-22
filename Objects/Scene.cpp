@@ -13,7 +13,7 @@ Scene::Edge::Edge(b2Vec2 center_, b2Vec2 extents_, const char *e)
 }
 
 Scene::Scene(b2Vec2 viewportSize,
-			 ComPtr<ID2D1DeviceContext> ctx,
+			 ComPtr<ID2D1RenderTarget> ctx,
 			 b2World *world,
 			 ComPtr<IDWriteFactory1> dwriteFactory,
 			 Game *game)

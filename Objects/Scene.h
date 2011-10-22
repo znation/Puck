@@ -15,7 +15,7 @@ public:
 	static ComPtr<ID2D1SolidColorBrush> Cyan;
 
 	Scene(b2Vec2 viewportSize,
-			 ComPtr<ID2D1DeviceContext> ctx,
+			 ComPtr<ID2D1RenderTarget> ctx,
 			 b2World *world,
 			 ComPtr<IDWriteFactory1> dwriteFactory,
 			 Game *game);
@@ -38,7 +38,7 @@ private:
 	void beginRound();
 	void resetCore();
 
-	ComPtr<ID2D1DeviceContext> m_ctx;
+	ComPtr<ID2D1RenderTarget> m_ctx;
 	b2Vec2 m_size;
 	b2Vec2 m_position;
 	ComPtr<ID2D1SolidColorBrush> m_gridBrush;

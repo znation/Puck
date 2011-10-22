@@ -2,7 +2,7 @@
 #include "Game.h"
 #include "Utility.h"
 
-GameMenu::GameMenu(b2Vec2 viewportSize, Game * game, ComPtr<ID2D1DeviceContext> ctx, ComPtr<IDWriteFactory1> dwriteFactory)
+GameMenu::GameMenu(b2Vec2 viewportSize, Game * game, ComPtr<ID2D1RenderTarget> ctx, ComPtr<IDWriteFactory1> dwriteFactory)
 {
 	m_size = viewportSize;
 	m_game = game;

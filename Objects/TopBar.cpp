@@ -5,7 +5,7 @@
 
 TopBar::TopBar(Scene *scene,
 			   Game *game,
-			   ComPtr<ID2D1DeviceContext> ctx,
+			   ComPtr<ID2D1RenderTarget> ctx,
 			   b2Vec2 topBarSize,
 			   b2Vec2 topBarPosition,
 			   ComPtr<IDWriteFactory1> dwriteFactory)

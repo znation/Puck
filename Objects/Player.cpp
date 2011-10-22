@@ -4,7 +4,7 @@
 
 Player::Player(b2Vec2 sceneSize,
 		b2Vec2 scenePosition,
-		ComPtr<ID2D1DeviceContext> ctx,
+		ComPtr<ID2D1RenderTarget> ctx,
 		int playerIdx,
 		b2World *world,
 		b2Body *groundBody,

@@ -13,7 +13,7 @@ class TopBar
 public:
 	TopBar(Scene *scene,
 		Game *game,
-		ComPtr<ID2D1DeviceContext> ctx,
+		ComPtr<ID2D1RenderTarget> ctx,
 		b2Vec2 topBarSize,
 		b2Vec2 topBarPosition,
 		ComPtr<IDWriteFactory1> dwriteFactory);
@@ -24,7 +24,7 @@ public:
 	void OnMouseDown(Windows::UI::Core::PointerEventArgs^ args);
 #endif
 private:
-	ComPtr<ID2D1DeviceContext> m_ctx;
+	ComPtr<ID2D1RenderTarget> m_ctx;
 	Score *m_score[2];
 	Scene *m_scene;
 	Game *m_game;

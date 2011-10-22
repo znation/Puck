@@ -1,6 +1,6 @@
 #include "Game.h"
 
-Game::Game(b2Vec2 viewportSize, ComPtr<ID2D1DeviceContext> ctx, ComPtr<IDWriteFactory1> dwriteFactory)
+Game::Game(b2Vec2 viewportSize, ComPtr<ID2D1RenderTarget> ctx, ComPtr<IDWriteFactory1> dwriteFactory)
 {	
 	m_size = viewportSize;
 	m_ctx = ctx;

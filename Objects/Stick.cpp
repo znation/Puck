@@ -76,7 +76,7 @@ void Stick::move()
 	updateEllipse();
 }
 
-void Stick::draw(ComPtr<ID2D1DeviceContext> ctx, ComPtr<ID2D1SolidColorBrush> brush)
+void Stick::draw(ComPtr<ID2D1RenderTarget> ctx, ComPtr<ID2D1SolidColorBrush> brush)
 {
 	ctx->DrawEllipse(
 		&m_outerEllipse,

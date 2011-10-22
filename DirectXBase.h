@@ -45,17 +45,14 @@ protected:
 #ifdef WINRT
     ComPtr<ID2D1Factory1>           m_d2dFactory;
 	ComPtr<ID2D1Device>             m_d2dDevice;
-    ComPtr<ID2D1DeviceContext>      m_d2dContext;
+    ComPtr<ID2D1DeviceContext>      m_d2dDeviceContext;
 	ComPtr<ID2D1Bitmap1>            m_d2dTargetBitmap;
 #else
 	ComPtr<ID2D1Factory>			m_d2dFactory;
 	ComPtr<ID2D1Bitmap>				m_d2dTargetBitmap;
 #endif
-    
-    
 
-    // Declare DirectWrite & Windows Imaging Component Objects
-    ComPtr<IWICImagingFactory2>     m_wicFactory;
+	ComPtr<ID2D1RenderTarget>		m_d2dContext;
 
     // Direct3D Objects
     ComPtr<ID3D11Device1>           m_d3dDevice;
