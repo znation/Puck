@@ -118,9 +118,9 @@ void ThemeMusic::Play()
 	SetFile();
 }
 
-#ifdef WINRT
 void ThemeMusic::SetFile()
 {
+#ifdef WINRT
 	auto themeMusic = this;
 
 	StorageFolder^ folder = Windows::ApplicationModel::Package::Current->InstalledLocation;
@@ -157,8 +157,8 @@ void ThemeMusic::SetFile()
 	});
 
 	op->Start();
-}
 #endif
+}
 
 void ThemeMusic::OnMediaEngineEvent(DWORD meEvent)
 {
