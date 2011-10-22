@@ -10,7 +10,6 @@
 #include <initguid.h>
 #include <d3d11_1.h>
 #include <dxgi1_2.h>
-#include <d2d1_1.h>
 #include <d2d1effects.h>
 #include <dwrite_1.h>
 #include <wincodec.h>
@@ -43,10 +42,17 @@ protected:
 #endif
 
     // Declare Direct2D Objects
+#ifdef WINRT
     ComPtr<ID2D1Factory1>           m_d2dFactory;
-    ComPtr<ID2D1Device>             m_d2dDevice;
+	ComPtr<ID2D1Device>             m_d2dDevice;
     ComPtr<ID2D1DeviceContext>      m_d2dContext;
-    ComPtr<ID2D1Bitmap1>            m_d2dTargetBitmap;
+	ComPtr<ID2D1Bitmap1>            m_d2dTargetBitmap;
+#else
+	ComPtr<ID2D1Factory>			m_d2dFactory;
+	ComPtr<ID2D1Bitmap>				m_d2dTargetBitmap;
+#endif
+    
+    
 
     // Declare DirectWrite & Windows Imaging Component Objects
     ComPtr<IWICImagingFactory2>     m_wicFactory;

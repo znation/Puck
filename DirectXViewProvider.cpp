@@ -19,23 +19,29 @@ DirectXViewProvider::DirectXViewProvider()
 {
 }
 
-#ifdef WINRT
 void DirectXViewProvider::Initialize(
+#ifdef WINRT
 									 _In_ Windows::UI::Core::CoreWindow^ window,
 									 _In_ Windows::ApplicationModel::Core::CoreApplicationView^ applicationView
+#endif
 									 )
 {
+#ifdef WINRT
 	m_window = window;
 	m_applicationView = applicationView;
-}
 #endif
+}
 
 // this method is called after Initialize
+
+void DirectXViewProvider::Load(
 #ifdef WINRT
-void DirectXViewProvider::Load(Platform::String^)
+	Platform::String^
+#endif
+	)
 {
 }
-#endif
+
 
 // this method is called after Load
 void DirectXViewProvider::Run()
@@ -43,6 +49,8 @@ void DirectXViewProvider::Run()
 	auto view = ref new View();
 #ifdef WINRT
 	view->Initialize(m_window, m_applicationView);
+#else
+	view->Initialize();
 #endif
 	view->Run();
 

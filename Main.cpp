@@ -15,6 +15,7 @@ int __stdcall WinMain(__in  HINSTANCE hInstance,
     Windows::ApplicationModel::Core::CoreApplication::Run(directXViewProviderFactory);
 #else
 	DirectXViewProvider *provider = new DirectXViewProvider();
+	provider->Initialize();
 	provider->Run();
 	delete provider;
 #endif

@@ -57,7 +57,11 @@ void D2DRenderer::CreateDeviceResources()
 
 void D2DRenderer::RecreateTarget()
 {
+#ifdef WINRT
 	m_d2dContext->SetTarget(nullptr);
+#else
+	// TODO -- set null target in Win7
+#endif
 	m_d2dTargetBitmap = nullptr;
 	CreateDeviceResources();
 	CreateWindowSizeDependentResources();
@@ -120,7 +124,11 @@ void D2DRenderer::Render()
 	HRESULT hr = S_OK;
 
 	// Retrieve the size of the render target.
+#ifdef WINRT
 	D2D1_SIZE_F renderTargetSize = m_d2dContext->GetSize();
+#else
+	D2D1_SIZE_F renderTargetSize; // TODO -- set render target size in Win7
+#endif
 
 	if (m_game == nullptr)
 	{

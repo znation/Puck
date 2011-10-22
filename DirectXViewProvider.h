@@ -24,14 +24,18 @@ public:
     DirectXViewProvider();
 
     // IViewProvider Methods
-#ifdef WINRT
     void Initialize(
+#ifdef WINRT
         _In_ Windows::UI::Core::CoreWindow^ window,
         _In_ Windows::ApplicationModel::Core::CoreApplicationView^ applicationView
+#endif
         );
 
-    void Load(_In_ Platform::String^ entryPoint);
+    void Load(
+#ifdef WINRT
+		_In_ Platform::String^ entryPoint
 #endif
+		);
     void Run();
     void Uninitialize();
 

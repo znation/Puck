@@ -51,11 +51,17 @@ void DirectXBase::CreateDeviceIndependentResources()
 #endif
 
     ThrowIfFailed(
-        D2D1CreateFactory(
+#ifdef WINRT
+		D2D1CreateFactory(
+#else
+        D2D1CreateFactory<ID2D1Factory>(
+#endif
             D2D1_FACTORY_TYPE_SINGLE_THREADED,
+#ifdef WINRT
             __uuidof(ID2D1Factory1),
-            &options,
-            (void **) &m_d2dFactory
+#endif
+            options,
+            &m_d2dFactory
             )
         );
 
@@ -145,6 +151,7 @@ void DirectXBase::CreateDeviceResources()
 #endif
         );
 
+#ifdef WINRT
     // Obtain the Direct2D device for 2-D rendering.
     ThrowIfFailed(
         m_d2dFactory->CreateDevice(dxgiDevice.Get(), &m_d2dDevice)
@@ -160,6 +167,9 @@ void DirectXBase::CreateDeviceResources()
 
     // Save the DPI of this display in our class.
     m_d2dContext->SetDpi(m_dpi, m_dpi);
+#endif
+
+	// TODO: create the render target in win7
 
     // Release the swap chain (if it exists) as it will be incompatible with
     // the new device.
@@ -336,6 +346,7 @@ void DirectXBase::CreateWindowSizeDependentResources()
             )
         );
 
+#ifdef WINRT
     // Get a D2D surface from the DXGI back buffer to use as the D2D render target.
     ThrowIfFailed(
         m_d2dContext->CreateBitmapFromDxgiSurface(
@@ -344,12 +355,22 @@ void DirectXBase::CreateWindowSizeDependentResources()
             &m_d2dTargetBitmap
             )
         );
+#endif
+	// TODO -- create the bitmap in Win7?
 
     // So now we can set the Direct2D render target.
+#ifdef WINRT
     m_d2dContext->SetTarget(m_d2dTargetBitmap.Get());
+#else
+	// TODO -- set render target in Win7
+#endif
 
     // Set D2D text anti-alias mode to Grayscale to ensure proper rendering of text on intermediate surfaces.
+#ifdef WINRT
     m_d2dContext->SetTextAntialiasMode(D2D1_TEXT_ANTIALIAS_MODE_GRAYSCALE);
+#else
+	// TODO -- set anti-aliasing in Win7
+#endif
 }
 
 // This routine is called in the event handler for the view SizeChanged event.

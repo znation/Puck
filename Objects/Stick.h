@@ -1,5 +1,4 @@
 #include "Utility.h"
-#include <d2d1_1.h>
 #include "Box2D\Box2D.h"
 
 #pragma once
