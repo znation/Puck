@@ -8,8 +8,15 @@
 #pragma once
 
 #include <initguid.h>
+
+#ifdef WINRT
 #include <d3d11_1.h>
 #include <dxgi1_2.h>
+#else
+#include <d3d11.h>
+#include <dxgi.h>
+#endif
+
 #include <d2d1effects.h>
 #include <dwrite_1.h>
 #include <wincodec.h>
@@ -55,9 +62,15 @@ protected:
 	ComPtr<ID2D1RenderTarget>		m_d2dContext;
 
     // Direct3D Objects
+#ifdef WINRT
     ComPtr<ID3D11Device1>           m_d3dDevice;
     ComPtr<ID3D11DeviceContext1>    m_d3dContext;
     ComPtr<IDXGISwapChain1>         m_swapChain;
+#else
+	ComPtr<ID3D11Device>			m_d3dDevice;
+	ComPtr<ID3D11DeviceContext>		m_d3dContext;
+	ComPtr<IDXGISwapChain>			m_swapChain;
+#endif
     ComPtr<ID3D11RenderTargetView>  m_renderTargetView;
     ComPtr<ID3D11DepthStencilView>  m_depthStencilView;
 

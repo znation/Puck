@@ -45,11 +45,9 @@ void DirectXBase::CreateDeviceIndependentResources()
 	D2D1_FACTORY_OPTIONS options;
 	ZeroMemory(&options, sizeof(D2D1_FACTORY_OPTIONS));
 
-#if defined(_DEBUG)
-#ifdef WINRT
+#if (defined(_DEBUG) && defined(WINRT))
 	// If the project is in a debug build, enable Direct2D debugging via SDK Layers
 	options.debugLevel = D2D1_DEBUG_LEVEL_INFORMATION;
-#endif
 #endif
 
 	ThrowIfFailed(
@@ -77,7 +75,7 @@ void DirectXBase::CreateDeviceResources()
 	UINT creationFlags = D3D11_CREATE_DEVICE_BGRA_SUPPORT;
 	ComPtr<IDXGIDevice> dxgiDevice;
 
-#if defined(_DEBUG)
+#if (defined(_DEBUG) && defined(WINRT))
 	// If the project is in a debug build, enable debugging via SDK Layers with this flag.
 	creationFlags |= D3D11_CREATE_DEVICE_DEBUG;
 #endif
@@ -86,12 +84,14 @@ void DirectXBase::CreateDeviceResources()
 	// Note the ordering should be preserved.
 	D3D_FEATURE_LEVEL featureLevels[] = 
 	{
+#ifdef WINRT
 		D3D_FEATURE_LEVEL_11_1,
+#endif
 		D3D_FEATURE_LEVEL_11_0,
 		D3D_FEATURE_LEVEL_10_1,
 		D3D_FEATURE_LEVEL_10_0,
 		// Debug layers support for feature level 9 currently not available; will be enabled in a future release.
-#if !defined(_DEBUG)
+#if (!defined(_DEBUG) || !defined(WINRT))
 		D3D_FEATURE_LEVEL_9_3,
 		D3D_FEATURE_LEVEL_9_2,
 		D3D_FEATURE_LEVEL_9_1
@@ -167,7 +167,7 @@ void DirectXBase::CreateDeviceResources()
 	ThrowIfFailed(
 		m_d3dDevice->CreateTexture2D(
 		&pDesc,
-		&pInitialData,
+		NULL,
 		&ppTexture2D));
 	
 	IDXGISurface *surface;
@@ -209,17 +209,25 @@ void DirectXBase::CreateWindowSizeDependentResources()
 	// Otherwise, create a new one.
 	else
 	{
+#ifdef WINRT
 		// Allocate a descriptor.
 		DXGI_SWAP_CHAIN_DESC1 swapChainDesc = {0};
+#else
+		DXGI_SWAP_CHAIN_DESC swapChainDesc;
+#endif
+
+#ifdef WINRT
 		swapChainDesc.Width = 0;                                     // use automatic sizing
 		swapChainDesc.Height = 0;
 		swapChainDesc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;           // this is the most common swapchain format
-		swapChainDesc.Stereo = false; 
+		swapChainDesc.Stereo = false;
+		swapChainDesc.Scaling = DXGI_SCALING_NONE;
+#endif
+
 		swapChainDesc.SampleDesc.Count = 1;                          // don't use multi-sampling
 		swapChainDesc.SampleDesc.Quality = 0;
 		swapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
 		swapChainDesc.BufferCount = 2;                               // use two buffers to enable flip effect
-		swapChainDesc.Scaling = DXGI_SCALING_NONE;
 		swapChainDesc.SwapEffect = DXGI_SWAP_EFFECT_FLIP_SEQUENTIAL; // we recommend using this swap effect for all applications
 		swapChainDesc.Flags = 0;
 
@@ -247,7 +255,8 @@ void DirectXBase::CreateWindowSizeDependentResources()
 		ThrowIfFailed(
 			dxgiDevice->GetAdapter(&dxgiAdapter)
 			);
-
+		
+#ifdef WINRT
 		// And obtain the factory object that created it.
 		ComPtr<IDXGIFactory2> dxgiFactory;
 		ThrowIfFailed(
@@ -259,7 +268,6 @@ void DirectXBase::CreateWindowSizeDependentResources()
 
 		// Obtain the final swap chain for this window from the DXGI factory.
 		// TODO -- how to do this in Win7?
-#ifdef WINRT
 		ThrowIfFailed(
 			dxgiFactory->CreateSwapChainForImmersiveWindow(
 			m_d3dDevice.Get(),
