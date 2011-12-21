@@ -1,7 +1,10 @@
-#include "Utility.h"
+#include <wrl.h>
+#include <d2d1_1.h>
 #include "Box2D\Box2D.h"
 
 #pragma once
+
+using namespace Microsoft::WRL;
 
 class Stick
 {
@@ -9,7 +12,7 @@ public:
 	Stick(b2Vec2 playerSize, b2Vec2 playerPosition, b2World *world, b2Body *groundBody);
 	void updatePosition(float x, float y);
 	void move();
-	void draw(ComPtr<ID2D1RenderTarget> ctx, ComPtr<ID2D1SolidColorBrush> brush);
+	void draw(ComPtr<ID2D1DeviceContext> ctx, ComPtr<ID2D1SolidColorBrush> brush);
 	void reset();
 
 private:

@@ -7,7 +7,7 @@
 
 #pragma once
 
-#include "Utility.h"
+#include <wrl.h>
 
 typedef enum class ActivationEntryPoint
 {
@@ -15,44 +15,28 @@ typedef enum class ActivationEntryPoint
     DirectXApplication
 } ActivationEntryPoint;
 
-ref class DirectXViewProvider
-#ifdef WINRT
-	: public Windows::ApplicationModel::Infrastructure::IViewProvider
-#endif
+ref class DirectXViewProvider : public Windows::ApplicationModel::Infrastructure::IViewProvider
 {
 public:
     DirectXViewProvider();
 
     // IViewProvider Methods
     void Initialize(
-#ifdef WINRT
         _In_ Windows::UI::Core::CoreWindow^ window,
         _In_ Windows::ApplicationModel::Core::CoreApplicationView^ applicationView
-#endif
         );
 
-    void Load(
-#ifdef WINRT
-		_In_ Platform::String^ entryPoint
-#endif
-		);
+    void Load(_In_ Platform::String^ entryPoint);
     void Run();
     void Uninitialize();
 
 private:
-#ifdef WINRT
     Windows::UI::Core::CoreWindow^ m_window;
     Windows::ApplicationModel::Core::CoreApplicationView^ m_applicationView;
-#endif
 };
 
-ref class DirectXViewProviderFactory
-#ifdef WINRT
-	: Windows::ApplicationModel::Infrastructure::IViewProviderFactory
-#endif
+ref class DirectXViewProviderFactory : Windows::ApplicationModel::Infrastructure::IViewProviderFactory 
 {
 public:
-#ifdef WINRT
     Windows::ApplicationModel::Infrastructure::IViewProvider^ CreateViewProvider();
-#endif
 };

@@ -1,4 +1,5 @@
-#include "Utility.h"
+#include <wrl.h>
+#include <d2d1_1.h>
 #include "Box2D\Box2D.h"
 #include "Player.h"
 #include "Puck.h"
@@ -6,6 +7,8 @@
 #include "b2UserData.h"
 
 #pragma once
+
+using namespace Microsoft::WRL;
 
 class Game;
 
@@ -15,7 +18,7 @@ public:
 	static ComPtr<ID2D1SolidColorBrush> Cyan;
 
 	Scene(b2Vec2 viewportSize,
-			 ComPtr<ID2D1RenderTarget> ctx,
+			 ComPtr<ID2D1DeviceContext> ctx,
 			 b2World *world,
 			 ComPtr<IDWriteFactory1> dwriteFactory,
 			 Game *game);
@@ -28,9 +31,7 @@ public:
 	void win(int playerIdx);
 	void reset();
 	void scoreGoal(int playerIdx);
-#ifdef WINRT
 	void OnMouseDown(Windows::UI::Core::PointerEventArgs^ args);
-#endif
 
 private:
 	void drawGrid();
@@ -38,7 +39,7 @@ private:
 	void beginRound();
 	void resetCore();
 
-	ComPtr<ID2D1RenderTarget> m_ctx;
+	ComPtr<ID2D1DeviceContext> m_ctx;
 	b2Vec2 m_size;
 	b2Vec2 m_position;
 	ComPtr<ID2D1SolidColorBrush> m_gridBrush;

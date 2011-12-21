@@ -7,15 +7,14 @@
 
 #pragma once
 
+#include <wrl.h>
 #include "D2DRenderer.h"
-#include "Utility.h"
 
 ref class View
 {
 public:
     View();
     
-#ifdef WINRT
     void Initialize(
         _In_ Windows::UI::Core::CoreWindow^ window,
         _In_ Windows::ApplicationModel::Core::CoreApplicationView^ applicationView
@@ -38,20 +37,13 @@ public:
         );
 
     void OnLogicalDpiChanged(__in Platform::Object^ sender);
-#else
-	void Initialize();
-#endif
 
     void Run();
 
 private:
 
-#ifdef WINRT
     D2DRenderer^											m_renderer;
     Windows::UI::Core::CoreWindow^                          m_window;
     Windows::ApplicationModel::Core::CoreApplicationView^   m_applicationView;
-#else
-	D2DRenderer *											m_renderer;
-#endif
     float                                                   m_dpi;
 };

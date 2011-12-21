@@ -5,7 +5,7 @@
 
 TopBar::TopBar(Scene *scene,
 			   Game *game,
-			   ComPtr<ID2D1RenderTarget> ctx,
+			   ComPtr<ID2D1DeviceContext> ctx,
 			   b2Vec2 topBarSize,
 			   b2Vec2 topBarPosition,
 			   ComPtr<IDWriteFactory1> dwriteFactory)
@@ -94,7 +94,6 @@ void TopBar::ScoreGoal(int playerIdx)
 	}
 }
 
-#ifdef WINRT
 void TopBar::OnMouseDown(Windows::UI::Core::PointerEventArgs^ args)
 {
 	b2Vec2 p = b2Vec2(args->CurrentPoint->Position.X, args->CurrentPoint->Position.Y);
@@ -103,4 +102,3 @@ void TopBar::OnMouseDown(Windows::UI::Core::PointerEventArgs^ args)
 		m_game->ShowMenu();
 	}
 }
-#endif

@@ -6,7 +6,7 @@
 Goal::Goal(b2Vec2 sceneSize,
 		   b2Vec2 scenePosition,
 		   int playerIdx,
-		   ComPtr<ID2D1RenderTarget> ctx,
+		   ComPtr<ID2D1DeviceContext> ctx,
 		   b2World *world,
 		   Scene *scene)
 {

@@ -7,10 +7,13 @@
 
 #pragma once
 
-#include "Utility.h"
+#include <wrl.h>
+
 #include "DirectXBase.h"
 #include "Box2D\Box2D.h"
 #include "Objects\Game.h"
+
+using namespace Microsoft::WRL;
 
 ref class D2DRenderer : public DirectXBase
 {
@@ -21,10 +24,8 @@ public:
 	virtual void CreateDeviceIndependentResources() override;
 	virtual void CreateDeviceResources() override;
 	virtual void Render() override;
-#ifdef WINRT
 	void OnMouseMove(Windows::UI::Core::PointerEventArgs^ args);
 	void OnMouseDown(Windows::UI::Core::PointerEventArgs^ args);
-#endif
 
 private:
 	void RecreateTarget();

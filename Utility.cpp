@@ -24,17 +24,11 @@ void ThrowIfFailed(HRESULT hr)
 {
 	if (FAILED(hr))
 	{
-#ifdef WINRT
 		__cli_WinRTraiseException(hr);
-#else
-		throw hr;
-#endif
 	}
 }
 
-#ifdef WINRT
 IUnknown* GetIUnknown(Windows::UI::Core::CoreWindow^ window)
 {
 	return (IUnknown*) reinterpret_cast<__cli_IUnknown*>(window);
 }
-#endif

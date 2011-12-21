@@ -8,15 +8,10 @@
 #pragma once
 
 #include <initguid.h>
-
-#ifdef WINRT
+#include <wrl.h>
 #include <d3d11_1.h>
 #include <dxgi1_2.h>
-#else
-#include <d3d11.h>
-#include <dxgi.h>
-#endif
-
+#include <d2d1_1.h>
 #include <d2d1effects.h>
 #include <dwrite_1.h>
 #include <wincodec.h>
@@ -27,11 +22,7 @@ ref class DirectXBase abstract
 public:
     DirectXBase();
 
-#ifdef WINRT
     virtual void Initialize(Windows::UI::Core::CoreWindow^ window, float dpi);
-#else
-	virtual void Initialize(float dpi);
-#endif
     virtual void CreateDeviceIndependentResources();
     virtual void CreateDeviceResources();
     virtual void CreateWindowSizeDependentResources();
@@ -42,38 +33,26 @@ public:
 
 protected:
 
-#ifdef WINRT
     Windows::UI::Core::CoreWindow^                  m_window;
-	Windows::Foundation::Size                       m_renderTargetSize;
-    Windows::Foundation::Rect                       m_windowBounds;
-#endif
 
     // Declare Direct2D Objects
-#ifdef WINRT
-    ComPtr<ID2D1Factory1>           m_d2dFactory;
-	ComPtr<ID2D1Device>             m_d2dDevice;
-    ComPtr<ID2D1DeviceContext>      m_d2dDeviceContext;
-	ComPtr<ID2D1Bitmap1>            m_d2dTargetBitmap;
-#else
-	ComPtr<ID2D1Factory>			m_d2dFactory;
-	ComPtr<ID2D1Bitmap>				m_d2dTargetBitmap;
-#endif
+    Microsoft::WRL::ComPtr<ID2D1Factory1>           m_d2dFactory;
+    Microsoft::WRL::ComPtr<ID2D1Device>             m_d2dDevice;
+    Microsoft::WRL::ComPtr<ID2D1DeviceContext>      m_d2dContext;
+    Microsoft::WRL::ComPtr<ID2D1Bitmap1>            m_d2dTargetBitmap;
 
-	ComPtr<ID2D1RenderTarget>		m_d2dContext;
+    // Declare DirectWrite & Windows Imaging Component Objects
+    Microsoft::WRL::ComPtr<IWICImagingFactory2>     m_wicFactory;
 
     // Direct3D Objects
-#ifdef WINRT
-    ComPtr<ID3D11Device1>           m_d3dDevice;
-    ComPtr<ID3D11DeviceContext1>    m_d3dContext;
-    ComPtr<IDXGISwapChain1>         m_swapChain;
-#else
-	ComPtr<ID3D11Device>			m_d3dDevice;
-	ComPtr<ID3D11DeviceContext>		m_d3dContext;
-	ComPtr<IDXGISwapChain>			m_swapChain;
-#endif
-    ComPtr<ID3D11RenderTargetView>  m_renderTargetView;
-    ComPtr<ID3D11DepthStencilView>  m_depthStencilView;
+    Microsoft::WRL::ComPtr<ID3D11Device1>           m_d3dDevice;
+    Microsoft::WRL::ComPtr<ID3D11DeviceContext1>    m_d3dContext;
+    Microsoft::WRL::ComPtr<IDXGISwapChain1>         m_swapChain;
+    Microsoft::WRL::ComPtr<ID3D11RenderTargetView>  m_renderTargetView;
+    Microsoft::WRL::ComPtr<ID3D11DepthStencilView>  m_depthStencilView;
 
     D3D_FEATURE_LEVEL                               m_featureLevel;
+    Windows::Foundation::Size                       m_renderTargetSize;
+    Windows::Foundation::Rect                       m_windowBounds;
     float                                           m_dpi;
 };

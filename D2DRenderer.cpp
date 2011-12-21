@@ -10,11 +10,9 @@
 #include <d2d1_1helper.h>
 #include "windows.h"
 
-#ifdef WINRT
 using namespace Microsoft::WRL;
 using namespace Windows::Foundation;
 using namespace Windows::UI::Core;
-#endif
 
 D2DRenderer::D2DRenderer()
 {
@@ -57,11 +55,7 @@ void D2DRenderer::CreateDeviceResources()
 
 void D2DRenderer::RecreateTarget()
 {
-#ifdef WINRT
 	m_d2dContext->SetTarget(nullptr);
-#else
-	// TODO -- set null target in Win7
-#endif
 	m_d2dTargetBitmap = nullptr;
 	CreateDeviceResources();
 	CreateWindowSizeDependentResources();
@@ -106,7 +100,6 @@ void D2DRenderer::RenderFPS(D2D1_SIZE_F)
 }
 #endif
 
-#ifdef WINRT
 void D2DRenderer::OnMouseMove(Windows::UI::Core::PointerEventArgs^ args)
 {
 	Point p = args->CurrentPoint->Position;
@@ -117,18 +110,13 @@ void D2DRenderer::OnMouseDown(Windows::UI::Core::PointerEventArgs^ args)
 {
 	m_game->OnMouseDown(args);
 }
-#endif
 
 void D2DRenderer::Render()
 {
 	HRESULT hr = S_OK;
 
 	// Retrieve the size of the render target.
-#ifdef WINRT
 	D2D1_SIZE_F renderTargetSize = m_d2dContext->GetSize();
-#else
-	D2D1_SIZE_F renderTargetSize; // TODO -- set render target size in Win7
-#endif
 
 	if (m_game == nullptr)
 	{
