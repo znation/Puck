@@ -1,6 +1,6 @@
 #include "Game.h"
 
-Game::Game(b2Vec2 viewportSize, ComPtr<ID2D1DeviceContext> ctx, ComPtr<IDWriteFactory1> dwriteFactory)
+Game::Game(b2Vec2 viewportSize, DeviceContext *ctx, WriteFactory *dwriteFactory)
 {	
 	m_size = viewportSize;
 	m_ctx = ctx;
@@ -67,7 +67,7 @@ void Game::OnMouseMove(b2Vec2 p)
 	}
 }
 
-void Game::OnMouseDown(Windows::UI::Core::PointerEventArgs^ args)
+void Game::OnMouseDown(PointerEventArgs *args)
 {
 	if (args->CurrentPoint->Properties->IsRightButtonPressed)
 	{

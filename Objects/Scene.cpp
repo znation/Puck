@@ -3,9 +3,7 @@
 #include "b2UserData.h"
 #include "Game.h"
 
-using namespace Microsoft::WRL;
-
-ComPtr<ID2D1SolidColorBrush> Scene::Cyan;
+SolidColorBrush * Scene::Cyan;
 
 Scene::Edge::Edge(b2Vec2 center_, b2Vec2 extents_, const char *e)
 {
@@ -15,9 +13,9 @@ Scene::Edge::Edge(b2Vec2 center_, b2Vec2 extents_, const char *e)
 }
 
 Scene::Scene(b2Vec2 viewportSize,
-			 ComPtr<ID2D1DeviceContext> ctx,
+			 DeviceContext *ctx,
 			 b2World *world,
-			 ComPtr<IDWriteFactory1> dwriteFactory,
+			 WriteFactory *dwriteFactory,
 			 Game *game)
 {
 	m_frozen = false;
@@ -185,9 +183,9 @@ bool Scene::drawRoundTimer()
 	m_ctx->DrawText(
 		timerText,
 		timerTextLength,
-		m_roundTimerTextFormat.Get(),
+		m_roundTimerTextFormat,
 		&(m_rect.rect),
-		Scene::Cyan.Get());
+		Scene::Cyan);
 	return true;
 }
 
@@ -233,7 +231,7 @@ void Scene::drawGrid()
 void Scene::draw()
 {
 	m_ctx->DrawRoundedRectangle(&m_rect,
-		Scene::Cyan.Get(),
+		Scene::Cyan,
 		2.0f);
 
 	drawGrid();
@@ -294,7 +292,7 @@ void Scene::onMouseMoved(b2Vec2 p)
 	}
 }
 
-void Scene::OnMouseDown(Windows::UI::Core::PointerEventArgs^ args)
+void Scene::OnMouseDown(PointerEventArgs *args)
 {
 	m_topBar->OnMouseDown(args);
 }

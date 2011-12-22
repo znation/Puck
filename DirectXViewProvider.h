@@ -7,8 +7,9 @@
 
 #pragma once
 
-#include <wrl.h>
+#ifdef WINRT
 
+#include <wrl.h>
 typedef enum class ActivationEntryPoint
 {
     Unknown,
@@ -40,3 +41,5 @@ ref class DirectXViewProviderFactory : Windows::ApplicationModel::Infrastructure
 public:
     Windows::ApplicationModel::Infrastructure::IViewProvider^ CreateViewProvider();
 };
+
+#endif

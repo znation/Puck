@@ -23,7 +23,7 @@ Stick::Stick(b2Vec2 playerSize, b2Vec2 playerPosition, b2World *world, b2Body *g
 	m_circleBody->SetUserData(new b2UserData(b2UserData_Stick, nullptr));
 
 	b2CircleShape circleSd;
-	circleSd.m_type = b2Shape::Type::e_circle;
+	circleSd.m_type = b2Shape::e_circle;
 	circleSd.m_radius = pixelToBox(m_radius);
 
 	b2FixtureDef circleF;
@@ -76,15 +76,15 @@ void Stick::move()
 	updateEllipse();
 }
 
-void Stick::draw(ComPtr<ID2D1DeviceContext> ctx, ComPtr<ID2D1SolidColorBrush> brush)
+void Stick::draw(DeviceContext *ctx, SolidColorBrush *brush)
 {
 	ctx->DrawEllipse(
 		&m_outerEllipse,
-		brush.Get(),
+		brush,
 		m_outerCircleWidth);
 
 	ctx->DrawEllipse(
 		&m_innerEllipse,
-		brush.Get(),
+		brush,
 		m_innerCircleWidth);
 }

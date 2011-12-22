@@ -8,6 +8,8 @@
 // DirectXBase is a helper class that demonstrates initializing the Direct3D and Direct2D APIs in samples
 #include "DirectXBase.h" 
 
+#ifdef WINRT
+
 using namespace Windows::UI::Core;
 using namespace Windows::Foundation;
 using namespace Microsoft::WRL;
@@ -367,3 +369,5 @@ void DirectXBase::Present()
         ThrowIfFailed(hr);
     }
 }
+
+#endif

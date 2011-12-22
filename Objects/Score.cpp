@@ -5,7 +5,7 @@
 Score::Score(b2Vec2 scoreSize,
 		b2Vec2 scorePosition,
 		int playerIdx,
-		ComPtr<ID2D1DeviceContext> ctx)
+		DeviceContext *ctx)
 {
 	m_score = 0;
 	m_ctx = ctx;
@@ -49,7 +49,7 @@ void Score::draw()
 	}
 }
 
-ScoreButton::ScoreButton(ComPtr<ID2D1DeviceContext> ctx,
+ScoreButton::ScoreButton(DeviceContext *ctx,
 						 b2Vec2 buttonSize,
 						 b2Vec2 buttonPosition)
 {
@@ -75,12 +75,12 @@ void ScoreButton::Draw()
 	{
 		m_ctx->FillEllipse(
 			&m_ellipse,
-			Scene::Cyan.Get());
+			Scene::Cyan);
 	}
 	else
 	{
 		m_ctx->DrawEllipse(
 			&m_ellipse,
-			Scene::Cyan.Get());
+			Scene::Cyan);
 	}
 }

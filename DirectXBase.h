@@ -8,21 +8,17 @@
 #pragma once
 
 #include <initguid.h>
-#include <wrl.h>
-#include <d3d11_1.h>
-#include <dxgi1_2.h>
-#include <d2d1_1.h>
-#include <d2d1effects.h>
-#include <dwrite_1.h>
 #include <wincodec.h>
 #include "Utility.h"
 
-ref class DirectXBase abstract
+class DirectXBase abstract
 {
 public:
     DirectXBase();
 
+#ifdef WINRT
     virtual void Initialize(Windows::UI::Core::CoreWindow^ window, float dpi);
+#endif
     virtual void CreateDeviceIndependentResources();
     virtual void CreateDeviceResources();
     virtual void CreateWindowSizeDependentResources();
@@ -33,26 +29,30 @@ public:
 
 protected:
 
+#ifdef WINRT
     Windows::UI::Core::CoreWindow^                  m_window;
+	Microsoft::WRL::ComPtr<ID2D1Device>             m_d2dDevice;
+#endif
 
     // Declare Direct2D Objects
-    Microsoft::WRL::ComPtr<ID2D1Factory1>           m_d2dFactory;
-    Microsoft::WRL::ComPtr<ID2D1Device>             m_d2dDevice;
-    Microsoft::WRL::ComPtr<ID2D1DeviceContext>      m_d2dContext;
-    Microsoft::WRL::ComPtr<ID2D1Bitmap1>            m_d2dTargetBitmap;
+    D2DFactory *m_d2dFactory;
+	DeviceContext *m_d2dContext;
+	D2DBitmap *m_d2dTargetBitmap;
 
-    // Declare DirectWrite & Windows Imaging Component Objects
-    Microsoft::WRL::ComPtr<IWICImagingFactory2>     m_wicFactory;
+	// Declare DirectWrite & Windows Imaging Component Objects
+	ImagingFactory *m_wicFactory;
 
+#ifdef WINRT
     // Direct3D Objects
     Microsoft::WRL::ComPtr<ID3D11Device1>           m_d3dDevice;
     Microsoft::WRL::ComPtr<ID3D11DeviceContext1>    m_d3dContext;
     Microsoft::WRL::ComPtr<IDXGISwapChain1>         m_swapChain;
     Microsoft::WRL::ComPtr<ID3D11RenderTargetView>  m_renderTargetView;
     Microsoft::WRL::ComPtr<ID3D11DepthStencilView>  m_depthStencilView;
-
     D3D_FEATURE_LEVEL                               m_featureLevel;
     Windows::Foundation::Size                       m_renderTargetSize;
     Windows::Foundation::Rect                       m_windowBounds;
+#endif
+
     float                                           m_dpi;
 };

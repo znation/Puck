@@ -85,6 +85,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="D2DRenderer.h" />
+    <ClInclude Include="DirectXAbstrations.h" />
     <ClInclude Include="DirectXBase.h" />
     <ClInclude Include="DirectXViewProvider.h" />
     <ClInclude Include="Objects\b2UserData.h" />

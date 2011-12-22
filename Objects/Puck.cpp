@@ -2,7 +2,7 @@
 #include "Utility.h"
 #include "b2UserData.h"
 
-Puck::Puck(b2Vec2 viewportSize, ComPtr<ID2D1DeviceContext> ctx, b2World *world)
+Puck::Puck(b2Vec2 viewportSize, DeviceContext *ctx, b2World *world)
 {
 	m_world = world;
 	m_viewportSize = viewportSize;
@@ -41,7 +41,7 @@ void Puck::reset()
 	m_circleBody = m_world->CreateBody(&circleBd);
 	m_circleBody->SetUserData(new b2UserData(b2UserData_Puck, nullptr));
 	b2CircleShape circleSd;
-	circleSd.m_type = b2Shape::Type::e_circle;
+	circleSd.m_type = b2Shape::e_circle;
 	circleSd.m_radius = pixelToBox(m_radius);
 	b2FixtureDef circleF;
 	circleF.shape = &circleSd;

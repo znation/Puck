@@ -7,12 +7,14 @@
 
 #include <math.h>
 #include "D2DRenderer.h"
-#include <d2d1_1helper.h>
 #include "windows.h"
+#include "Utility.h"
 
+#ifdef WINRT
 using namespace Microsoft::WRL;
 using namespace Windows::Foundation;
 using namespace Windows::UI::Core;
+#endif
 
 D2DRenderer::D2DRenderer()
 {
@@ -55,7 +57,11 @@ void D2DRenderer::CreateDeviceResources()
 
 void D2DRenderer::RecreateTarget()
 {
+	// TODO does this need to be done on Win7?
+#ifdef WINRT
 	m_d2dContext->SetTarget(nullptr);
+#endif
+
 	m_d2dTargetBitmap = nullptr;
 	CreateDeviceResources();
 	CreateWindowSizeDependentResources();
@@ -94,19 +100,19 @@ void D2DRenderer::RenderFPS(D2D1_SIZE_F)
 	m_d2dContext->DrawText(
 		m_fpsText,
 		m_fpsTextLength,
-		m_textFormat.Get(),
+		m_textFormat,
 		&layoutRect,
-		m_whiteBrush.Get());
+		m_whiteBrush);
 }
 #endif
 
-void D2DRenderer::OnMouseMove(Windows::UI::Core::PointerEventArgs^ args)
+void D2DRenderer::OnMouseMove(PointerEventArgs *args)
 {
-	Point p = args->CurrentPoint->Position;
+	Position p = args->CurrentPoint->Position;
 	m_game->OnMouseMove(b2Vec2(p.X, p.Y));
 }
 
-void D2DRenderer::OnMouseDown(Windows::UI::Core::PointerEventArgs^ args)
+void D2DRenderer::OnMouseDown(PointerEventArgs *args)
 {
 	m_game->OnMouseDown(args);
 }
@@ -121,7 +127,7 @@ void D2DRenderer::Render()
 	if (m_game == nullptr)
 	{
 		// Initialize Game
-		m_game = new Game(b2Vec2(renderTargetSize.width, renderTargetSize.height), m_d2dContext.Get(), m_dwriteFactory);
+		m_game = new Game(b2Vec2(renderTargetSize.width, renderTargetSize.height), m_d2dContext, m_dwriteFactory);
 	}
 
 	m_d2dContext->BeginDraw();

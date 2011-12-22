@@ -5,6 +5,8 @@
 ////
 //// Copyright (c) Microsoft Corporation. All rights reserved
 
+#ifdef WINRT
+
 #include "DirectXViewProvider.h"
 #include "View.h"
 
@@ -57,3 +59,5 @@ IViewProvider^ DirectXViewProviderFactory::CreateViewProvider()
 {
 	return ref new DirectXViewProvider();
 }
+
+#endif

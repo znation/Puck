@@ -1,11 +1,8 @@
-#include <wrl.h>
-#include <d2d1_1.h>
 #include "Box2D\Box2D.h"
 #include "b2UserData.h"
+#include "Utility.h"
 
 #pragma once
-
-using namespace Microsoft::WRL;
 
 // forward declaration of Scene (to prevent a circular .h dependency)
 class Scene;
@@ -16,7 +13,7 @@ public:
 	Goal(b2Vec2 sceneSize,
 		b2Vec2 scenePosition,
 		int playerIdx,
-		ComPtr<ID2D1DeviceContext> ctx,
+		DeviceContext *ctx,
 		b2World *world,
 		Scene *scene);
 	~Goal();
@@ -24,12 +21,12 @@ public:
 	void detectCollisions();
 
 private:
-	ComPtr<ID2D1DeviceContext> m_ctx;
+	DeviceContext *m_ctx;
 	int m_playerIdx;
 	Scene *m_scene;
 	b2Vec2 m_size;
 	b2Vec2 m_position;
-	ComPtr<ID2D1SolidColorBrush> m_brush;
+	SolidColorBrush *m_brush;
 	D2D1_RECT_F m_rect;
 	b2Body *m_goalBody;
 	b2UserData *m_userData;

@@ -5,10 +5,10 @@
 
 TopBar::TopBar(Scene *scene,
 			   Game *game,
-			   ComPtr<ID2D1DeviceContext> ctx,
+			   DeviceContext *ctx,
 			   b2Vec2 topBarSize,
 			   b2Vec2 topBarPosition,
-			   ComPtr<IDWriteFactory1> dwriteFactory)
+			   WriteFactory *dwriteFactory)
 {
 	m_scene = scene;
 	m_game = game;
@@ -70,14 +70,14 @@ void TopBar::Draw()
 	// Draw menu button
 	m_ctx->DrawRoundedRectangle(
 		&m_menuButtonRect,
-		Scene::Cyan.Get());
+		Scene::Cyan);
 
 	m_ctx->DrawText(
 		L"MENU",
 		4,
-		m_menuButtonTextFormat.Get(),
+		m_menuButtonTextFormat,
 		&(m_menuButtonRect.rect),
-		Scene::Cyan.Get());
+		Scene::Cyan);
 }
 
 void TopBar::ScoreGoal(int playerIdx)
@@ -94,7 +94,7 @@ void TopBar::ScoreGoal(int playerIdx)
 	}
 }
 
-void TopBar::OnMouseDown(Windows::UI::Core::PointerEventArgs^ args)
+void TopBar::OnMouseDown(PointerEventArgs *args)
 {
 	b2Vec2 p = b2Vec2(args->CurrentPoint->Position.X, args->CurrentPoint->Position.Y);
 	if (rectContainsPoint(m_menuButtonRect.rect, p))

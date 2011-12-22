@@ -8,6 +8,8 @@
 #include "View.h"
 #include "ThemeMusic.h"
 
+#ifdef WINRT
+
 using namespace Windows::ApplicationModel::Core;
 using namespace Windows::ApplicationModel::Activation;
 using namespace Windows::UI::Core;
@@ -91,3 +93,5 @@ void View::OnLogicalDpiChanged(__in Platform::Object^)
     m_dpi = static_cast<float>(DisplayProperties::LogicalDpi);
     m_renderer->SetDpi(m_dpi);
 }
+
+#endif

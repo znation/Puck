@@ -4,11 +4,11 @@
 
 Player::Player(b2Vec2 sceneSize,
 		b2Vec2 scenePosition,
-		ComPtr<ID2D1DeviceContext> ctx,
+		DeviceContext *ctx,
 		int playerIdx,
 		b2World *world,
 		b2Body *groundBody,
-		ComPtr<IDWriteFactory1> dwriteFactory,
+		WriteFactory *dwriteFactory,
 		Scene *scene)
 {
 	m_scene = scene;
@@ -83,9 +83,9 @@ void Player::draw()
 		m_ctx->DrawText(
 		L"WINNER",
 		6,
-		m_format.Get(),
+		m_format,
 		&(m_rect.rect),
-		m_brush.Get());
+		m_brush);
 	}
 }
 

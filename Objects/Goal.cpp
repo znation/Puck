@@ -6,7 +6,7 @@
 Goal::Goal(b2Vec2 sceneSize,
 		   b2Vec2 scenePosition,
 		   int playerIdx,
-		   ComPtr<ID2D1DeviceContext> ctx,
+		   DeviceContext *ctx,
 		   b2World *world,
 		   Scene *scene)
 {
@@ -52,7 +52,7 @@ void Goal::draw()
 {
 	m_ctx->FillRectangle(
 		&m_rect,
-		m_brush.Get());
+		m_brush);
 }
 
 void Goal::detectCollisions()

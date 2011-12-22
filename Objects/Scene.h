@@ -1,26 +1,23 @@
-#include <wrl.h>
-#include <d2d1_1.h>
 #include "Box2D\Box2D.h"
 #include "Player.h"
 #include "Puck.h"
 #include "TopBar.h"
 #include "b2UserData.h"
+#include "Utility.h"
 
 #pragma once
-
-using namespace Microsoft::WRL;
 
 class Game;
 
 class Scene
 {
 public:
-	static ComPtr<ID2D1SolidColorBrush> Cyan;
+	static SolidColorBrush *Cyan;
 
 	Scene(b2Vec2 viewportSize,
-			 ComPtr<ID2D1DeviceContext> ctx,
+			 DeviceContext *ctx,
 			 b2World *world,
-			 ComPtr<IDWriteFactory1> dwriteFactory,
+			 WriteFactory *dwriteFactory,
 			 Game *game);
 	~Scene();
 	void move();
@@ -31,7 +28,7 @@ public:
 	void win(int playerIdx);
 	void reset();
 	void scoreGoal(int playerIdx);
-	void OnMouseDown(Windows::UI::Core::PointerEventArgs^ args);
+	void OnMouseDown(PointerEventArgs *args);
 
 private:
 	void drawGrid();
@@ -39,10 +36,10 @@ private:
 	void beginRound();
 	void resetCore();
 
-	ComPtr<ID2D1DeviceContext> m_ctx;
+	DeviceContext *m_ctx;
 	b2Vec2 m_size;
 	b2Vec2 m_position;
-	ComPtr<ID2D1SolidColorBrush> m_gridBrush;
+	SolidColorBrush *m_gridBrush;
 	D2D1_ROUNDED_RECT m_rect;
 	Player *m_players[2];
 	b2UserData *m_userData[4];
@@ -51,7 +48,7 @@ private:
 	bool m_gameOver;
 	bool m_frozen;
 	ULONGLONG m_beginTime;
-	ComPtr<IDWriteTextFormat> m_roundTimerTextFormat;
+	IDWriteTextFormat *m_roundTimerTextFormat;
 	
 	class Edge
 	{

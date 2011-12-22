@@ -2,7 +2,7 @@
 #include "Game.h"
 #include "Utility.h"
 
-GameMenu::GameMenu(b2Vec2 viewportSize, Game * game, ComPtr<ID2D1DeviceContext> ctx, ComPtr<IDWriteFactory1> dwriteFactory)
+GameMenu::GameMenu(b2Vec2 viewportSize, Game * game, DeviceContext *ctx, WriteFactory *dwriteFactory)
 {
 	m_size = viewportSize;
 	m_game = game;
@@ -65,11 +65,11 @@ void GameMenu::Draw()
 {
 	m_ctx->FillRectangle(
 		&m_rect,
-		m_transparentBgBrush.Get());
+		m_transparentBgBrush);
 
 	for (int i=0; i<MENU_BUTTON_COUNT; i++)
 	{
-		ComPtr<ID2D1SolidColorBrush> brush = m_solidBgBrush;
+		SolidColorBrush *brush = m_solidBgBrush;
 		if (i == 1 && !m_game->CanResume())
 		{
 			brush = m_transparentBgBrush;
@@ -77,20 +77,20 @@ void GameMenu::Draw()
 
 		m_ctx->FillRoundedRectangle(
 			&(m_buttons[i].RoundedRect),
-			brush.Get());
+			brush);
 
 		m_ctx->DrawText(
 			m_buttons[i].Text,
 			m_buttons[i].TextLength,
-			m_buttonTextFormat.Get(),
+			m_buttonTextFormat,
 			&m_buttons[i].RoundedRect.rect,
-			m_buttonTextBrush.Get());
+			m_buttonTextBrush);
 	}
 }
 
-void GameMenu::OnMouseDown(Windows::UI::Core::PointerEventArgs^ args)
+void GameMenu::OnMouseDown(PointerEventArgs *args)
 {
-	Windows::Foundation::Point pp = args->CurrentPoint->Position;
+	Position pp = args->CurrentPoint->Position;
 	b2Vec2 p = b2Vec2(pp.X, pp.Y);
 	if (rectContainsPoint(m_buttons[0].RoundedRect.rect, p))
 	{
