@@ -9,17 +9,18 @@
 #include "DirectXBase.h" 
 
 #ifdef WINRT
-
 using namespace Windows::UI::Core;
 using namespace Windows::Foundation;
 using namespace Microsoft::WRL;
 using namespace D2D1;
+#endif
 
 // Constructor.
 DirectXBase::DirectXBase()
 {
 }
 
+#ifdef WINRT
 // Initialize the Direct3D resources required to run.
 void DirectXBase::Initialize(CoreWindow^ window, float dpi)
 {
@@ -30,6 +31,7 @@ void DirectXBase::Initialize(CoreWindow^ window, float dpi)
     CreateDeviceResources();
     CreateWindowSizeDependentResources();
 }
+#endif
 
 // These are the resources required independent of hardware.
 void DirectXBase::CreateDeviceIndependentResources()
@@ -42,6 +44,8 @@ void DirectXBase::CreateDeviceIndependentResources()
     options.debugLevel = D2D1_DEBUG_LEVEL_INFORMATION;
 #endif
 
+	// TODO Initialize the factories in Win7
+#ifdef WINRT
     ThrowIfFailed(
         D2D1CreateFactory(
             D2D1_FACTORY_TYPE_SINGLE_THREADED, 
@@ -60,6 +64,8 @@ void DirectXBase::CreateDeviceIndependentResources()
             &m_wicFactory
             )
         );
+#endif
+
 }
 
 // These are the resources that depend on the device,
@@ -69,18 +75,27 @@ void DirectXBase::CreateDeviceResources()
     // This flag adds support for surfaces with a different color channel ordering than the default.
     // It is required for compatibility with Direct2D.
     UINT creationFlags = D3D11_CREATE_DEVICE_BGRA_SUPPORT;
-    ComPtr<IDXGIDevice> dxgiDevice;
 
-#if defined(_DEBUG)
+#ifdef WINRT
+    ComPtr<IDXGIDevice> dxgiDevice;
+#endif
+
+#ifdef DEBUG
     // If the project is in a debug build, enable debugging via SDK Layers with this flag.
+#ifdef WINRT
     creationFlags |= D3D11_CREATE_DEVICE_DEBUG;
+#else
+	creationFlags |= D3D10_CREATE_DEVICE_DEBUG;
+#endif
 #endif
 
     // This array defines the set of DirectX hardware feature levels this app will support.
     // Note the ordering should be preserved.
     D3D_FEATURE_LEVEL featureLevels[] = 
     {
+#ifdef WINRT
         D3D_FEATURE_LEVEL_11_1,
+#endif
         D3D_FEATURE_LEVEL_11_0,
         D3D_FEATURE_LEVEL_10_1,
         D3D_FEATURE_LEVEL_10_0,
@@ -92,7 +107,9 @@ void DirectXBase::CreateDeviceResources()
 #endif
     };
 
-    // Create the DX11 API device object, and get a corresponding context.
+	// TODO do this in Win7
+#ifdef WINRT
+	// Create the DX11 API device object, and get a corresponding context.
     ComPtr<ID3D11Device> device;
     ComPtr<ID3D11DeviceContext> context;
     ThrowIfFailed(
@@ -144,11 +161,15 @@ void DirectXBase::CreateDeviceResources()
     // Release the swap chain (if it exists) as it will be incompatible with
     // the new device.
     m_swapChain = nullptr;
+#endif
+
 }
 
 // Allocate all memory resources that change on a window SizeChanged event.
 void DirectXBase::CreateWindowSizeDependentResources()
 {
+	// TODO do this in Win7
+#ifdef WINRT
     // Store the window bounds so the next time we get a SizeChanged event we can
     // avoid rebuilding everything if the size is identical.
     m_windowBounds = m_window->Bounds;
@@ -319,11 +340,14 @@ void DirectXBase::CreateWindowSizeDependentResources()
 
     // Set D2D text anti-alias mode to Grayscale to ensure proper rendering of text on intermediate surfaces.
     m_d2dContext->SetTextAntialiasMode(D2D1_TEXT_ANTIALIAS_MODE_GRAYSCALE);
+#endif
 }
 
 // This routine is called in the event handler for the view SizeChanged event.
 void DirectXBase::UpdateForWindowSizeChange()
 {
+// TODO do this in Win7
+#ifdef WINRT
     if (m_window->Bounds.Width  != m_windowBounds.Width ||
         m_window->Bounds.Height != m_windowBounds.Height)
     {
@@ -333,6 +357,7 @@ void DirectXBase::UpdateForWindowSizeChange()
         m_depthStencilView = nullptr;
         CreateWindowSizeDependentResources();
     }
+#endif
 }
 
 // Helps track the DPI in the helper class.
@@ -353,6 +378,9 @@ void DirectXBase::SetDpi(float dpi)
 // Method to deliver the final image to the display.
 void DirectXBase::Present()
 {
+	// TODO do this in Win7
+
+#ifdef WINRT
     // The first argument instructs DXGI to block until VSync, putting the application
     // to sleep until the next VSync. This ensures we don't waste any cycles rendering
     // frames that will never be displayed to the screen.
@@ -368,6 +396,5 @@ void DirectXBase::Present()
     {
         ThrowIfFailed(hr);
     }
-}
-
 #endif
+}
