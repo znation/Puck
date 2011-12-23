@@ -27,11 +27,9 @@ int WINAPI WinMain(
     if (SUCCEEDED(CoInitialize(NULL)))
     {
         {
-            D2DRenderer renderer;
-
-            ThrowIfFailed(renderer.Initialize());
-
-            renderer.RunMessageLoop();
+            D2DRenderer *renderer = new D2DRenderer();
+            ThrowIfFailed(renderer->Initialize());
+            renderer->RunMessageLoop();
         }
         CoUninitialize();
     }

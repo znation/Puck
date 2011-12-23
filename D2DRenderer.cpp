@@ -18,6 +18,9 @@ using namespace Windows::UI::Core;
 
 D2DRenderer::D2DRenderer()
 {
+	m_d2dContext = nullptr;
+	m_game = nullptr;
+
 	ThrowIfFailed(
 		DWriteCreateFactory(
 		DWRITE_FACTORY_TYPE_SHARED,
@@ -83,9 +86,10 @@ void D2DRenderer::CreateDeviceResources()
 
 void D2DRenderer::RecreateTarget()
 {
-	// TODO does this need to be done on Win7?
 #ifdef WINRT
 	m_d2dContext->SetTarget(nullptr);
+#else
+	SafeRelease(&m_d2dContext);
 #endif
 
 	m_d2dTargetBitmap = nullptr;
@@ -104,8 +108,9 @@ void D2DRenderer::RenderFPS(D2D1_SIZE_F)
 		m_fps = m_frameCounter;
 		m_frameCounter = 0;
 
-		char buf[10];
-		sprintf_s(buf, 10, "FPS: %d", m_fps);
+		char buf[20];
+		memset(buf, 0, 20);
+		sprintf_s(buf, 20, "FPS: %d", m_fps);
 		mbstowcs_s(&m_fpsTextLength, m_fpsText, strlen(buf)+1, buf, _TRUNCATE);
 	}
 	else
@@ -174,7 +179,8 @@ void D2DRenderer::Render()
 	}
 	else
 	{
-		ThrowIfFailed(hr);
+		// TODO why is it failing here?
+		//ThrowIfFailed(hr);
 	}
 
 	Present();
@@ -265,6 +271,8 @@ LRESULT CALLBACK D2DRenderer::WndProc(HWND hwnd, UINT message, WPARAM wParam, LP
             PtrToUlong(pD2DRenderer)
             );
 
+		SetTimer(hwnd, 1, (UINT)(1000.0f / FRAMERATE), NULL);
+
         result = 1;
     }
     else
@@ -300,6 +308,7 @@ LRESULT CALLBACK D2DRenderer::WndProc(HWND hwnd, UINT message, WPARAM wParam, LP
                 break;
 
             case WM_PAINT:
+			case WM_TIMER:
                 {
                     pD2DRenderer->OnRender();
 

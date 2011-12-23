@@ -17,6 +17,20 @@ EXTERN_C IMAGE_DOS_HEADER __ImageBase;
 #define HINST_THISCOMPONENT ((HINSTANCE)&__ImageBase)
 #endif
 
+template<class Interface>
+inline void
+SafeRelease(
+    Interface **ppInterfaceToRelease
+    )
+{
+    if (*ppInterfaceToRelease != NULL)
+    {
+        (*ppInterfaceToRelease)->Release();
+
+        (*ppInterfaceToRelease) = NULL;
+    }
+}
+
 class D2DRenderer : public DirectXBase
 {
 public:

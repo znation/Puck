@@ -12,13 +12,14 @@ Game::Game(b2Vec2 viewportSize, DeviceContext *ctx, WriteFactory *dwriteFactory)
 
 Game::~Game()
 {
-	assert(m_menu != NULL);
-	assert(m_world != NULL);
-	assert(m_scene != NULL);
+	if (m_menu != NULL)
+		delete m_menu;
 
-	delete m_menu;
-	delete m_world;
-	delete m_scene;
+	if (m_world != NULL)
+		delete m_world;
+
+	if (m_scene != NULL)
+		delete m_scene;
 }
 
 void Game::Begin()
