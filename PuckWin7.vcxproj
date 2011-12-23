@@ -38,7 +38,7 @@
   </ImportGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Link>
-      <AdditionalDependencies>$(OutDir)\Box2D\Box2D.lib;d3d11.lib;d2d1.lib;dwrite.lib;runtimeobject.lib;Mfplat.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>$(OutDir)\Box2D.lib;d3d10.lib;d2d1.lib;dwrite.lib;Mfplat.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
@@ -52,7 +52,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Link>
-      <AdditionalDependencies>$(OutDir)\Box2D\Box2D.lib;d3d11.lib;d2d1.lib;dwrite.lib;runtimeobject.lib;Mfplat.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>$(OutDir)\Box2D.lib;d3d10.lib;d2d1.lib;dwrite.lib;Mfplat.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
