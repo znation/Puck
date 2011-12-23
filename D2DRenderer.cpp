@@ -42,17 +42,43 @@ D2DRenderer::D2DRenderer()
 
 D2DRenderer::~D2DRenderer()
 {
+	assert(m_game != NULL);
 	delete m_game;
 }
 
 void D2DRenderer::CreateDeviceIndependentResources()
 {
+#ifdef WINRT
 	DirectXBase::CreateDeviceIndependentResources();
+#else
+    // Create a Direct2D factory.
+    ThrowIfFailed(D2D1CreateFactory(D2D1_FACTORY_TYPE_SINGLE_THREADED, &m_d2dFactory));
+#endif
 }
 
 void D2DRenderer::CreateDeviceResources()
 {
+#ifdef WINRT
 	DirectXBase::CreateDeviceResources();
+#else
+    if (!m_d2dContext)
+    {
+        RECT rc;
+        GetClientRect(m_hwnd, &rc);
+
+        D2D1_SIZE_U size = D2D1::SizeU(
+            rc.right - rc.left,
+            rc.bottom - rc.top
+            );
+
+        // Create a Direct2D render target.
+        ThrowIfFailed(m_d2dFactory->CreateHwndRenderTarget(
+            D2D1::RenderTargetProperties(),
+            D2D1::HwndRenderTargetProperties(m_hwnd, size),
+            &m_d2dContext
+            ));
+	}
+#endif
 }
 
 void D2DRenderer::RecreateTarget()
@@ -153,3 +179,188 @@ void D2DRenderer::Render()
 
 	Present();
 }
+
+#ifndef WINRT
+
+HRESULT D2DRenderer::Initialize()
+{
+	HRESULT hr;
+
+    // Initialize device-indpendent resources, such
+    // as the Direct2D factory.
+    CreateDeviceIndependentResources();
+
+    // Register the window class.
+    WNDCLASSEX wcex = { sizeof(WNDCLASSEX) };
+    wcex.style         = CS_HREDRAW | CS_VREDRAW;
+    wcex.lpfnWndProc   = D2DRenderer::WndProc;
+    wcex.cbClsExtra    = 0;
+    wcex.cbWndExtra    = sizeof(LONG_PTR);
+    wcex.hInstance     = HINST_THISCOMPONENT;
+    wcex.hbrBackground = NULL;
+    wcex.lpszMenuName  = NULL;
+    wcex.hCursor       = LoadCursor(NULL, IDC_ARROW);
+    wcex.lpszClassName = L"Puck";
+
+    RegisterClassEx(&wcex);
+
+    // Create the application window.
+    //
+    // Because the CreateWindow function takes its size in pixels, we
+    // obtain the system DPI and use it to scale the window size.
+    FLOAT dpiX, dpiY;
+    m_d2dFactory->GetDesktopDpi(&dpiX, &dpiY);
+
+    m_hwnd = CreateWindow(
+        L"Puck",
+        L"Puck",
+        WS_OVERLAPPEDWINDOW,
+        CW_USEDEFAULT,
+        CW_USEDEFAULT,
+        static_cast<UINT>(ceil(640.f * dpiX / 96.f)),
+        static_cast<UINT>(ceil(480.f * dpiY / 96.f)),
+        NULL,
+        NULL,
+        HINST_THISCOMPONENT,
+        this
+        );
+
+    hr = m_hwnd ? S_OK : E_FAIL;
+    if (SUCCEEDED(hr))
+    {
+        ShowWindow(m_hwnd, SW_SHOWNORMAL);
+
+        UpdateWindow(m_hwnd);
+    }
+
+    return hr;
+}
+
+void D2DRenderer::RunMessageLoop()
+{
+	MSG msg;
+
+    while (GetMessage(&msg, NULL, 0, 0))
+    {
+        TranslateMessage(&msg);
+        DispatchMessage(&msg);
+    }
+}
+
+//
+// The window message handler.
+//
+LRESULT CALLBACK D2DRenderer::WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
+{
+    LRESULT result = 0;
+
+    if (message == WM_CREATE)
+    {
+        LPCREATESTRUCT pcs = (LPCREATESTRUCT)lParam;
+        D2DRenderer *pD2DRenderer = (D2DRenderer *)pcs->lpCreateParams;
+
+        ::SetWindowLongPtrW(
+            hwnd,
+            GWLP_USERDATA,
+            PtrToUlong(pD2DRenderer)
+            );
+
+        result = 1;
+    }
+    else
+    {
+        D2DRenderer *pD2DRenderer = reinterpret_cast<D2DRenderer *>(static_cast<LONG_PTR>(
+            ::GetWindowLongPtrW(
+                hwnd,
+                GWLP_USERDATA
+                )));
+
+        bool wasHandled = false;
+
+        if (pD2DRenderer)
+        {
+            switch (message)
+            {
+            case WM_SIZE:
+                {
+                    UINT width = LOWORD(lParam);
+                    UINT height = HIWORD(lParam);
+                    pD2DRenderer->OnResize(width, height);
+                }
+                wasHandled = true;
+                result = 0;
+                break;
+
+            case WM_DISPLAYCHANGE:
+                {
+                    InvalidateRect(hwnd, NULL, FALSE);
+                }
+                wasHandled = true;
+                result = 0;
+                break;
+
+            case WM_PAINT:
+                {
+                    pD2DRenderer->OnRender();
+
+                    ValidateRect(hwnd, NULL);
+                }
+                wasHandled = true;
+                result = 0;
+                break;
+
+            case WM_DESTROY:
+                {
+                    PostQuitMessage(0);
+                }
+                wasHandled = true;
+                result = 1;
+                break;
+            }
+        }
+
+        if (!wasHandled)
+        {
+            result = DefWindowProc(hwnd, message, wParam, lParam);
+        }
+    }
+
+    return result;
+}
+
+//  Called whenever the application needs to display the client
+//  window. This method writes "Hello, World"
+//
+//  Note that this function will automatically discard device-specific
+//  resources if the Direct3D device disappears during function
+//  invocation, and will recreate the resources the next time it's
+//  invoked.
+//
+HRESULT D2DRenderer::OnRender()
+{
+    CreateDeviceResources();
+	Render();
+	return S_OK;
+}
+
+//
+//  If the application receives a WM_SIZE message, this method
+//  resizes the render target appropriately.
+//
+void D2DRenderer::OnResize(UINT width, UINT height)
+{
+    if (m_d2dContext)
+    {
+        D2D1_SIZE_U size;
+        size.width = width;
+        size.height = height;
+
+        // Note: This method can fail, but it's okay to ignore the
+        // error here -- it will be repeated on the next call to
+        // EndDraw.
+		// TODO what do I call here? Resize is not defined
+        //m_d2dContext->Resize(size);
+    }
+}
+
+#endif

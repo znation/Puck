@@ -12,7 +12,7 @@ using namespace Microsoft::WRL;
 #define ImagingFactory IWICImagingFactory2
 #define D3DDevice ID3D11Device1
 #else
-#define DeviceContext ID2D1RenderTarget
+#define DeviceContext ID2D1HwndRenderTarget
 #define WriteFactory IDWriteFactory
 #define D2DFactory ID2D1Factory
 #define D2DBitmap ID2D1Bitmap

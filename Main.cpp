@@ -1,4 +1,6 @@
 #include "DirectXViewProvider.h"
+#include <windows.h>
+#include "D2DRenderer.h"
 
 #ifdef WINRT
 
@@ -12,9 +14,29 @@ int main(array<Platform::String^>^)
 
 #else
 
-int main()
+int WINAPI WinMain(
+    HINSTANCE /*hInstance*/,
+    HINSTANCE /*hPrevInstance*/,
+    LPSTR /*lpCmdLine*/,
+    int /*nCmdShow*/
+    )
 {
-	return 0;
+    // Ignore the return value because we want to run the program even in the
+    // unlikely event that HeapSetInformation fails.
+    HeapSetInformation(NULL, HeapEnableTerminationOnCorruption, NULL, 0);
+    if (SUCCEEDED(CoInitialize(NULL)))
+    {
+        {
+            D2DRenderer renderer;
+
+            ThrowIfFailed(renderer.Initialize());
+
+            renderer.RunMessageLoop();
+        }
+        CoUninitialize();
+    }
+
+    return 0;
 }
 
 #endif
