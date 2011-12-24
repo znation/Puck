@@ -13,4 +13,5 @@ TODO:
 	- don't bother rendering frames
 - remove unneeded member variables from objects
 - fix inconsistent casing of methods
-
+- make graphics resize properly with window in win7
+- make mouse input work in Win7
