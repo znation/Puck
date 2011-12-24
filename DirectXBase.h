@@ -18,9 +18,9 @@ public:
 
 #ifdef WINRT
     virtual void Initialize(Windows::UI::Core::CoreWindow^ window, float dpi);
+	virtual void CreateDeviceResources();
 #endif
     virtual void CreateDeviceIndependentResources();
-    virtual void CreateDeviceResources();
     virtual void CreateWindowSizeDependentResources();
     virtual void UpdateForWindowSizeChange();
     virtual void SetDpi(float dpi);

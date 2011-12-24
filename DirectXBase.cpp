@@ -44,7 +44,6 @@ void DirectXBase::CreateDeviceIndependentResources()
     options.debugLevel = D2D1_DEBUG_LEVEL_INFORMATION;
 #endif
 
-	// TODO Initialize the factories in Win7
 #ifdef WINRT
     ThrowIfFailed(
         D2D1CreateFactory(
@@ -68,6 +67,7 @@ void DirectXBase::CreateDeviceIndependentResources()
 
 }
 
+#ifdef WINRT
 // These are the resources that depend on the device,
 // and so will need to be re-allocated if it is rebuilt (such as on a SizeChanged event).
 void DirectXBase::CreateDeviceResources()
@@ -75,27 +75,18 @@ void DirectXBase::CreateDeviceResources()
     // This flag adds support for surfaces with a different color channel ordering than the default.
     // It is required for compatibility with Direct2D.
     UINT creationFlags = D3D11_CREATE_DEVICE_BGRA_SUPPORT;
-
-#ifdef WINRT
     ComPtr<IDXGIDevice> dxgiDevice;
-#endif
 
 #ifdef DEBUG
     // If the project is in a debug build, enable debugging via SDK Layers with this flag.
-#ifdef WINRT
     creationFlags |= D3D11_CREATE_DEVICE_DEBUG;
-#else
-	creationFlags |= D3D10_CREATE_DEVICE_DEBUG;
-#endif
 #endif
 
     // This array defines the set of DirectX hardware feature levels this app will support.
     // Note the ordering should be preserved.
     D3D_FEATURE_LEVEL featureLevels[] = 
     {
-#ifdef WINRT
         D3D_FEATURE_LEVEL_11_1,
-#endif
         D3D_FEATURE_LEVEL_11_0,
         D3D_FEATURE_LEVEL_10_1,
         D3D_FEATURE_LEVEL_10_0,
@@ -107,8 +98,6 @@ void DirectXBase::CreateDeviceResources()
 #endif
     };
 
-	// TODO do this in Win7
-#ifdef WINRT
 	// Create the DX11 API device object, and get a corresponding context.
     ComPtr<ID3D11Device> device;
     ComPtr<ID3D11DeviceContext> context;
@@ -161,14 +150,12 @@ void DirectXBase::CreateDeviceResources()
     // Release the swap chain (if it exists) as it will be incompatible with
     // the new device.
     m_swapChain = nullptr;
-#endif
-
 }
+#endif
 
 // Allocate all memory resources that change on a window SizeChanged event.
 void DirectXBase::CreateWindowSizeDependentResources()
 {
-	// TODO do this in Win7
 #ifdef WINRT
     // Store the window bounds so the next time we get a SizeChanged event we can
     // avoid rebuilding everything if the size is identical.
@@ -346,7 +333,6 @@ void DirectXBase::CreateWindowSizeDependentResources()
 // This routine is called in the event handler for the view SizeChanged event.
 void DirectXBase::UpdateForWindowSizeChange()
 {
-// TODO do this in Win7
 #ifdef WINRT
     if (m_window->Bounds.Width  != m_windowBounds.Width ||
         m_window->Bounds.Height != m_windowBounds.Height)
@@ -378,8 +364,6 @@ void DirectXBase::SetDpi(float dpi)
 // Method to deliver the final image to the display.
 void DirectXBase::Present()
 {
-	// TODO do this in Win7
-
 #ifdef WINRT
     // The first argument instructs DXGI to block until VSync, putting the application
     // to sleep until the next VSync. This ensures we don't waste any cycles rendering

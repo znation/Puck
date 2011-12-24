@@ -289,6 +289,11 @@ LRESULT CALLBACK D2DRenderer::WndProc(HWND hwnd, UINT message, WPARAM wParam, LP
         {
             switch (message)
             {
+			case WM_MOUSEMOVE:
+				{
+					// TODO Win7 mouse event handling (see MSDN for examples)
+				}
+
             case WM_SIZE:
                 {
                     UINT width = LOWORD(lParam);
