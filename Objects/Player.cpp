@@ -14,7 +14,7 @@ Player::Player(b2Vec2 sceneSize,
 	m_scene = scene;
 	m_ctx = ctx;
 	m_winner = false;
-	int padding = 16;
+	float padding = 0.02f * sceneSize.y;
 	m_playerIdx = playerIdx;
 	m_size = b2Vec2((sceneSize.x / 2.0f) - (padding * 1.5f), sceneSize.y - (padding * 2.0f));
 	m_position = b2Vec2(playerIdx == 0 ? scenePosition.x + padding : (sceneSize.x/2.0f) + scenePosition.x + (0.5f * padding),
@@ -33,7 +33,7 @@ Player::Player(b2Vec2 sceneSize,
 		DWRITE_FONT_WEIGHT_BOLD,
 		DWRITE_FONT_STYLE_NORMAL,
 		DWRITE_FONT_STRETCH_NORMAL,
-		64.0f,
+		(0.08f * sceneSize.y),
 		L"en-US",
 		&m_format));
 
@@ -48,8 +48,9 @@ Player::Player(b2Vec2 sceneSize,
 	m_rect.rect.left = m_position.x;
 	m_rect.rect.bottom = m_position.y + m_size.y;
 	m_rect.rect.right = m_position.x + m_size.x;
-	m_rect.radiusX = 10;
-	m_rect.radiusY = 10;
+	m_rect.radiusX = 0.0125f * sceneSize.y;
+	m_rect.radiusY = 0.0125f * sceneSize.y;
+	m_brushStrokeSize = 0.0025f * sceneSize.y;
 }
 
 Player::~Player()
@@ -72,7 +73,7 @@ void Player::draw()
 {
 	m_ctx->DrawRoundedRectangle(&m_rect,
 		*(&m_brush),
-		2.0f);
+		m_brushStrokeSize);
 
 	m_goal->draw();
 

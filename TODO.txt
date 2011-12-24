@@ -1,7 +1,6 @@
 TODO:
 
 - standardize method naming conventions
-- use relative sizes instead of hardcoded pixels everywhere
 - add menu button to turn off music
 - use new graphics for:
 	- scene border

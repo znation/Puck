@@ -39,4 +39,5 @@ private:
 	D2D1_ROUNDED_RECT m_rect;
 	Goal *m_goal;
 	Scene *m_scene;
+	float m_brushStrokeSize;
 };

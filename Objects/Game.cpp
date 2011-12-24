@@ -52,6 +52,7 @@ void Game::Draw()
 		if (!m_showMenu)
 		{
 			m_scene->applyConstraints();
+			// TODO use real measured framerate here instead of hardcoded ideal framerate
 			m_world->Step(1.0f / FRAMERATE, 8, 3);
 			m_scene->detectCollisions();
 			m_scene->move();

@@ -23,12 +23,12 @@ Scene::Scene(b2Vec2 viewportSize,
 
 	m_ctx = ctx;
 
-	float padding = 16.0f;
-	b2Vec2 topBarSize = b2Vec2(viewportSize.x - (2 * padding), 32.0f);
+	float padding = 0.02f * viewportSize.y;
+	b2Vec2 topBarSize = b2Vec2(viewportSize.x - (2 * padding), 0.04f * viewportSize.y);
 	b2Vec2 topBarPosition = b2Vec2(padding, padding);
 
-	m_size = b2Vec2(viewportSize.x - (2 * padding),
-		viewportSize.y - ((2 * padding) + topBarSize.y));
+	m_size = b2Vec2(viewportSize.x - (2.0f * padding),
+		viewportSize.y - ((2.0f * padding) + topBarSize.y));
 	m_position = b2Vec2(padding, padding + topBarPosition.y + topBarSize.y);
 
 	ThrowIfFailed(ctx->CreateSolidColorBrush(
@@ -59,8 +59,8 @@ Scene::Scene(b2Vec2 viewportSize,
 	m_rect.rect.left = m_position.x;
 	m_rect.rect.bottom = m_position.y + m_size.y;
 	m_rect.rect.right = m_position.x + m_size.x;
-	m_rect.radiusX = 10;
-	m_rect.radiusY = 10;
+	m_rect.radiusX = 0.0125f * viewportSize.y;
+	m_rect.radiusY = 0.0125f * viewportSize.y;
 
 	// Construct a border box to keep everything inside
 	b2Vec2 horizontalEdgeSize = b2Vec2(m_size.x / 2.0f, padding / 2.0f);

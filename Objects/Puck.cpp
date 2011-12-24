@@ -7,8 +7,8 @@ Puck::Puck(b2Vec2 viewportSize, DeviceContext *ctx, b2World *world)
 	m_world = world;
 	m_viewportSize = viewportSize;
 	m_ctx = ctx;
-	m_radius = 20;
-	m_maxSpeed = 3.0;
+	m_radius = 0.025f * viewportSize.y;
+	m_maxSpeed = 3.0f;
 	m_ellipse.radiusX = m_radius;
 	m_ellipse.radiusY = m_radius;
 	m_circleBody = nullptr;

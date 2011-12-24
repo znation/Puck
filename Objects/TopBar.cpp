@@ -16,7 +16,7 @@ TopBar::TopBar(Scene *scene,
 	m_size = topBarSize;
 	m_position = topBarPosition;
 
-	b2Vec2 buttonAreaSize = b2Vec2(300, topBarSize.y);
+	b2Vec2 buttonAreaSize = b2Vec2(topBarSize.x * 0.2f, topBarSize.y);
 	b2Vec2 buttonAreaPosition = b2Vec2(m_position.x + (m_size.x / 2.0f) - (buttonAreaSize.x / 2.0f),
 		topBarPosition.y);
 
@@ -44,7 +44,7 @@ TopBar::TopBar(Scene *scene,
 		DWRITE_FONT_WEIGHT_BOLD,
 		DWRITE_FONT_STYLE_NORMAL,
 		DWRITE_FONT_STRETCH_NORMAL,
-		32.0f,
+		topBarSize.y * 0.5f,
 		L"en-US",
 		&m_menuButtonTextFormat));
 
