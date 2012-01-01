@@ -6,9 +6,8 @@
 class ScoreButton
 {
 public:
-	ScoreButton(DeviceContext *ctx,
-						 b2Vec2 buttonSize,
-						 b2Vec2 buttonPosition);
+	ScoreButton(DeviceContext *ctx);
+	void Resize(b2Vec2 buttonSize, b2Vec2 buttonPosition);
 	void SetFilled(bool filled);
 	void Draw();
 private:
@@ -22,11 +21,11 @@ private:
 class Score
 {
 public:
-	Score(b2Vec2 scoreSize,
-		b2Vec2 scorePosition,
-		int playerIdx,
+	Score(int playerIdx,
 		DeviceContext *ctx);
 	~Score();
+	void Resize(b2Vec2 scoreSize,
+		b2Vec2 scorePosition);
 	void draw();
 	void increment();
 	int getScore();

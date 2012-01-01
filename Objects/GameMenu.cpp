@@ -2,32 +2,11 @@
 #include "Game.h"
 #include "Utility.h"
 
-GameMenu::GameMenu(b2Vec2 viewportSize, Game * game, DeviceContext *ctx, WriteFactory *dwriteFactory)
+GameMenu::GameMenu(Game * game, DeviceContext *ctx, WriteFactory *dwriteFactory)
 {
-	m_size = viewportSize;
 	m_game = game;
 	m_ctx = ctx;
 	m_dwriteFactory = dwriteFactory;
-
-	m_rect.top = 0;
-	m_rect.bottom = m_size.y;
-	m_rect.left = 0;
-	m_rect.right = m_size.x;
-
-	float buttonWidth = 300;
-	float buttonHeight = 200;
-	float totalButtonWidth = buttonWidth * MENU_BUTTON_COUNT;
-	for (int i=0; i<MENU_BUTTON_COUNT; i++)
-	{
-		m_buttons[i].Size = b2Vec2(300, 200);
-		m_buttons[i].Position = b2Vec2(((m_size.x - totalButtonWidth) / 2.0f) + (i * buttonWidth), (m_size.y / 2.0f) - (buttonHeight / 2.0f));
-		m_buttons[i].RoundedRect.radiusX = 10;
-		m_buttons[i].RoundedRect.radiusY = 10;
-		m_buttons[i].RoundedRect.rect.left = m_buttons[i].Position.x;
-		m_buttons[i].RoundedRect.rect.top = m_buttons[i].Position.y;
-		m_buttons[i].RoundedRect.rect.right = m_buttons[i].Position.x + m_buttons[i].Size.x;
-		m_buttons[i].RoundedRect.rect.bottom = m_buttons[i].Position.y + m_buttons[i].Size.y;
-	}
 
 	m_buttons[0].Text = L"New Game";
 	m_buttons[0].TextLength = 8;
@@ -59,6 +38,31 @@ GameMenu::GameMenu(b2Vec2 viewportSize, Game * game, DeviceContext *ctx, WriteFa
 
 	ThrowIfFailed(m_buttonTextFormat->SetTextAlignment(DWRITE_TEXT_ALIGNMENT_CENTER));
 	ThrowIfFailed(m_buttonTextFormat->SetParagraphAlignment(DWRITE_PARAGRAPH_ALIGNMENT_CENTER));
+}
+
+void GameMenu::Resize(b2Vec2 viewportSize)
+{
+	m_size = viewportSize;
+	m_rect.top = 0;
+	m_rect.bottom = m_size.y;
+	m_rect.left = 0;
+	m_rect.right = m_size.x;
+
+	float buttonWidth = 300;
+	float buttonHeight = 200;
+	float totalButtonWidth = buttonWidth * MENU_BUTTON_COUNT;
+	for (int i=0; i<MENU_BUTTON_COUNT; i++)
+	{
+		m_buttons[i].Size = b2Vec2(300, 200);
+		m_buttons[i].Position = b2Vec2(((m_size.x - totalButtonWidth) / 2.0f) + (i * buttonWidth), (m_size.y / 2.0f) - (buttonHeight / 2.0f));
+		m_buttons[i].RoundedRect.radiusX = 10;
+		m_buttons[i].RoundedRect.radiusY = 10;
+		m_buttons[i].RoundedRect.rect.left = m_buttons[i].Position.x;
+		m_buttons[i].RoundedRect.rect.top = m_buttons[i].Position.y;
+		m_buttons[i].RoundedRect.rect.right = m_buttons[i].Position.x + m_buttons[i].Size.x;
+		m_buttons[i].RoundedRect.rect.bottom = m_buttons[i].Position.y + m_buttons[i].Size.y;
+	}
+
 }
 
 void GameMenu::Draw()

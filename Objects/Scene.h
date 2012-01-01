@@ -29,8 +29,19 @@ public:
 	void reset();
 	void scoreGoal(int playerIdx);
 	void OnMouseDown(PointerEventArgs *args);
+	void Resize(b2Vec2 viewportSize);
 
 private:
+	class Edge
+	{
+	public:
+		Edge();
+		b2Vec2 center;
+		b2Vec2 extents;
+		const char *extraInfo;
+		void Initialize(b2Vec2 center_, b2Vec2 extents_, const char *e);
+	};
+
 	void drawGrid();
 	bool drawRoundTimer();
 	void beginRound();
@@ -49,13 +60,7 @@ private:
 	bool m_frozen;
 	ULONGLONG m_beginTime;
 	IDWriteTextFormat *m_roundTimerTextFormat;
-	
-	class Edge
-	{
-	public:
-		Edge(b2Vec2 center_, b2Vec2 extents_, const char *e);
-		b2Vec2 center;
-		b2Vec2 extents;
-		const char *extraInfo;
-	};
+	Edge m_edges[4];
+	b2Body *m_groundBoxBody[4];
+	b2World *m_world;
 };

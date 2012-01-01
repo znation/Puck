@@ -5,7 +5,9 @@
 
 SolidColorBrush * Scene::Cyan;
 
-Scene::Edge::Edge(b2Vec2 center_, b2Vec2 extents_, const char *e)
+Scene::Edge::Edge() {}
+
+void Scene::Edge::Initialize(b2Vec2 center_, b2Vec2 extents_, const char *e)
 {
 	center = center_;
 	extents = extents_;
@@ -18,18 +20,11 @@ Scene::Scene(b2Vec2 viewportSize,
 			 WriteFactory *dwriteFactory,
 			 Game *game)
 {
+	m_world = world;
 	m_frozen = false;
 	m_gameOver = false;
 
 	m_ctx = ctx;
-
-	float padding = 0.02f * viewportSize.y;
-	b2Vec2 topBarSize = b2Vec2(viewportSize.x - (2 * padding), 0.04f * viewportSize.y);
-	b2Vec2 topBarPosition = b2Vec2(padding, padding);
-
-	m_size = b2Vec2(viewportSize.x - (2.0f * padding),
-		viewportSize.y - ((2.0f * padding) + topBarSize.y));
-	m_position = b2Vec2(padding, padding + topBarPosition.y + topBarSize.y);
 
 	ThrowIfFailed(ctx->CreateSolidColorBrush(
 		D2D1::ColorF(D2D1::ColorF::Cyan),
@@ -63,37 +58,18 @@ Scene::Scene(b2Vec2 viewportSize,
 	m_rect.radiusY = 0.0125f * viewportSize.y;
 
 	// Construct a border box to keep everything inside
-	b2Vec2 horizontalEdgeSize = b2Vec2(m_size.x / 2.0f, padding / 2.0f);
-	b2Vec2 verticalEdgeSize = b2Vec2(padding / 2.0f, m_size.y / 2.0f);
-	Edge edges[] = {Edge(b2Vec2(m_position.x + (m_size.x / 2.0f), m_position.y + m_size.y + (padding / 2.0f)), horizontalEdgeSize, "x"), // bottom
-		Edge(b2Vec2(m_position.x + (m_size.x / 2.0f), m_position.y - (padding / 2.0f)), horizontalEdgeSize, "x"), // top
-		Edge(b2Vec2(padding / 2.0f, m_position.y + (m_size.y / 2.0f)), verticalEdgeSize, "y"), // left
-		Edge(b2Vec2(m_position.x + m_size.x + (padding / 2.0f), m_position.y + (m_size.y / 2.0f)), verticalEdgeSize, "y")}; // right
-
-	b2Body * groundBoxBody;
 	for (int i=0; i<4; i++)
 	{
-		Edge edge = edges[i];
-
-		// Normalize to box coordinates
-		edge.center.Set(pixelToBox(edge.center.x), pixelToBox(edge.center.y));
-		edge.extents.Set(pixelToBox(edge.extents.x), pixelToBox(edge.extents.y));
-
-		b2BodyDef groundBodyDef;
-		groundBodyDef.position.Set(edge.center.x, edge.center.y);
-		groundBodyDef.type = b2_staticBody;
-		groundBoxBody = world->CreateBody(&groundBodyDef);
-		b2PolygonShape groundBox;
-		groundBox.SetAsBox(edge.extents.x, edge.extents.y);
-		groundBoxBody->CreateFixture(&groundBox, 0.0f);
-		m_userData[i] = new b2UserData(b2UserData_Edge, (void*)edge.extraInfo);
-		groundBoxBody->SetUserData(m_userData[i]);
+		m_userData[i] = nullptr;
+		m_groundBoxBody[i] = nullptr;
 	}
 
-	m_players[0] = new Player(m_size, m_position, ctx, 0, world, groundBoxBody, dwriteFactory, this);
-	m_players[1] = new Player(m_size, m_position, ctx, 1, world, groundBoxBody, dwriteFactory, this);
+	m_players[0] = new Player(m_size, m_position, ctx, 0, world, m_groundBoxBody[3], dwriteFactory, this);
+	m_players[1] = new Player(m_size, m_position, ctx, 1, world, m_groundBoxBody[3], dwriteFactory, this);
 	m_puck = new Puck(viewportSize, ctx, world);
-	m_topBar = new TopBar(this, game, ctx, topBarSize, topBarPosition, dwriteFactory);
+	m_topBar = new TopBar(this, game, ctx, dwriteFactory);
+
+	Resize(viewportSize);
 
 	beginRound();
 }
@@ -295,4 +271,49 @@ void Scene::onMouseMoved(b2Vec2 p)
 void Scene::OnMouseDown(PointerEventArgs *args)
 {
 	m_topBar->OnMouseDown(args);
+}
+
+void Scene::Resize(b2Vec2 viewportSize)
+{
+	float padding = 0.02f * viewportSize.y;
+	b2Vec2 topBarSize = b2Vec2(viewportSize.x - (2 * padding), 0.04f * viewportSize.y);
+	b2Vec2 topBarPosition = b2Vec2(padding, padding);
+
+	m_size = b2Vec2(viewportSize.x - (2.0f * padding),
+		viewportSize.y - ((2.0f * padding) + topBarSize.y));
+	m_position = b2Vec2(padding, padding + topBarPosition.y + topBarSize.y);
+
+	b2Vec2 horizontalEdgeSize = b2Vec2(m_size.x / 2.0f, padding / 2.0f);
+	b2Vec2 verticalEdgeSize = b2Vec2(padding / 2.0f, m_size.y / 2.0f);
+	m_edges[0].Initialize(b2Vec2(m_position.x + (m_size.x / 2.0f), m_position.y + m_size.y + (padding / 2.0f)), horizontalEdgeSize, "x");
+	m_edges[1].Initialize(b2Vec2(m_position.x + (m_size.x / 2.0f), m_position.y - (padding / 2.0f)), horizontalEdgeSize, "x");
+	m_edges[2].Initialize(b2Vec2(padding / 2.0f, m_position.y + (m_size.y / 2.0f)), verticalEdgeSize, "y");
+	m_edges[3].Initialize(b2Vec2(m_position.x + m_size.x + (padding / 2.0f), m_position.y + (m_size.y / 2.0f)), verticalEdgeSize, "y");
+
+	for (int i=0; i<4; i++)
+	{
+		if (m_groundBoxBody[i] != nullptr)
+		{
+			m_world->DestroyBody(m_groundBoxBody[i]);
+			m_groundBoxBody[i] = nullptr;
+		}
+
+		Edge edge = m_edges[i];
+
+		// Normalize to box coordinates
+		edge.center.Set(pixelToBox(edge.center.x), pixelToBox(edge.center.y));
+		edge.extents.Set(pixelToBox(edge.extents.x), pixelToBox(edge.extents.y));
+
+		b2BodyDef groundBodyDef;
+		groundBodyDef.position.Set(edge.center.x, edge.center.y);
+		groundBodyDef.type = b2_staticBody;
+		m_groundBoxBody[i] = m_world->CreateBody(&groundBodyDef);
+		b2PolygonShape groundBox;
+		groundBox.SetAsBox(edge.extents.x, edge.extents.y);
+		m_groundBoxBody[i]->CreateFixture(&groundBox, 0.0f);
+		m_userData[i] = new b2UserData(b2UserData_Edge, (void*)edge.extraInfo);
+		m_groundBoxBody[i]->SetUserData(m_userData[i]);
+	}
+
+	m_topBar->Resize(topBarSize, topBarPosition);
 }

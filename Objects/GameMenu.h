@@ -18,9 +18,11 @@ public:
 class GameMenu
 {
 public:
-	GameMenu(b2Vec2 viewportSize, Game *game, DeviceContext *ctx, WriteFactory *dwriteFactory);
+	GameMenu(Game *game, DeviceContext *ctx, WriteFactory *dwriteFactory);
 	void Draw();
 	void OnMouseDown(PointerEventArgs *args);
+	void Resize(b2Vec2 viewportSize);
+
 private:
 	b2Vec2 m_size;
 	DeviceContext *m_ctx;

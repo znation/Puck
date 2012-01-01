@@ -2,23 +2,16 @@
 #include "Scene.h"
 #include "Utility.h"
 
-Score::Score(b2Vec2 scoreSize,
-		b2Vec2 scorePosition,
-		int playerIdx,
+Score::Score(int playerIdx,
 		DeviceContext *ctx)
 {
 	m_score = 0;
 	m_ctx = ctx;
 	m_playerIdx = playerIdx;
 
-	b2Vec2 buttonSize = b2Vec2(scoreSize.y, scoreSize.y);
 	for (int i=0; i<MAX_SCORE; i++)
 	{
-		b2Vec2 buttonPosition = b2Vec2(playerIdx == 0 ?
-			scorePosition.x + (i * buttonSize.x) :
-		(scorePosition.x + scoreSize.x) - ((i + 1) * buttonSize.x),
-			scorePosition.y);
-		m_scoreButtons[i] = new ScoreButton(ctx, buttonSize, buttonPosition);
+		m_scoreButtons[i] = new ScoreButton(ctx);
 	}
 }
 
@@ -27,6 +20,20 @@ Score::~Score()
 	for (int i=0; i<MAX_SCORE; i++)
 	{
 		delete m_scoreButtons[i];
+	}
+}
+
+void Score::Resize(b2Vec2 scoreSize,
+		b2Vec2 scorePosition)
+{
+	b2Vec2 buttonSize = b2Vec2(scoreSize.y, scoreSize.y);
+	for (int i=0; i<MAX_SCORE; i++)
+	{
+		b2Vec2 buttonPosition = b2Vec2(m_playerIdx == 0 ?
+			scorePosition.x + (i * buttonSize.x) :
+		(scorePosition.x + scoreSize.x) - ((i + 1) * buttonSize.x),
+			scorePosition.y);
+		m_scoreButtons[i]->Resize(buttonSize, buttonPosition);
 	}
 }
 
@@ -49,14 +56,16 @@ void Score::draw()
 	}
 }
 
-ScoreButton::ScoreButton(DeviceContext *ctx,
-						 b2Vec2 buttonSize,
-						 b2Vec2 buttonPosition)
+ScoreButton::ScoreButton(DeviceContext *ctx)
 {
 	m_ctx = ctx;
+	m_filled = false;
+}
+
+void ScoreButton::Resize(b2Vec2 buttonSize, b2Vec2 buttonPosition)
+{
 	m_size = buttonSize;
 	m_position = buttonPosition;
-	m_filled = false;
 
 	m_ellipse.point.x = m_position.x + (m_size.x / 2.0f);
 	m_ellipse.point.y = m_position.y + (m_size.y / 2.0f);

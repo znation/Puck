@@ -13,13 +13,12 @@ public:
 	TopBar(Scene *scene,
 		Game *game,
 		DeviceContext *ctx,
-		b2Vec2 topBarSize,
-		b2Vec2 topBarPosition,
 		WriteFactory *dwriteFactory);
 	~TopBar();
 	void ScoreGoal(int playerIdx);
 	void Draw();
 	void OnMouseDown(PointerEventArgs *args);
+	void Resize(b2Vec2 topBarSize, b2Vec2 topBarPosition);
 private:
 	DeviceContext *m_ctx;
 	Score *m_score[2];
@@ -29,4 +28,5 @@ private:
 	b2Vec2 m_position;
 	D2D1_ROUNDED_RECT m_menuButtonRect;
 	IDWriteTextFormat *m_menuButtonTextFormat;
+	WriteFactory *m_dwriteFactory;
 };

@@ -6,13 +6,21 @@
 TopBar::TopBar(Scene *scene,
 			   Game *game,
 			   DeviceContext *ctx,
-			   b2Vec2 topBarSize,
-			   b2Vec2 topBarPosition,
 			   WriteFactory *dwriteFactory)
 {
 	m_scene = scene;
 	m_game = game;
 	m_ctx = ctx;
+	m_dwriteFactory = dwriteFactory;
+	
+	for (int i=0; i<2; i++)
+	{
+		m_score[i] = new Score(i, ctx);
+	}
+}
+
+void TopBar::Resize(b2Vec2 topBarSize, b2Vec2 topBarPosition)
+{
 	m_size = topBarSize;
 	m_position = topBarPosition;
 
@@ -34,11 +42,11 @@ TopBar::TopBar(Scene *scene,
 			topBarPosition.x :
 		topBarPosition.x + scoreSize.x + buttonAreaSize.x,
 			topBarPosition.y);
-		m_score[i] = new Score(scoreSize, scorePosition, i, ctx);
+		m_score[i]->Resize(scoreSize, scorePosition);
 	}
 
 	ThrowIfFailed(
-		dwriteFactory->CreateTextFormat(
+		m_dwriteFactory->CreateTextFormat(
 		L"Segoe UI",
 		nullptr,
 		DWRITE_FONT_WEIGHT_BOLD,

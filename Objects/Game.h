@@ -17,6 +17,7 @@ public:
 	void ShowMenu();
 	void Resume();
 	bool CanResume();
+	void Resize(b2Vec2 viewportSize);
 	
 private:
 	b2Vec2 m_size;

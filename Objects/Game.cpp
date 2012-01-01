@@ -5,9 +5,10 @@ Game::Game(b2Vec2 viewportSize, DeviceContext *ctx, WriteFactory *dwriteFactory)
 	m_size = viewportSize;
 	m_ctx = ctx;
 	m_dwriteFactory = dwriteFactory;
-	m_menu = new GameMenu(viewportSize, this, ctx, dwriteFactory);
+	m_menu = new GameMenu(this, ctx, dwriteFactory);
 	m_scene = nullptr;
 	m_world = nullptr;
+	Resize(viewportSize);
 }
 
 Game::~Game()
@@ -43,6 +44,18 @@ void Game::Begin()
 		m_world,
 		m_dwriteFactory,
 		this);
+}
+
+void Game::Resize(b2Vec2 viewportSize)
+{
+	if (m_scene != nullptr)
+	{
+		m_scene->Resize(viewportSize);
+	}
+	if (m_menu != nullptr)
+	{
+		m_menu->Resize(viewportSize);
+	}
 }
 
 void Game::Draw()
