@@ -7,8 +7,6 @@
 
 #pragma once
 
-#ifdef WINRT
-
 #include <wrl.h>
 typedef enum class ActivationEntryPoint
 {
@@ -42,4 +40,3 @@ public:
     Windows::ApplicationModel::Infrastructure::IViewProvider^ CreateViewProvider();
 };
 
-#endif

@@ -1,5 +1,3 @@
-#ifdef WINRT
-
 #include <wrl.h>
 #include <Mfmediaengine.h>
 #include <Mfapi.h>
@@ -32,5 +30,3 @@ private:
 	MediaEngineNotify * m_spNotify;
 	BSTR m_bstrURL;
 };
-
-#endif

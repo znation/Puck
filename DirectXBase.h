@@ -16,10 +16,8 @@ class DirectXBase abstract
 public:
     DirectXBase();
 
-#ifdef WINRT
     virtual void Initialize(Windows::UI::Core::CoreWindow^ window, float dpi);
 	virtual void CreateDeviceResources();
-#endif
     virtual void CreateDeviceIndependentResources();
     virtual void CreateWindowSizeDependentResources();
     virtual void UpdateForWindowSizeChange();
@@ -29,10 +27,8 @@ public:
 
 protected:
 
-#ifdef WINRT
     Windows::UI::Core::CoreWindow^                  m_window;
 	Microsoft::WRL::ComPtr<ID2D1Device>             m_d2dDevice;
-#endif
 
     // Declare Direct2D Objects
     D2DFactory *m_d2dFactory;
@@ -42,7 +38,6 @@ protected:
 	// Declare DirectWrite & Windows Imaging Component Objects
 	ImagingFactory *m_wicFactory;
 
-#ifdef WINRT
     // Direct3D Objects
     Microsoft::WRL::ComPtr<ID3D11Device1>           m_d3dDevice;
     Microsoft::WRL::ComPtr<ID3D11DeviceContext1>    m_d3dContext;
@@ -52,7 +47,6 @@ protected:
     D3D_FEATURE_LEVEL                               m_featureLevel;
     Windows::Foundation::Size                       m_renderTargetSize;
     Windows::Foundation::Rect                       m_windowBounds;
-#endif
 
     float                                           m_dpi;
 };

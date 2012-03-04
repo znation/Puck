@@ -42,21 +42,6 @@ public:
 	virtual void Render();
 	void OnMouseMove(PointerEventArgs *args);
 	void OnMouseDown(PointerEventArgs *args);
-#ifndef WINRT
-	HRESULT Initialize();
-	void RunMessageLoop();
-	HRESULT OnRender();
-    void OnResize(
-        UINT width,
-        UINT height
-        );
-    static LRESULT CALLBACK WndProc(
-        HWND hWnd,
-        UINT message,
-        WPARAM wParam,
-        LPARAM lParam
-        );
-#endif
 
 private:
 	void RecreateTarget();
@@ -71,8 +56,5 @@ private:
 	IDWriteTextFormat *m_textFormat; // only used for FPS text
 	WCHAR m_fpsText[10]; // used only for FPS text
 	uint32 m_fpsTextLength; // used only for FPS text
-#endif
-#ifndef WINRT
-	HWND m_hwnd;
 #endif
 };

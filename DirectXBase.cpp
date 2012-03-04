@@ -8,19 +8,16 @@
 // DirectXBase is a helper class that demonstrates initializing the Direct3D and Direct2D APIs in samples
 #include "DirectXBase.h" 
 
-#ifdef WINRT
 using namespace Windows::UI::Core;
 using namespace Windows::Foundation;
 using namespace Microsoft::WRL;
 using namespace D2D1;
-#endif
 
 // Constructor.
 DirectXBase::DirectXBase()
 {
 }
 
-#ifdef WINRT
 // Initialize the Direct3D resources required to run.
 void DirectXBase::Initialize(CoreWindow^ window, float dpi)
 {
@@ -31,7 +28,6 @@ void DirectXBase::Initialize(CoreWindow^ window, float dpi)
     CreateDeviceResources();
     CreateWindowSizeDependentResources();
 }
-#endif
 
 // These are the resources required independent of hardware.
 void DirectXBase::CreateDeviceIndependentResources()
@@ -44,7 +40,6 @@ void DirectXBase::CreateDeviceIndependentResources()
     options.debugLevel = D2D1_DEBUG_LEVEL_INFORMATION;
 #endif
 
-#ifdef WINRT
     ThrowIfFailed(
         D2D1CreateFactory(
             D2D1_FACTORY_TYPE_SINGLE_THREADED, 
@@ -63,11 +58,9 @@ void DirectXBase::CreateDeviceIndependentResources()
             &m_wicFactory
             )
         );
-#endif
 
 }
 
-#ifdef WINRT
 // These are the resources that depend on the device,
 // and so will need to be re-allocated if it is rebuilt (such as on a SizeChanged event).
 void DirectXBase::CreateDeviceResources()
@@ -151,12 +144,10 @@ void DirectXBase::CreateDeviceResources()
     // the new device.
     m_swapChain = nullptr;
 }
-#endif
 
 // Allocate all memory resources that change on a window SizeChanged event.
 void DirectXBase::CreateWindowSizeDependentResources()
 {
-#ifdef WINRT
     // Store the window bounds so the next time we get a SizeChanged event we can
     // avoid rebuilding everything if the size is identical.
     m_windowBounds = m_window->Bounds;
@@ -327,13 +318,11 @@ void DirectXBase::CreateWindowSizeDependentResources()
 
     // Set D2D text anti-alias mode to Grayscale to ensure proper rendering of text on intermediate surfaces.
     m_d2dContext->SetTextAntialiasMode(D2D1_TEXT_ANTIALIAS_MODE_GRAYSCALE);
-#endif
 }
 
 // This routine is called in the event handler for the view SizeChanged event.
 void DirectXBase::UpdateForWindowSizeChange()
 {
-#ifdef WINRT
     if (m_window->Bounds.Width  != m_windowBounds.Width ||
         m_window->Bounds.Height != m_windowBounds.Height)
     {
@@ -343,7 +332,6 @@ void DirectXBase::UpdateForWindowSizeChange()
         m_depthStencilView = nullptr;
         CreateWindowSizeDependentResources();
     }
-#endif
 }
 
 // Helps track the DPI in the helper class.
@@ -364,7 +352,6 @@ void DirectXBase::SetDpi(float dpi)
 // Method to deliver the final image to the display.
 void DirectXBase::Present()
 {
-#ifdef WINRT
     // The first argument instructs DXGI to block until VSync, putting the application
     // to sleep until the next VSync. This ensures we don't waste any cycles rendering
     // frames that will never be displayed to the screen.
@@ -380,5 +367,4 @@ void DirectXBase::Present()
     {
         ThrowIfFailed(hr);
     }
-#endif
 }

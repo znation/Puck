@@ -1,8 +1,6 @@
 #include "ThemeMusic.h"
 #include "Utility.h"
 
-#ifdef WINRT
-
 // Disable warning 4400 (not sure why it's happening)
 #pragma warning ( disable : 4400 )
 
@@ -204,5 +202,3 @@ void ThemeMusic::SetURL(Platform::String^ szURL)
 
 	return;
 }
-
-#endif

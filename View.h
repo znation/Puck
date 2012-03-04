@@ -7,8 +7,6 @@
 
 #pragma once
 
-#ifdef WINRT
-
 #include <wrl.h>
 #include "D2DRenderer.h"
 ref class View
@@ -48,5 +46,3 @@ private:
     Windows::ApplicationModel::Core::CoreApplicationView^   m_applicationView;
     float                                                   m_dpi;
 };
-
-#endif
