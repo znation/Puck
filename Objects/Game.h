@@ -12,7 +12,7 @@ public:
 	~Game();
 	void Draw();
 	void OnMouseMove(b2Vec2 p);
-	void OnMouseDown(PointerEventArgs *args);
+	void OnMouseDown(PointerEventArgs ^args);
 	void Begin();
 	void ShowMenu();
 	void Resume();

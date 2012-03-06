@@ -105,13 +105,13 @@ void D2DRenderer::RenderFPS(D2D1_SIZE_F)
 }
 #endif
 
-void D2DRenderer::OnMouseMove(PointerEventArgs *args)
+void D2DRenderer::OnMouseMove(PointerEventArgs ^args)
 {
-	Position p = args->CurrentPoint->Position;
+	Point p = args->CurrentPoint->Position;
 	m_game->OnMouseMove(b2Vec2(p.X, p.Y));
 }
 
-void D2DRenderer::OnMouseDown(PointerEventArgs *args)
+void D2DRenderer::OnMouseDown(PointerEventArgs ^args)
 {
 	m_game->OnMouseDown(args);
 }

@@ -2,9 +2,8 @@
 #include <windows.h>
 #include "D2DRenderer.h"
 
-
 [Platform::MTAThread]
-int main(array<Platform::String^>^)
+int main()
 {
     auto directXViewProviderFactory = ref new DirectXViewProviderFactory();
     Windows::ApplicationModel::Core::CoreApplication::Run(directXViewProviderFactory);

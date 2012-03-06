@@ -8,35 +8,40 @@
 #pragma once
 
 #include <wrl.h>
+#include <Windows.ApplicationModel.h>
+
 typedef enum class ActivationEntryPoint
 {
     Unknown,
     DirectXApplication
 } ActivationEntryPoint;
 
-ref class DirectXViewProvider : public Windows::ApplicationModel::Infrastructure::IViewProvider
+ref class DirectXViewProvider : public Windows::ApplicationModel::Core::IFrameworkView
 {
 public:
     DirectXViewProvider();
 
     // IViewProvider Methods
-    void Initialize(
-        _In_ Windows::UI::Core::CoreWindow^ window,
+    virtual void Initialize(
         _In_ Windows::ApplicationModel::Core::CoreApplicationView^ applicationView
-        );
+    );
 
-    void Load(_In_ Platform::String^ entryPoint);
-    void Run();
-    void Uninitialize();
+	virtual void SetWindow(
+        _In_ Windows::UI::Core::CoreWindow^ window
+	);
+
+    virtual void Load(_In_ Platform::String^ entryPoint);
+    virtual void Run();
+    virtual void Uninitialize();
 
 private:
     Windows::UI::Core::CoreWindow^ m_window;
     Windows::ApplicationModel::Core::CoreApplicationView^ m_applicationView;
 };
 
-ref class DirectXViewProviderFactory : Windows::ApplicationModel::Infrastructure::IViewProviderFactory 
+ref class DirectXViewProviderFactory : public Windows::ApplicationModel::Core::IFrameworkViewSource
 {
 public:
-    Windows::ApplicationModel::Infrastructure::IViewProvider^ CreateViewProvider();
+	virtual Windows::ApplicationModel::Core::IFrameworkView^ CreateView();
 };
 

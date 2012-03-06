@@ -24,11 +24,12 @@ void ThrowIfFailed(HRESULT hr)
 {
 	if (FAILED(hr))
 	{
-		__cli_WinRTraiseException(hr);
+		abort();
 	}
 }
 
 IUnknown* GetIUnknown(Windows::UI::Core::CoreWindow^ window)
 {
-	return (IUnknown*) reinterpret_cast<__cli_IUnknown*>(window);
+	return (IUnknown*) reinterpret_cast<IUnknown*>(window);
 }
+

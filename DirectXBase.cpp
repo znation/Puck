@@ -45,7 +45,7 @@ void DirectXBase::CreateDeviceIndependentResources()
             D2D1_FACTORY_TYPE_SINGLE_THREADED, 
             __uuidof(ID2D1Factory1),
             &options, 
-            &m_d2dFactory
+            (LPVOID *) &m_d2dFactory
             )
         );
 
@@ -55,7 +55,7 @@ void DirectXBase::CreateDeviceIndependentResources()
             nullptr,
             CLSCTX_INPROC_SERVER,
             __uuidof(IWICImagingFactory2),
-            &m_wicFactory
+            (LPVOID *) &m_wicFactory
             )
         );
 
@@ -208,7 +208,7 @@ void DirectXBase::CreateWindowSizeDependentResources()
 
         // Obtain the final swap chain for this window from the DXGI factory.
         ThrowIfFailed(
-            dxgiFactory->CreateSwapChainForImmersiveWindow(
+            dxgiFactory->CreateSwapChainForCoreWindow(
                 m_d3dDevice.Get(),
                 GetIUnknown(m_window),
                 &swapChainDesc,
@@ -314,7 +314,7 @@ void DirectXBase::CreateWindowSizeDependentResources()
         );
 
     // So now we can set the Direct2D render target.
-    m_d2dContext->SetTarget(m_d2dTargetBitmap.Get());
+    m_d2dContext->SetTarget(m_d2dTargetBitmap);
 
     // Set D2D text anti-alias mode to Grayscale to ensure proper rendering of text on intermediate surfaces.
     m_d2dContext->SetTextAntialiasMode(D2D1_TEXT_ANTIALIAS_MODE_GRAYSCALE);

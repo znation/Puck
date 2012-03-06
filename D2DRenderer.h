@@ -31,7 +31,7 @@ SafeRelease(
     }
 }
 
-class D2DRenderer : public DirectXBase
+ref class D2DRenderer : public DirectXBase
 {
 public:
 	D2DRenderer();
@@ -40,8 +40,8 @@ public:
 	virtual void CreateDeviceIndependentResources();
 	virtual void CreateDeviceResources();
 	virtual void Render();
-	void OnMouseMove(PointerEventArgs *args);
-	void OnMouseDown(PointerEventArgs *args);
+	void OnMouseMove(PointerEventArgs^ args);
+	void OnMouseDown(PointerEventArgs^ args);
 
 private:
 	void RecreateTarget();

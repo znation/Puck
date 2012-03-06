@@ -9,34 +9,37 @@ using namespace Microsoft::WRL;
 #define ImagingFactory IWICImagingFactory2
 #define D3DDevice ID3D11Device1
 
-class PointProperties
+namespace Puckspace
 {
-public:
-	bool IsLeftButtonPressed;
-	bool IsRightButtonPressed;
-};
+	class PointProperties
+	{
+	public:
+		bool IsLeftButtonPressed;
+		bool IsRightButtonPressed;
+	};
 
-class Position
-{
-public:
-	float X;
-	float Y;
-};
+	class Position
+	{
+	public:
+		float X;
+		float Y;
+	};
 
-class Point
-{
-public:
-	Position Position;
-	PointProperties *Properties;
-};
+	class Point
+	{
+	public:
+		Position Position;
+		PointProperties *Properties;
+	};
 
-class PointerEventArgs
-{
-public:
-	Point *CurrentPoint;
+	class PointerEventArgs
+	{
+	public:
+		Point *CurrentPoint;
 
-private:
-	Windows::UI::Core::PointerEventArgs^ m_args;
-};
+	private:
+		Windows::UI::Core::PointerEventArgs^ m_args;
+	};
+}
 
 #define SolidColorBrush ID2D1SolidColorBrush

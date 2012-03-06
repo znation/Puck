@@ -4,6 +4,8 @@
 
 #pragma once
 
+using namespace Windows::UI::Core;
+
 class Scene;
 class Game;
 
@@ -17,7 +19,7 @@ public:
 	~TopBar();
 	void ScoreGoal(int playerIdx);
 	void Draw();
-	void OnMouseDown(PointerEventArgs *args);
+	void OnMouseDown(PointerEventArgs ^args);
 	void Resize(b2Vec2 topBarSize, b2Vec2 topBarPosition);
 private:
 	DeviceContext *m_ctx;

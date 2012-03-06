@@ -268,7 +268,7 @@ void Scene::onMouseMoved(b2Vec2 p)
 	}
 }
 
-void Scene::OnMouseDown(PointerEventArgs *args)
+void Scene::OnMouseDown(PointerEventArgs ^args)
 {
 	m_topBar->OnMouseDown(args);
 }

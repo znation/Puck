@@ -3,6 +3,8 @@
 
 #pragma once
 
+using namespace Windows::UI::Core;
+
 class Game;
 
 class MenuButton
@@ -20,7 +22,7 @@ class GameMenu
 public:
 	GameMenu(Game *game, DeviceContext *ctx, WriteFactory *dwriteFactory);
 	void Draw();
-	void OnMouseDown(PointerEventArgs *args);
+	void OnMouseDown(PointerEventArgs ^args);
 	void Resize(b2Vec2 viewportSize);
 
 private:

@@ -10,7 +10,6 @@
 
 using namespace Windows::ApplicationModel::Core;
 using namespace Windows::UI::Core;
-using namespace Windows::ApplicationModel::Infrastructure;
 using namespace Windows::ApplicationModel::Activation;
 
 DirectXViewProvider::DirectXViewProvider()
@@ -18,12 +17,15 @@ DirectXViewProvider::DirectXViewProvider()
 }
 
 void DirectXViewProvider::Initialize(
-									 _In_ Windows::UI::Core::CoreWindow^ window,
 									 _In_ Windows::ApplicationModel::Core::CoreApplicationView^ applicationView
 									 )
 {
-	m_window = window;
 	m_applicationView = applicationView;
+}
+
+void DirectXViewProvider::SetWindow(_In_ Windows::UI::Core::CoreWindow^ window)
+{
+	m_window = window;
 }
 
 // this method is called after Initialize
@@ -53,7 +55,7 @@ void DirectXViewProvider::Uninitialize()
 {
 }
 
-IViewProvider^ DirectXViewProviderFactory::CreateViewProvider()
+IFrameworkView^ DirectXViewProviderFactory::CreateView()
 {
 	return ref new DirectXViewProvider();
 }

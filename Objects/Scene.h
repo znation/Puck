@@ -28,7 +28,7 @@ public:
 	void win(int playerIdx);
 	void reset();
 	void scoreGoal(int playerIdx);
-	void OnMouseDown(PointerEventArgs *args);
+	void OnMouseDown(PointerEventArgs ^args);
 	void Resize(b2Vec2 viewportSize);
 
 private:

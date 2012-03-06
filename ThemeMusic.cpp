@@ -117,8 +117,8 @@ void ThemeMusic::SetFile()
 	auto themeMusic = this;
 
 	StorageFolder^ folder = Windows::ApplicationModel::Package::Current->InstalledLocation;
-	StorageFileRetrievalOperation^ op = folder->GetFileAsync("Sound\\PuckTheme.mp3");
-	op->Completed = ref new AsyncOperationCompletedHandler<StorageFile^>([themeMusic](IAsyncOperation<StorageFile^>^ fileOp)
+	IAsyncOperation<Windows::Storage::StorageFile^>^ op = folder->GetFileAsync("Sound\\PuckTheme.mp3");
+	op->Completed = ref new AsyncOperationCompletedHandler<StorageFile^>([themeMusic](IAsyncOperation<StorageFile^>^ fileOp, AsyncStatus)
 	{
 		StorageFile^ fileHandle = fileOp->GetResults();
 		if (!fileHandle)
@@ -135,7 +135,7 @@ void ThemeMusic::SetFile()
 		themeMusic->SetURL(fileHandle->Path);
 
 		fOpenStream->Completed = ref new AsyncOperationCompletedHandler<IRandomAccessStream^>(
-			[themeMusic](IAsyncOperation<IRandomAccessStream^>^ asyncRead)
+			[themeMusic](IAsyncOperation<IRandomAccessStream^>^ asyncRead, AsyncStatus)
 		{
 			auto streamHandle = asyncRead->GetResults();
 			themeMusic->SetBytestream(streamHandle);			
@@ -146,10 +146,10 @@ void ThemeMusic::SetFile()
 			ThrowIfFailed(E_UNEXPECTED);
 		}
 
-		fOpenStream->Start();
+		fOpenStream->GetResults();
 	});
 
-	op->Start();
+	op->GetResults();
 }
 
 void ThemeMusic::OnMediaEngineEvent(DWORD meEvent)

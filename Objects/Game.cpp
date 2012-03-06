@@ -86,7 +86,7 @@ void Game::OnMouseMove(b2Vec2 p)
 	}
 }
 
-void Game::OnMouseDown(PointerEventArgs *args)
+void Game::OnMouseDown(PointerEventArgs ^args)
 {
 	if (args->CurrentPoint->Properties->IsRightButtonPressed)
 	{

@@ -11,7 +11,7 @@
 #include <wincodec.h>
 #include "Utility.h"
 
-class DirectXBase abstract
+ref class DirectXBase abstract
 {
 public:
     DirectXBase();
