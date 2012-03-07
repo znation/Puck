@@ -63,7 +63,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup>
     <Link>
-      <AdditionalDependencies>$(OutDir)\..\Box2D.lib;d3d11.lib;d2d1.lib;dwrite.lib;runtimeobject.lib;Mfplat.lib;Oleaut32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>$(OutDir)\..\Box2D.lib;d3d11.lib;d2d1.lib;dwrite.lib;Mfplat.lib;uuid.lib;ole32.lib;oleaut32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
