@@ -37,9 +37,9 @@ public:
 	D2DRenderer();
 	~D2DRenderer();
 
-	virtual void CreateDeviceIndependentResources();
-	virtual void CreateDeviceResources();
-	virtual void Render();
+	virtual void CreateDeviceIndependentResources() override;
+	virtual void CreateDeviceResources() override;
+	virtual void Render() override;
 	void OnMouseMove(PointerEventArgs^ args);
 	void OnMouseDown(PointerEventArgs^ args);
 
