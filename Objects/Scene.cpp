@@ -50,14 +50,7 @@ Scene::Scene(b2Vec2 viewportSize,
 
 	ThrowIfFailed(m_roundTimerTextFormat->SetTextAlignment(DWRITE_TEXT_ALIGNMENT_CENTER));
 	ThrowIfFailed(m_roundTimerTextFormat->SetParagraphAlignment(DWRITE_PARAGRAPH_ALIGNMENT_CENTER));
-
-	m_rect.rect.top = m_position.y;
-	m_rect.rect.left = m_position.x;
-	m_rect.rect.bottom = m_position.y + m_size.y;
-	m_rect.rect.right = m_position.x + m_size.x;
-	m_rect.radiusX = 0.0125f * viewportSize.y;
-	m_rect.radiusY = 0.0125f * viewportSize.y;
-
+	
 	// Construct a border box to keep everything inside
 	for (int i=0; i<4; i++)
 	{
@@ -65,13 +58,21 @@ Scene::Scene(b2Vec2 viewportSize,
 		m_groundBoxBody[i] = nullptr;
 	}
 
-	m_players[0] = new Player(m_size, m_position, ctx, 0, world, m_groundBoxBody[3], dwriteFactory, this);
-	m_players[1] = new Player(m_size, m_position, ctx, 1, world, m_groundBoxBody[3], dwriteFactory, this);
-	m_puck = new Puck::Puck(viewportSize, ctx, world);
 	m_topBar = new TopBar(this, game, ctx, dwriteFactory);
 
 	Resize(viewportSize);
 
+	m_rect.rect.top = m_position.y;
+	m_rect.rect.left = m_position.x;
+	m_rect.rect.bottom = m_position.y + m_size.y;
+	m_rect.rect.right = m_position.x + m_size.x;
+	m_rect.radiusX = 0.0125f * viewportSize.y;
+	m_rect.radiusY = 0.0125f * viewportSize.y;
+	
+	m_players[0] = new Player(m_size, m_position, ctx, 0, world, m_groundBoxBody[3], dwriteFactory, this);
+	m_players[1] = new Player(m_size, m_position, ctx, 1, world, m_groundBoxBody[3], dwriteFactory, this);
+	m_puck = new Puck::Puck(viewportSize, ctx, world);
+	
 	beginRound();
 }
 
