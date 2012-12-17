@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "Game.h"
 
 Game::Game(b2Vec2 viewportSize, DeviceContext *ctx, WriteFactory *dwriteFactory)
@@ -86,21 +87,21 @@ void Game::OnMouseMove(b2Vec2 p)
 	}
 }
 
-void Game::OnMouseDown(PointerEventArgs ^args)
+void Game::OnMouseDown(b2Vec2 p, bool left, bool right)
 {
-	if (args->CurrentPoint->Properties->IsRightButtonPressed)
+	if (right)
 	{
 		m_showMenu = !m_showMenu;
 	}
-	else if (args->CurrentPoint->Properties->IsLeftButtonPressed)
+	else if (left)
 	{
 		if (m_showMenu)
 		{
-			m_menu->OnMouseDown(args);
+			m_menu->OnMouseDown(p);
 		}
 		else
 		{
-			m_scene->OnMouseDown(args);
+			m_scene->OnMouseDown(p);
 		}
 	}
 }

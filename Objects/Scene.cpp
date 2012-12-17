@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "Scene.h"
 #include "Utility.h"
 #include "b2UserData.h"
@@ -66,7 +67,7 @@ Scene::Scene(b2Vec2 viewportSize,
 
 	m_players[0] = new Player(m_size, m_position, ctx, 0, world, m_groundBoxBody[3], dwriteFactory, this);
 	m_players[1] = new Player(m_size, m_position, ctx, 1, world, m_groundBoxBody[3], dwriteFactory, this);
-	m_puck = new Puck(viewportSize, ctx, world);
+	m_puck = new Puck::Puck(viewportSize, ctx, world);
 	m_topBar = new TopBar(this, game, ctx, dwriteFactory);
 
 	Resize(viewportSize);
@@ -268,9 +269,9 @@ void Scene::onMouseMoved(b2Vec2 p)
 	}
 }
 
-void Scene::OnMouseDown(PointerEventArgs ^args)
+void Scene::OnMouseDown(b2Vec2 p)
 {
-	m_topBar->OnMouseDown(args);
+	m_topBar->OnMouseDown(p);
 }
 
 void Scene::Resize(b2Vec2 viewportSize)

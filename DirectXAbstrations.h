@@ -31,15 +31,6 @@ namespace Puckspace
 		Position Position;
 		PointProperties *Properties;
 	};
-
-	class PointerEventArgs
-	{
-	public:
-		Point *CurrentPoint;
-
-	private:
-		Windows::UI::Core::PointerEventArgs^ m_args;
-	};
 }
 
 #define SolidColorBrush ID2D1SolidColorBrush

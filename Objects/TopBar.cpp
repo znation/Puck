@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "TopBar.h"
 #include "Scene.h"
 #include "Game.h"
@@ -102,9 +103,8 @@ void TopBar::ScoreGoal(int playerIdx)
 	}
 }
 
-void TopBar::OnMouseDown(PointerEventArgs ^args)
+void TopBar::OnMouseDown(b2Vec2 p)
 {
-	b2Vec2 p = b2Vec2(args->CurrentPoint->Position.X, args->CurrentPoint->Position.Y);
 	if (rectContainsPoint(m_menuButtonRect.rect, p))
 	{
 		m_game->ShowMenu();

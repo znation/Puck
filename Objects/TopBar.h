@@ -19,7 +19,7 @@ public:
 	~TopBar();
 	void ScoreGoal(int playerIdx);
 	void Draw();
-	void OnMouseDown(PointerEventArgs ^args);
+	void OnMouseDown(b2Vec2 p);
 	void Resize(b2Vec2 topBarSize, b2Vec2 topBarPosition);
 private:
 	DeviceContext *m_ctx;

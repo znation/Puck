@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "Score.h"
 #include "Scene.h"
 #include "Utility.h"

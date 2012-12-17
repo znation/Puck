@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "Utility.h"
 
 float scalingFactor = 200.0f;

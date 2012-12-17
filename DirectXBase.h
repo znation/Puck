@@ -1,52 +1,59 @@
-//// THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY OF
-//// ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO
-//// THE IMPLIED WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A
-//// PARTICULAR PURPOSE.
-////
-//// Copyright (c) Microsoft Corporation. All rights reserved
+﻿#pragma once
 
-#pragma once
+#include "DirectXHelper.h"
 
-#include <initguid.h>
-#include <wincodec.h>
-#include "Utility.h"
-
+// Helper class that initializes DirectX APIs for both 2D and 3D rendering.
+// Some of the code in this class may be omitted if only 2D or only 3D rendering is being used.
 ref class DirectXBase abstract
 {
+internal:
+	DirectXBase();
+
 public:
-    DirectXBase();
-
-    virtual void Initialize(Windows::UI::Core::CoreWindow^ window, float dpi);
+	virtual void Initialize(Windows::UI::Core::CoreWindow^ window, Windows::UI::Xaml::Controls::SwapChainBackgroundPanel^ panel, float dpi);
+	virtual void HandleDeviceLost();
+	virtual void CreateDeviceIndependentResources();
 	virtual void CreateDeviceResources();
-    virtual void CreateDeviceIndependentResources();
-    virtual void CreateWindowSizeDependentResources();
-    virtual void UpdateForWindowSizeChange();
-    virtual void SetDpi(float dpi);
-    virtual void Render() = 0;
-    virtual void Present();
+	virtual void SetDpi(float dpi);
+	virtual void CreateWindowSizeDependentResources();
+	virtual void UpdateForWindowSizeChange();
+	virtual void Render() = 0;
+	virtual void Present();
+	virtual float ConvertDipsToPixels(float dips);
+	void ValidateDevice();
 
-protected:
 
-    Windows::UI::Core::CoreWindow^                  m_window;
-	Microsoft::WRL::ComPtr<ID2D1Device>             m_d2dDevice;
+protected private:
+	Platform::Agile<Windows::UI::Core::CoreWindow> m_window;
+	Windows::UI::Xaml::Controls::SwapChainBackgroundPanel^ m_panel;
 
-    // Declare Direct2D Objects
-    D2DFactory *m_d2dFactory;
-	DeviceContext *m_d2dContext;
-	D2DBitmap *m_d2dTargetBitmap;
+	// DirectWrite & Windows Imaging Component Objects.
+	Microsoft::WRL::ComPtr<IDWriteFactory1> m_dwriteFactory;
+	Microsoft::WRL::ComPtr<IWICImagingFactory2> m_wicFactory;
 
-	// Declare DirectWrite & Windows Imaging Component Objects
-	ImagingFactory *m_wicFactory;
+	// DirectX Core Objects. Required for 2D and 3D.
+	Microsoft::WRL::ComPtr<ID3D11Device1> m_d3dDevice;
+	Microsoft::WRL::ComPtr<ID3D11DeviceContext1> m_d3dContext;
+	Microsoft::WRL::ComPtr<IDXGISwapChain1> m_swapChain;
+	Microsoft::WRL::ComPtr<ID3D11RenderTargetView> m_d3dRenderTargetView;
 
-    // Direct3D Objects
-    Microsoft::WRL::ComPtr<ID3D11Device1>           m_d3dDevice;
-    Microsoft::WRL::ComPtr<ID3D11DeviceContext1>    m_d3dContext;
-    Microsoft::WRL::ComPtr<IDXGISwapChain1>         m_swapChain;
-    Microsoft::WRL::ComPtr<ID3D11RenderTargetView>  m_renderTargetView;
-    Microsoft::WRL::ComPtr<ID3D11DepthStencilView>  m_depthStencilView;
-    D3D_FEATURE_LEVEL                               m_featureLevel;
-    Windows::Foundation::Size                       m_renderTargetSize;
-    Windows::Foundation::Rect                       m_windowBounds;
+	// Direct2D Rendering Objects. Required for 2D.
+	Microsoft::WRL::ComPtr<ID2D1Factory1> m_d2dFactory;
+	Microsoft::WRL::ComPtr<ID2D1Device> m_d2dDevice;
+	Microsoft::WRL::ComPtr<ID2D1DeviceContext> m_d2dContext;
+	Microsoft::WRL::ComPtr<ID2D1Bitmap1> m_d2dTargetBitmap;
 
-    float                                           m_dpi;
+	// Direct3D Rendering Objects. Required for 3D.
+	Microsoft::WRL::ComPtr<ID3D11DepthStencilView> m_d3dDepthStencilView;
+
+	// Cached renderer properties.
+	D3D_FEATURE_LEVEL m_d3dFeatureLevel;
+	Windows::Foundation::Size m_d3dRenderTargetSize;
+	Windows::Foundation::Rect m_windowBounds;
+	float m_dpi;
+	Windows::Graphics::Display::DisplayOrientations m_orientation;
+
+	// Transforms used for display orientation.
+	D2D1::Matrix3x2F m_orientationTransform2D;
+	DirectX::XMFLOAT4X4 m_orientationTransform3D;
 };

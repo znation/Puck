@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "GameMenu.h"
 #include "Game.h"
 #include "Utility.h"
@@ -92,10 +93,8 @@ void GameMenu::Draw()
 	}
 }
 
-void GameMenu::OnMouseDown(PointerEventArgs ^args)
+void GameMenu::OnMouseDown(b2Vec2 p)
 {
-	Windows::Foundation::Point pp = args->CurrentPoint->Position;
-	b2Vec2 p = b2Vec2(pp.X, pp.Y);
 	if (rectContainsPoint(m_buttons[0].RoundedRect.rect, p))
 	{
 		m_game->Begin();

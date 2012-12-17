@@ -28,7 +28,7 @@ public:
 	void win(int playerIdx);
 	void reset();
 	void scoreGoal(int playerIdx);
-	void OnMouseDown(PointerEventArgs ^args);
+	void OnMouseDown(b2Vec2 p);
 	void Resize(b2Vec2 viewportSize);
 
 private:
@@ -54,7 +54,7 @@ private:
 	D2D1_ROUNDED_RECT m_rect;
 	Player *m_players[2];
 	b2UserData *m_userData[4];
-	Puck *m_puck;
+	Puck::Puck *m_puck;
 	TopBar *m_topBar;
 	bool m_gameOver;
 	bool m_frozen;

@@ -22,7 +22,7 @@ class GameMenu
 public:
 	GameMenu(Game *game, DeviceContext *ctx, WriteFactory *dwriteFactory);
 	void Draw();
-	void OnMouseDown(PointerEventArgs ^args);
+	void OnMouseDown(b2Vec2 p);
 	void Resize(b2Vec2 viewportSize);
 
 private:

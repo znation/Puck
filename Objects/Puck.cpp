@@ -1,8 +1,9 @@
+#include "pch.h"
 #include "Puck.h"
 #include "Utility.h"
 #include "b2UserData.h"
 
-Puck::Puck(b2Vec2 viewportSize, DeviceContext *ctx, b2World *world)
+Puck::Puck::Puck(b2Vec2 viewportSize, DeviceContext *ctx, b2World *world)
 {
 	m_world = world;
 	m_viewportSize = viewportSize;
@@ -21,7 +22,7 @@ Puck::Puck(b2Vec2 viewportSize, DeviceContext *ctx, b2World *world)
 	reset();
 }
 
-void Puck::reset()
+void Puck::Puck::reset()
 {
 	m_position = b2Vec2(m_viewportSize.x/2.0f, m_viewportSize.y/2.0f);
 	m_ellipse.point.x = m_position.x;
@@ -51,13 +52,13 @@ void Puck::reset()
 	m_circleBody->CreateFixture(&circleF);
 }
 
-void Puck::draw()
+void Puck::Puck::draw()
 {
 	m_ctx->FillEllipse(&m_ellipse,
 		*(&m_brush));
 }
 
-void Puck::move()
+void Puck::Puck::move()
 {
 	b2Vec2 p = m_circleBody->GetPosition();
 	m_position.Set(boxToPixel(p.x), boxToPixel(p.y));
@@ -65,7 +66,7 @@ void Puck::move()
 	m_ellipse.point.y = m_position.y;
 }
 
-void Puck::applyConstraints()
+void Puck::Puck::applyConstraints()
 {
 	b2Vec2 velocity = m_circleBody->GetLinearVelocity();
 	float speed = velocity.Length();
