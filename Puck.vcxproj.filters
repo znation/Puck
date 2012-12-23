@@ -63,6 +63,7 @@
     <ClInclude Include="Objects\Stick.h" />
     <ClInclude Include="Objects\TopBar.h" />
     <ClInclude Include="Utility.h" />
+    <ClInclude Include="DirectXAbstractions.h" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest" />
