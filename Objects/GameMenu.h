@@ -13,7 +13,7 @@ public:
 	b2Vec2 Size;
 	b2Vec2 Position;
 	D2D1_ROUNDED_RECT RoundedRect;
-	size_t TextLength;
+	UINT32 TextLength;
 	const wchar_t *Text;
 };
 

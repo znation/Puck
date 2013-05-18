@@ -134,7 +134,7 @@ bool Scene::drawRoundTimer()
 	ULONGLONG currentTime = GetTickCount64();
 	ULONGLONG diffSeconds = (currentTime - m_beginTime) / 1000;
 	const wchar_t *timerText;
-	size_t timerTextLength;
+	UINT32 timerTextLength;
 	switch (diffSeconds)
 	{
 	case 0:
