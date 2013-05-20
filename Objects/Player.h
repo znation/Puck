@@ -1,7 +1,8 @@
 #include "Box2D\Box2D.h"
-#include "Stick.h"
 #include "Goal.h"
+#include "Powerup.h"
 #include "Score.h"
+#include "Stick.h"
 #include "Utility.h"
 
 #pragma once
@@ -39,4 +40,5 @@ private:
 	std::shared_ptr<Goal> m_goal;
 	Scene *m_scene;
 	float m_brushStrokeSize;
+	std::vector<Powerup> m_powerups;
 };

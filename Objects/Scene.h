@@ -1,7 +1,6 @@
 #include "Box2D\Box2D.h"
 #include "b2UserData.h"
 #include "Player.h"
-#include "Powerup.h"
 #include "Puck.h"
 #include "TopBar.h"
 #include "Utility.h"
@@ -63,5 +62,4 @@ private:
 	IDWriteTextFormat *m_roundTimerTextFormat;
 	Edge m_edges[4];
 	b2World *m_world;
-	std::vector<Powerup> m_powerups;
 };
