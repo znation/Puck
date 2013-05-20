@@ -2,26 +2,12 @@
 #include "Game.h"
 
 Game::Game(b2Vec2 viewportSize, DeviceContext *ctx, WriteFactory *dwriteFactory)
+	:	m_size(viewportSize),
+		m_ctx(ctx),
+		m_dwriteFactory(dwriteFactory)
 {	
-	m_size = viewportSize;
-	m_ctx = ctx;
-	m_dwriteFactory = dwriteFactory;
-	m_menu = new GameMenu(this, ctx, dwriteFactory);
-	m_scene = nullptr;
-	m_world = nullptr;
+	m_menu = std::unique_ptr<GameMenu>(new GameMenu(this, ctx, dwriteFactory));
 	Resize(viewportSize);
-}
-
-Game::~Game()
-{
-	if (m_menu != NULL)
-		delete m_menu;
-
-	if (m_world != NULL)
-		delete m_world;
-
-	if (m_scene != NULL)
-		delete m_scene;
 }
 
 void Game::Begin()
@@ -33,18 +19,17 @@ void Game::Begin()
 	{
 		assert(m_world != nullptr);
 		assert(m_scene != nullptr);
-		delete m_world;
-		delete m_scene;
+		m_world.release();
+		m_scene.release();
 	}
 
 	// Initialize Box2D world
-	m_world = new b2World(b2Vec2(0,0));
-
-	m_scene = new Scene(m_size,
+	m_world = std::unique_ptr<b2World>(new b2World(b2Vec2(0,0)));
+	m_scene = std::unique_ptr<Scene>(new Scene(m_size,
 		m_ctx,
-		m_world,
+		m_world.get(),
 		m_dwriteFactory,
-		this);
+		this));
 }
 
 void Game::Resize(b2Vec2 viewportSize)

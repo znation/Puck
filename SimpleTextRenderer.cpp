@@ -24,13 +24,6 @@ SimpleTextRenderer::SimpleTextRenderer() :
 	m_backgroundColorIndex(0),
 	m_textPosition(0.0f, 0.0f)
 {
-	m_game = nullptr;
-}
-
-SimpleTextRenderer::~SimpleTextRenderer()
-{
-	assert(m_game != NULL);
-	delete m_game;
 }
 
 void SimpleTextRenderer::CreateDeviceIndependentResources()
@@ -123,7 +116,7 @@ void SimpleTextRenderer::Render()
 	if (m_game == nullptr)
 	{
 		// Initialize Game
-		m_game = new Game(b2Vec2(renderTargetSize.width, renderTargetSize.height), m_d2dContext.Get(), m_dwriteFactory.Get());
+		m_game = std::unique_ptr<Game>(new Game(b2Vec2(renderTargetSize.width, renderTargetSize.height), m_d2dContext.Get(), m_dwriteFactory.Get()));
 	}
 
 	m_d2dContext->BeginDraw();

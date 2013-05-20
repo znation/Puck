@@ -8,7 +8,6 @@ ref class SimpleTextRenderer sealed : public DirectXBase
 {
 public:
 	SimpleTextRenderer();
-	virtual ~SimpleTextRenderer();
 
 	// DirectXBase methods.
 	virtual void CreateDeviceIndependentResources() override;
@@ -36,6 +35,6 @@ private:
 	int m_backgroundColorIndex;
 
 	// for game
-	Game *m_game;
+	std::unique_ptr<Game> m_game;
 	void RenderFPS(D2D1_SIZE_F);
 };

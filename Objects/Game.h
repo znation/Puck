@@ -1,15 +1,16 @@
+#pragma once
+
 #include "Box2D\Box2D.h"
 #include "Scene.h"
 #include "GameMenu.h"
 #include "Utility.h"
 
-#pragma once
+#include <memory>
 
 class Game
 {
 public:
 	Game(b2Vec2 viewportSize, DeviceContext *ctx, WriteFactory *dwriteFactory);
-	~Game();
 	void Draw();
 	void OnMouseMove(b2Vec2 p);
 	void OnMouseDown(b2Vec2 p, bool left, bool right);
@@ -21,10 +22,10 @@ public:
 	
 private:
 	b2Vec2 m_size;
-	b2World * m_world;
-	Scene *m_scene;
+	std::unique_ptr<b2World> m_world;
+	std::unique_ptr<Scene> m_scene; // must be defined after m_world since it has a reference to it
 	bool m_showMenu;
-	GameMenu * m_menu;
+	std::unique_ptr<GameMenu> m_menu;
 	DeviceContext *m_ctx;
 	WriteFactory *m_dwriteFactory;
 };
