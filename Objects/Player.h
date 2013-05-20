@@ -20,9 +20,8 @@ public:
 		b2Body *groundBody,
 		WriteFactory *dwriteFactory,
 		Scene *scene);
-	~Player();
 	void draw();
-	Stick *m_stick;
+	std::shared_ptr<Stick> m_stick;
 	bool containsPoint(b2Vec2 p);
 	void detectCollisions();
 	void showWinnerText();
@@ -37,7 +36,7 @@ private:
 	SolidColorBrush *m_brush;
 	IDWriteTextFormat *m_format;
 	D2D1_ROUNDED_RECT m_rect;
-	Goal *m_goal;
+	std::shared_ptr<Goal> m_goal;
 	Scene *m_scene;
 	float m_brushStrokeSize;
 };

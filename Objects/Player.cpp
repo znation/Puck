@@ -20,8 +20,8 @@ Player::Player(b2Vec2 sceneSize,
 	m_size = b2Vec2((sceneSize.x / 2.0f) - (padding * 3.5f), sceneSize.y - (padding * 2.0f));
 	m_position = b2Vec2(playerIdx == 0 ? scenePosition.x + padding : (sceneSize.x/2.0f) + scenePosition.x + (2.5f * padding),
             scenePosition.y + padding);
-	m_stick = new Stick(m_size, m_position, world, groundBody);	
-	m_goal = new Goal(sceneSize, scenePosition, m_playerIdx, ctx, world, scene);
+	m_stick = std::unique_ptr<Stick>(new Stick(m_size, m_position, world, groundBody));
+	m_goal = std::unique_ptr<Goal>(new Goal(sceneSize, scenePosition, m_playerIdx, ctx, world, scene));
 	
 	ThrowIfFailed(ctx->CreateSolidColorBrush(
 		D2D1::ColorF(m_playerIdx == 0 ? D2D1::ColorF::Yellow : D2D1::ColorF::Magenta),
@@ -52,12 +52,6 @@ Player::Player(b2Vec2 sceneSize,
 	m_rect.radiusX = 0.0125f * sceneSize.y;
 	m_rect.radiusY = 0.0125f * sceneSize.y;
 	m_brushStrokeSize = 0.0025f * sceneSize.y;
-}
-
-Player::~Player()
-{
-	delete m_goal;
-	delete m_stick;
 }
 
 void Player::reset()

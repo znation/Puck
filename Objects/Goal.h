@@ -16,7 +16,6 @@ public:
 		DeviceContext *ctx,
 		b2World *world,
 		Scene *scene);
-	~Goal();
 	void draw();
 	void detectCollisions();
 
@@ -29,5 +28,5 @@ private:
 	SolidColorBrush *m_brush;
 	D2D1_RECT_F m_rect;
 	b2Body *m_goalBody;
-	b2UserData *m_userData;
+	std::unique_ptr<b2UserData> m_userData;
 };

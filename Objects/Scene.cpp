@@ -54,11 +54,10 @@ Scene::Scene(b2Vec2 viewportSize,
 	// Construct a border box to keep everything inside
 	for (int i=0; i<4; i++)
 	{
-		m_userData[i] = nullptr;
 		m_groundBoxBody[i] = nullptr;
 	}
 
-	m_topBar = new TopBar(this, game, ctx, dwriteFactory);
+	m_topBar = std::unique_ptr<TopBar>(new TopBar(this, game, ctx, dwriteFactory));
 
 	Resize(viewportSize);
 
@@ -69,32 +68,18 @@ Scene::Scene(b2Vec2 viewportSize,
 	m_rect.radiusX = 0.0125f * viewportSize.y;
 	m_rect.radiusY = 0.0125f * viewportSize.y;
 	
-	m_players[0] = new Player(m_size, m_position, ctx, 0, world, m_groundBoxBody[3], dwriteFactory, this);
-	m_players[1] = new Player(m_size, m_position, ctx, 1, world, m_groundBoxBody[3], dwriteFactory, this);
-	m_puck = new Puck::Puck(viewportSize, ctx, world);
+	m_players.emplace_back(m_size, m_position, ctx, 0, world, m_groundBoxBody[3], dwriteFactory, this);
+	m_players.emplace_back(m_size, m_position, ctx, 1, world, m_groundBoxBody[3], dwriteFactory, this);
+	m_puck = std::unique_ptr<::Puck::Puck>(new Puck::Puck(viewportSize, ctx, world));
 	
 	beginRound();
-}
-
-Scene::~Scene()
-{
-	for (int i=0; i<4; i++)
-	{
-		delete m_userData[i];
-	}
-	for (int i=0; i<2; i++)
-	{
-		delete m_players[i];
-	}
-	delete m_puck;
-	delete m_topBar;
 }
 
 void Scene::win(int playerIdx)
 {
 	m_frozen = true;
 	m_gameOver = true;
-	m_players[playerIdx]->showWinnerText();
+	m_players[playerIdx].showWinnerText();
 	resetCore();
 }
 
@@ -107,7 +92,7 @@ void Scene::resetCore()
 {
 	for (int i=0; i<2; i++)
 	{
-		m_players[i]->reset();
+		m_players[i].reset();
 	}
 	m_puck->reset();
 }
@@ -218,7 +203,7 @@ void Scene::draw()
 
 	for (int i=0; i<2; i++)
 	{
-		m_players[i]->draw();
+		m_players[i].draw();
 	}
 
 	if (!drawRoundTimer())
@@ -232,7 +217,7 @@ void Scene::move()
 	m_puck->move();
 	for (int i=0; i<2; i++)
 	{
-		m_players[i]->m_stick->move();
+		m_players[i].m_stick->move();
 	}
 }
 
@@ -243,12 +228,9 @@ void Scene::applyConstraints()
 
 void Scene::detectCollisions()
 {
-	for (int i=0; i<2; i++)
+	for (auto &player : m_players)
 	{
-		if (m_players[i] != nullptr)
-		{
-			m_players[i]->detectCollisions();
-		}
+		player.detectCollisions();
 	}
 }
 
@@ -259,12 +241,11 @@ void Scene::onMouseMoved(b2Vec2 p)
 		return;
 	}
 
-	for (int i=0; i<2; i++)
+	for (auto &player : m_players)
 	{
-		if (m_players[i] != nullptr &&
-			m_players[i]->containsPoint(p))
+		if (player.containsPoint(p))
 		{
-			m_players[i]->m_stick->updatePosition(p.x, p.y);
+			player.m_stick->updatePosition(p.x, p.y);
 			return;
 		}
 	}
@@ -272,7 +253,10 @@ void Scene::onMouseMoved(b2Vec2 p)
 
 void Scene::OnMouseDown(b2Vec2 p)
 {
-	m_topBar->OnMouseDown(p);
+	if (m_topBar != nullptr)
+	{
+		m_topBar->OnMouseDown(p);
+	}
 }
 
 void Scene::Resize(b2Vec2 viewportSize)
@@ -292,6 +276,7 @@ void Scene::Resize(b2Vec2 viewportSize)
 	m_edges[2].Initialize(b2Vec2(padding / 2.0f, m_position.y + (m_size.y / 2.0f)), verticalEdgeSize, "y");
 	m_edges[3].Initialize(b2Vec2(m_position.x + m_size.x + (padding / 2.0f), m_position.y + (m_size.y / 2.0f)), verticalEdgeSize, "y");
 
+	m_userData.clear();
 	for (int i=0; i<4; i++)
 	{
 		if (m_groundBoxBody[i] != nullptr)
@@ -313,8 +298,8 @@ void Scene::Resize(b2Vec2 viewportSize)
 		b2PolygonShape groundBox;
 		groundBox.SetAsBox(edge.extents.x, edge.extents.y);
 		m_groundBoxBody[i]->CreateFixture(&groundBox, 0.0f);
-		m_userData[i] = new b2UserData(b2UserData_Edge, (void*)edge.extraInfo);
-		m_groundBoxBody[i]->SetUserData(m_userData[i]);
+		m_userData.push_back(b2UserData(b2UserData_Edge, (void*)edge.extraInfo));
+		m_groundBoxBody[i]->SetUserData(&(m_userData[i]));
 	}
 
 	m_topBar->Resize(topBarSize, topBarPosition);

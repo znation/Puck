@@ -82,10 +82,12 @@ void Game::OnMouseDown(b2Vec2 p, bool left, bool right)
 	{
 		if (m_showMenu)
 		{
+			assert(m_menu);
 			m_menu->OnMouseDown(p);
 		}
 		else
 		{
+			assert(m_scene);
 			m_scene->OnMouseDown(p);
 		}
 	}
