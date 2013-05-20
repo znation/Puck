@@ -17,8 +17,8 @@ Player::Player(b2Vec2 sceneSize,
 	m_winner = false;
 	float padding = 0.02f * sceneSize.y;
 	m_playerIdx = playerIdx;
-	m_size = b2Vec2((sceneSize.x / 2.0f) - (padding * 1.5f), sceneSize.y - (padding * 2.0f));
-	m_position = b2Vec2(playerIdx == 0 ? scenePosition.x + padding : (sceneSize.x/2.0f) + scenePosition.x + (0.5f * padding),
+	m_size = b2Vec2((sceneSize.x / 2.0f) - (padding * 3.5f), sceneSize.y - (padding * 2.0f));
+	m_position = b2Vec2(playerIdx == 0 ? scenePosition.x + padding : (sceneSize.x/2.0f) + scenePosition.x + (2.5f * padding),
             scenePosition.y + padding);
 	m_stick = new Stick(m_size, m_position, world, groundBody);	
 	m_goal = new Goal(sceneSize, scenePosition, m_playerIdx, ctx, world, scene);
