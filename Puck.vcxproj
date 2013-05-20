@@ -134,12 +134,17 @@
       <WarningLevel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Level4</WarningLevel>
       <TreatWarningAsError Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</TreatWarningAsError>
       <BrowseInformation Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</BrowseInformation>
+      <FavorSizeOrSpeed Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Neither</FavorSizeOrSpeed>
+      <IntrinsicFunctions Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</IntrinsicFunctions>
+      <SmallerTypeCheck Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</SmallerTypeCheck>
+      <MinimalRebuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</MinimalRebuild>
     </ClCompile>
     <Bscmake>
       <PreserveSbr Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</PreserveSbr>
     </Bscmake>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Objects\Powerup.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="App.xaml.h">
       <DependentUpon>App.xaml</DependentUpon>
@@ -190,6 +195,7 @@
     <ClInclude Include="DirectXAbstractions.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Objects\Powerup.cpp" />
     <ClCompile Include="SimpleTextRenderer.cpp" />
     <ClCompile Include="DirectXBase.cpp" />
     <ClCompile Include="Objects\b2UserData.cpp" />

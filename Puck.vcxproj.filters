@@ -43,6 +43,7 @@
     <ClCompile Include="App.xaml.cpp" />
     <ClCompile Include="DirectXPage.xaml.cpp" />
     <ClCompile Include="pch.cpp" />
+    <ClCompile Include="Objects\Powerup.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -64,6 +65,7 @@
     <ClInclude Include="Objects\TopBar.h" />
     <ClInclude Include="Utility.h" />
     <ClInclude Include="DirectXAbstractions.h" />
+    <ClInclude Include="Objects\Powerup.h" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest" />

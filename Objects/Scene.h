@@ -1,8 +1,9 @@
 #include "Box2D\Box2D.h"
+#include "b2UserData.h"
 #include "Player.h"
+#include "Powerup.h"
 #include "Puck.h"
 #include "TopBar.h"
-#include "b2UserData.h"
 #include "Utility.h"
 
 #pragma once
@@ -63,4 +64,5 @@ private:
 	Edge m_edges[4];
 	b2Body *m_groundBoxBody[4];
 	b2World *m_world;
+	std::vector<Powerup> m_powerups;
 };
