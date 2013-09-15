@@ -83,4 +83,7 @@
       <Filter>Assets</Filter>
     </Media>
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="TODO.txt" />
+  </ItemGroup>
 </Project>
