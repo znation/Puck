@@ -142,18 +142,7 @@ void ThemeMusic::SetFile()
 			auto streamHandle = asyncRead->GetResults();
 			themeMusic->SetBytestream(streamHandle);			
 		});
-	
-		/*
-		if(!fOpenStream->Completed)
-		{
-			ThrowIfFailed(E_UNEXPECTED);
-		}
-		*/
-
-		//fOpenStream->GetResults();
 	});
-
-	//op->GetResults();
 }
 
 void ThemeMusic::OnMediaEngineEvent(DWORD meEvent)
