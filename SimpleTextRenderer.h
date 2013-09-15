@@ -2,6 +2,9 @@
 
 #include "DirectXBase.h"
 #include "Objects/Game.h"
+#include "ThemeMusic.h"
+
+#include <memory>
 
 // This class renders simple text with a colored background.
 ref class SimpleTextRenderer sealed : public DirectXBase
@@ -37,4 +40,5 @@ private:
 	// for game
 	std::unique_ptr<Game> m_game;
 	void RenderFPS(D2D1_SIZE_F);
+	std::unique_ptr<ThemeMusic> m_themeMusic;
 };

@@ -1,3 +1,5 @@
+#include "pch.h"
+
 #include "ThemeMusic.h"
 #include "Utility.h"
 
@@ -9,11 +11,11 @@ class MediaEngineNotify : public IMFMediaEngineNotify
 {
 private:
 	long m_cRef;
-	Windows::UI::Core::CoreWindow^ m_cWindow;
+	//Windows::UI::Core::CoreWindow^ m_cWindow;
 	ThemeMusic *m_tM;
 
 public:
-	MediaEngineNotify(Windows::UI::Core::CoreWindow^ cWindow, ThemeMusic *tM) : m_cWindow(cWindow), m_cRef(1), m_tM(tM)
+	MediaEngineNotify(Windows::UI::Core::CoreWindow^ /*cWindow*/, ThemeMusic *tM) : /*m_cWindow(cWindow),*/ m_cRef(1), m_tM(tM)
 	{
 	}
 
@@ -140,16 +142,18 @@ void ThemeMusic::SetFile()
 			auto streamHandle = asyncRead->GetResults();
 			themeMusic->SetBytestream(streamHandle);			
 		});
-		
+	
+		/*
 		if(!fOpenStream->Completed)
 		{
 			ThrowIfFailed(E_UNEXPECTED);
 		}
+		*/
 
-		fOpenStream->GetResults();
+		//fOpenStream->GetResults();
 	});
 
-	op->GetResults();
+	//op->GetResults();
 }
 
 void ThemeMusic::OnMediaEngineEvent(DWORD meEvent)

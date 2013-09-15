@@ -119,6 +119,12 @@ void SimpleTextRenderer::Render()
 		m_game = std::unique_ptr<Game>(new Game(b2Vec2(renderTargetSize.width, renderTargetSize.height), m_d2dContext.Get(), m_dwriteFactory.Get()));
 	}
 
+	if (m_themeMusic == nullptr)
+	{
+		m_themeMusic = std::unique_ptr<ThemeMusic>(new ThemeMusic(nullptr));
+		m_themeMusic->Play();
+	}
+
 	m_d2dContext->BeginDraw();
 	m_d2dContext->Clear(D2D1::ColorF(D2D1::ColorF::Black));
 	m_d2dContext->SetTransform(D2D1::Matrix3x2F::Identity());

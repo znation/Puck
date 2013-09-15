@@ -37,9 +37,7 @@ namespace Puck
 		void OnRendering(Object^ sender, Object^ args);
 
 		Windows::Foundation::EventRegistrationToken m_eventToken;
-
 		SimpleTextRenderer^ m_renderer;
-
 		BasicTimer^ m_timer;
 	};
 }

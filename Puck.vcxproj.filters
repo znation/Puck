@@ -44,6 +44,7 @@
     <ClCompile Include="DirectXPage.xaml.cpp" />
     <ClCompile Include="pch.cpp" />
     <ClCompile Include="Objects\Powerup.cpp" />
+    <ClCompile Include="ThemeMusic.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -66,6 +67,7 @@
     <ClInclude Include="Utility.h" />
     <ClInclude Include="DirectXAbstractions.h" />
     <ClInclude Include="Objects\Powerup.h" />
+    <ClInclude Include="ThemeMusic.h" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest" />
@@ -75,5 +77,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="DirectXPage.xaml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="Sound\pucktheme.mp3">
+      <Filter>Assets</Filter>
+    </Media>
   </ItemGroup>
 </Project>

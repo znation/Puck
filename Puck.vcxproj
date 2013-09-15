@@ -93,17 +93,26 @@
     <PackageCertificateKeyFile>Puck_TemporaryKey.pfx</PackageCertificateKeyFile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(VCInstallDir)include;$(VCInstallDir)atlmfc\include;$(WindowsSDK_IncludePath);$(ProjectDir);$(ProjectDir)\..;</IncludePath>
+    <IncludePath>$(ProjectDir);$(ProjectDir)\..;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
-    <IncludePath>$(VCInstallDir)include;$(VCInstallDir)atlmfc\include;$(WindowsSDK_IncludePath);$(ProjectDir);$(ProjectDir)\..;</IncludePath>
+    <IncludePath>$(ProjectDir);$(ProjectDir)\..;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(VCInstallDir)include;$(VCInstallDir)atlmfc\include;$(WindowsSDK_IncludePath);$(ProjectDir);$(ProjectDir)\..;</IncludePath>
+    <IncludePath>$(ProjectDir);$(ProjectDir)\..;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">
+    <IncludePath>$(ProjectDir);$(ProjectDir)\..;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <IncludePath>$(ProjectDir);$(ProjectDir)\..;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <IncludePath>$(ProjectDir);$(ProjectDir)\..;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup>
     <Link>
-      <AdditionalDependencies>d2d1.lib; d3d11.lib; dxgi.lib; ole32.lib; windowscodecs.lib; dwrite.lib; dxguid.lib; %(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>d2d1.lib;d3d11.lib;dxgi.lib;ole32.lib;oleaut32.lib;windowscodecs.lib;dwrite.lib;dxguid.lib;mfplat.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <GenerateWindowsMetadata>true</GenerateWindowsMetadata>
     </Link>
     <ClCompile>
@@ -191,6 +200,7 @@
     <ClInclude Include="Objects\Score.h" />
     <ClInclude Include="Objects\Stick.h" />
     <ClInclude Include="Objects\TopBar.h" />
+    <ClInclude Include="ThemeMusic.h" />
     <ClInclude Include="Utility.h" />
     <ClInclude Include="DirectXAbstractions.h" />
   </ItemGroup>
@@ -208,6 +218,7 @@
     <ClCompile Include="Objects\Score.cpp" />
     <ClCompile Include="Objects\Stick.cpp" />
     <ClCompile Include="Objects\TopBar.cpp" />
+    <ClCompile Include="ThemeMusic.cpp" />
     <ClCompile Include="Utility.cpp" />
     <ClCompile Include="App.xaml.cpp">
       <DependentUpon>App.xaml</DependentUpon>
@@ -223,6 +234,9 @@
     <ProjectReference Include="..\Box2D\Box2D.vcxproj">
       <Project>{39383ea5-e369-46fb-9231-e03c99bb749e}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="Sound\pucktheme.mp3" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
