@@ -1,7 +1,9 @@
 TODO:
 
-- standardize method naming conventions
+- make everything larger (stick, puck, goal)
 - add menu button to turn off music
+- standardize method naming conventions
+	- fix inconsistent casing of methods
 - use new graphics for:
 	- scene border
 	- player border?
@@ -10,7 +12,5 @@ TODO:
 	- pause music
 	- pause game
 	- don't bother rendering frames
+	- does this happen automatically?
 - remove unneeded member variables from objects
-- fix inconsistent casing of methods
-- make graphics resize properly with window in win7
-- make mouse input work in Win7
