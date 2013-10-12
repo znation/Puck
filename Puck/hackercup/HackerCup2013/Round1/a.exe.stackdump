@@ -1,0 +1,9 @@
+Exception: STATUS_ACCESS_VIOLATION at eip=004019A0
+eax=00000002 ebx=00000000 ecx=00000000 edx=00000000 esi=6EB15660 edi=611A1E9F
+ebp=0028AC48 esp=0028A880 program=C:\Users\Zach\repo\hackercup\HackerCup2013\Round1\a.exe, pid 6168, thread main
+cs=0023 ds=002B es=002B fs=0053 gs=002B ss=002B
+Stack trace:
+Frame     Function  Args
+0028AC48  004019A0  (0000002F, 00000000, 61275110, 6100763A)
+0028ACE8  6100763A  (00000000, 0028CD68, 61006C50, 00000000)
+End of stack trace
