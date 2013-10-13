@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Express 2012 for Windows 8
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Puck", "Puck.vcxproj", "{CBE888FE-E034-4CF7-BD9C-FB03A0B7173E}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Box2D", "..\Box2D\Box2D.vcxproj", "{39383EA5-E369-46FB-9231-E03C99BB749E}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Box2D", "Box2D\Box2D.vcxproj", "{39383EA5-E369-46FB-9231-E03C99BB749E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
